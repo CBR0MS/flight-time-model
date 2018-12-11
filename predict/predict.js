@@ -34,7 +34,9 @@ function getUrlVars() {
     const usrDate = new Date(params['date'])
     const usrAirline = params['airline']
 
-    let month = usrDate.getMonth() + 1
+    const month = usrDate.getMonth() + 1
+    const dayOfMonth = usrDate.getUTCDate()
+    const dayOfWeek = usrDate.getUTCDay() + 1
     let pathArr = '../data/models/' + month.toString() + '_arr/model.json'
     let pathDep = '../data/models/' + month.toString() + '_dep/model.json'
     console.log(pathDep)
@@ -42,7 +44,34 @@ function getUrlVars() {
     const arrivalModel = await tf.loadModel(pathArr);
     const departModel = await tf.loadModel(pathDep);
 
-   //const prediction = model.predict([1, ]);
-    //console.log(arrivalModel.p)
-    
+    const originEncoded = locationNames['PIT']
+    const destEncoded = locationNames['ORD']
+    const keys = Object.keys(airlineNames)
+
+    let airlineKey = ''
+
+    for (const key of keys) {
+        if (airlineNames[key] == 'Delta Air Lines Inc.') {
+            airlineKey = key
+            break
+        }
+    }
+    const inputList = [dayOfMonth, dayOfWeek, airlines[airlineKey], originEncoded, destEncoded]
+    makePrediction(inputList, departModel, arrivalModel)
 })();
+
+function makePrediction(inputList, departModel, arrivalModel) {
+    // need to feed model with:
+    // DayofMonth, DayOfWeek, Reporting_Airline (encoded), Origin (encoded), Dest (encoded)
+    const input = tf.tensor([inputList])
+
+    const predictionDep = Array.from(departModel.predict(input).dataSync());
+    const predictionArr = Array.from(arrivalModel.predict(input).dataSync());
+
+    const departTime = Math.round(predictionDep[0] / 1000)
+    const arriveTime = Math.round(predictionArr[0] / 1000)
+
+    console.log(departTime)
+    console.log(arriveTime)
+
+}

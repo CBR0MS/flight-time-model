@@ -1,0 +1,122 @@
+@import url("https://use.typekit.net/gni0sjr.css");
+
+body {
+    background: rgb(25,84,112);
+    background: linear-gradient(170deg, rgba(25,84,112,1) 0%, rgba(255,216,155,1) 100%);
+    color: #E7E7E7;
+    font-family: nimbus-sans, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 {
+    font-family: nimbus-sans-extended, sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    text-shadow: 0px -1px 50px -12px rgba(0,0,0,0.75) !important;
+}
+
+.centered {
+    margin: 0 auto;
+}
+
+.go {
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: #F49E4C !important;
+    border-radius: 50px;
+    -webkit-box-shadow: 0px -1px 50px -12px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: 0px -1px 50px -12px rgba(0,0,0,0.75) !important;
+    box-shadow: 0px -1px 50px -12px rgba(0,0,0,0.75) !important;
+}
+
+.jumbotron {
+    background: none;
+}
+
+.lead {
+    margin-top: 40px;
+    max-width: 400px;
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+  left: 14%;
+/*  left: 50%;
+  transform: translateX(-50%);*/
+}
+.form-control {
+  color:#E7E7E7 !important;
+}
+
+label {
+    font-family: nimbus-sans, sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  
+    display: block !important;
+    margin-top: 40px !important;
+}
+
+input {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: #154463 !important;
+  padding: 10px;
+  font-size: 16px;
+  width: 250px !important;
+}
+
+.plate {
+    background-color: #19547B;
+    border-radius: 20px;
+}
+
+.autocomplete-items {
+  position: absolute;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  color:#E7E7E7;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #154463 !important; 
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #10344C; 
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: #10344C !important; 
+}
+
+.row  {
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 700px;
+}
+
+.co {
+    margin-top: 12%;
+    margin-bottom: 10%;
+}
+
+.ko {
+    margin-top: 4%;
+    padding-left: 9vw;
+}
+
+.plate-head {
+    padding-left: 6%;
+    padding-top: 30px;
+}
