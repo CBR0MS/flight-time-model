@@ -19,7 +19,7 @@ body {
 .autocomplete {
     font-style: italic;
     vertical-align: middle;
-    min-width: 215px;
+    min-width: 205px;
     left: 4%;
     font-size: 18px;
 }
@@ -42,7 +42,7 @@ h2 {
 }
 
 .num {
-    font-style: none;
+    font-style: initial;
     font-weight: 700;
     font-size: 30px;
 }
@@ -50,4 +50,9 @@ h2 {
 #duration {
     font-size: 40px;
     color: #F49E4C;
+}
+
+.plate-head {
+    padding-bottom: 20px;
+    margin-top: -40px;
 }
