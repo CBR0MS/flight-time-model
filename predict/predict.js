@@ -77,7 +77,6 @@ function timeConvert(n) {
         $("#title").text(title)
         title = lookup['airline_codes_to_airlines'][usrAirline]
         $("#airline-title").text(title)
-        console.log(title)
         let formattedDate = usrDate.toLocaleString("en-us", {
             month: "long",
             day: "numeric",

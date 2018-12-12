@@ -6,12 +6,15 @@
       lookup = json;
       airlines = Object.keys(lookup['airlines_to_airline_codes']);
       airports = Object.keys(lookup['airports_to_airport_codes']);
+      for (let i = 0; i < airports.length; i++){
+        let airport = airports[i]
+        let code = lookup['airports_to_airport_codes'][airport]
+        airports[i] = airport + " (" + code + ")" 
+      }
       autocomplete(document.getElementById("origin"), airports);
       autocomplete(document.getElementById("destination"), airports);
       autocomplete(document.getElementById("airline"), airlines);
     });
-
-
 
     $(window).resize(function() {
       let h =  $(document).height();
@@ -30,7 +33,12 @@
         const airline = lookup['airlines_to_airline_codes'][$("#airline").val()]
         let url = '/predict/?date=' + date.toISOString() + '&origin=' + origin + '&dest=' + dest + '&airline=' + airline;
         console.log(url)
-        window.location.href = url
+        let key = origin + '_' + dest
+        if (!(key in lookup['airport_codes_to_route_time'][date.getMonth()])){
+          alert("Route/Airline incompatibility!")
+        } else {
+          window.location.href = url
+        }
       });
 
       let h =  $(document).height();
@@ -118,9 +126,7 @@
           /*insert the value for the autocomplete text field:*/
           let loc = this.getElementsByTagName("input")[0].value;
           if (loc.indexOf(':') > 0){
-            let symb = lookup['airports_to_airport_codes'][loc]
-            loc = loc.substring(0, loc.indexOf(':'));
-            loc += " (" + symb + ")"
+            loc = loc.substring(0, loc.indexOf(":")) + " " + loc.substring(loc.indexOf("("), loc.length)
           }
           inp.value = loc
               /*close the list of autocompleted values,

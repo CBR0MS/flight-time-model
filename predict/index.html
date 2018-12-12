@@ -3,7 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Flight Time Predictions</title>
+    <title>FlyGenius - Flight Time Prediction</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-82288001-3"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-82288001-3');
+    </script>
+    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon">
     <!-- Load TensorFlow.js -->
     <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -19,7 +29,7 @@
     <script type="text/javascript" src="d3pie.min.js"></script>
 </head>
 <body>
- <div class="blue">
+   <div class="blue">
     <div class="container" style="margin-left: 10%; max-width: 800px;">
         <h2 id="title"></h2>
         <h4 id="date-title"></h4>
@@ -34,7 +44,7 @@
         </div>
         <div class="col-md-12 col-xl-6 co">
 
-         <div class="container ests">
+           <div class="container ests">
             <h2 class="plate-head">Route Breakdown</h2>
             <div class="row">
                 <div class="autocomplete">
@@ -42,7 +52,7 @@
                         Route Duration&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
                 </div>
-                 <div class="autocomplete">
+                <div class="autocomplete">
                     <div class="col centered num" id="route"></div>
                 </div>
             </div>
@@ -52,7 +62,7 @@
                         Projected Departure
                     </div>
                 </div>
-                 <div class="autocomplete">
+                <div class="autocomplete">
                     <div class="col centered num" id="depart"> </div>
                 </div>
             </div>
