@@ -4,6 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>FlyGenius - Flight Time Prediction</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-82288001-3"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-82288001-3');
+    </script>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <meta name="description" content="Get accurate departure, arrival, and flight time estimates
+    for any US domestic flight.">
+    <meta property="og:description" content="Get accurate departure, arrival, and flight time estimates
+    for any US domestic flight.">
+    <meta property="og:title" content="FlyGenius - Flight Time Prediction">
     <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -29,7 +44,7 @@
                 </div>
             </div>
             <div class="col-md-12 col-xl-8 co">
-               <div class="container plate">
+             <div class="container plate">
                 <h2 class="plate-head">Check a Flight</h2>
 
                 <form autocomplete="off" style="margin: auto" id="form">
@@ -63,8 +78,20 @@
 
                       <div class="autocomplete">
                         <label for="date">Date</label>
-                        <input type="text" class="form-control" id="date" style="border-radius: 5px" name="date" placeholder="December 14, 2018"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <input type="text" class="form-control" id="date" style="border-radius: 5px" name="date" placeholder=""><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
+                    <script type="text/javascript">
+                    let now = new Date();
+                    let formattedDate = now.toLocaleString("en-us", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                    });
+                    $(document).ready(function(){
+                       document.getElementById("date").placeholder = formattedDate;
+                   });
+                    
+                    </script>
                 </div> 
                 <script type="text/javascript">
                 $(function () {
@@ -76,11 +103,11 @@
             </div>
             <div class="form-row">
                 <div class="col centered">
-                   <input class="btn go centered" id="main-button" type="submit" value="Check my flight!">
-               </div>
-           </div>
-       </form>
-   </div>
+                 <input class="btn go centered" id="main-button" type="submit" value="Check my flight!">
+             </div>
+         </div>
+     </form>
+ </div>
 </div>
 </div>
 </div>

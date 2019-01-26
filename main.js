@@ -6,44 +6,56 @@
       lookup = json;
       airlines = Object.keys(lookup['airlines_to_airline_codes']);
       airports = Object.keys(lookup['airports_to_airport_codes']);
+      for (let i = 0; i < airports.length; i++){
+        let airport = airports[i]
+        let code = lookup['airports_to_airport_codes'][airport]
+        airports[i] = airport + " (" + code + ")" 
+      }
       autocomplete(document.getElementById("origin"), airports);
       autocomplete(document.getElementById("destination"), airports);
       autocomplete(document.getElementById("airline"), airlines);
     });
 
-
-
-$(window).resize(function() {
-    let h =  $(document).height();
-    var jumbo = $('body');
-    jumbo.height(h)
-});
-$(document).ready(function() {
-
-    $("#form").submit(function(e) {
-      e.preventDefault();
-      const date = new Date($("#date").val())
-      let str = $("#origin").val()
-      const origin = str.substring(str.lastIndexOf("(") + 1, str.lastIndexOf(")"));
-      str = $("#destination").val()
-      const dest = str.substring(str.lastIndexOf("(") + 1, str.lastIndexOf(")"));
-      const airline = lookup['airlines_to_airline_codes'][$("#airline").val()]
-      let url = '/predict/?date=' + date.toISOString() + '&origin=' + origin + '&dest=' + dest + '&airline=' + airline;
-      console.log(url)
-      window.location.href = url
+    $(window).resize(function() {
+      let h =  $(document).height();
+      var jumbo = $('body');
+      jumbo.height(h)
     });
+    $(document).ready(function() {
 
-    let h =  $(document).height();
-    var jumbo = $('body');
-    jumbo.height(h)
+      $("#form").submit(function(e) {
+        e.preventDefault();
+        const date = new Date($("#date").val())
+        let str = $("#origin").val()
+        const origin = str.substring(str.lastIndexOf("(") + 1, str.lastIndexOf(")"));
+        str = $("#destination").val()
+        const dest = str.substring(str.lastIndexOf("(") + 1, str.lastIndexOf(")"));
+        const airline = lookup['airlines_to_airline_codes'][$("#airline").val()]
+        let url = '/predict/?date=' + date.toISOString() + '&origin=' + origin + '&dest=' + dest + '&airline=' + airline;
+        console.log(url)
+        let key = origin + '_' + dest
+        if (!(key in lookup['airport_codes_to_route_time'][date.getMonth()])){
+          alert("Route/Airline incompatibility!")
+        } else {
+          window.location.href = url
+        }
+      });
 
-    function easeInOutQuad(x, t, b, c, d) {
-      if ((t /= d / 2) < 1) {
-        return c / 2 * t * t + b;
-      } else {
-        return -c / 2 * ((--t) * (t - 2) - 1) + b;
+      let h =  $(document).height();
+      var jumbo = $('body');
+      jumbo.height(h)
+
+      function easeOutCubic(x, t, b, c, d) {
+        return c*((t=t/d-1)*t*t + 1) + b;
       }
-    }
+      function easeInOutQuad(x, t, b, c, d) {
+        if ((t /= d / 2) < 1) {
+          return c / 2 * t * t + b;
+        } else {
+          return -c / 2 * ((--t) * (t - 2) - 1) + b;
+        }
+      }
+
     let fps = 60,
     duration = 15, // seconds
     start = 120, // pixel
@@ -71,7 +83,7 @@ $(document).ready(function() {
       sub = true
     } 
     jumbo.css({
-      'background': 'linear-gradient(' + position + 'deg,rgba(25,84,112,1) 0%, rgba(255,216,155,1) 100%)'
+      'background': 'linear-gradient(' + position + 'deg,rgba(25,84,123,1) 0%, rgba(255,232,195, 1) 100%)'
     });
   }
 
@@ -80,7 +92,7 @@ $(document).ready(function() {
     
 
 
-  function autocomplete(inp, arr) {
+    function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
@@ -114,9 +126,7 @@ $(document).ready(function() {
           /*insert the value for the autocomplete text field:*/
           let loc = this.getElementsByTagName("input")[0].value;
           if (loc.indexOf(':') > 0){
-            let symb = lookup['airports_to_airport_codes'][loc]
-            loc = loc.substring(0, loc.indexOf(':'));
-            loc += " (" + symb + ")"
+            loc = loc.substring(0, loc.indexOf(":")) + " " + loc.substring(loc.indexOf("("), loc.length)
           }
           inp.value = loc
               /*close the list of autocompleted values,
