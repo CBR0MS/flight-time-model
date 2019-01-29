@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 
@@ -8,14 +8,16 @@ import Predict from './components/Predict'
 import About from './components/About'
 import Error from './components/Error'
 
-class App extends Component {
+class App extends React.Component {
 
   render() {
 
     return (
       <BrowserRouter>
         <div>
+
         <Navigation />
+
           <Switch>
             <Route path='/' component={Landing} exact />
             <Route path='/predict' component={Predict} />
