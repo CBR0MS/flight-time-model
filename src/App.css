@@ -16,9 +16,8 @@ body {
     
 }
 
-.landing {
-  background: rgb(25,84,112);
-  background: linear-gradient(170deg, rgba(25,84,123,1) 0%, rgba(255,232,195, 1) 100%);
+#root {
+  position: absolute;
   height: 100vh;
   width: 100vw;
 }
@@ -59,7 +58,6 @@ nav {
 
 .nav-item {
   float: right;
-
 }
 
 .panel {
@@ -67,4 +65,49 @@ nav {
   width: 100%;
   background-color: #19547B;
   border-radius: 20px;
+}
+
+.main-image {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  object-fit: cover;
+  object-position: 0 100%;
+}
+
+.landing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(25,84,112);
+  background: linear-gradient(170deg, rgba(25,84,123,0.75) 0%, rgba(255,232,195, 0.75) 100%);
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+}
+
+.go-button {
+  background-color: #F49E4C;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  height: 40px;
+  max-width: 200px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+::selection {
+  background-color: #F49E4C;
+  color: rgba(255,232,195, 1);
+}
+
+
+textarea, select, input, button { outline: none; }
+
+
+input:focus {
+  background-color: rgba(25,84,123,0.1) !important;
 }

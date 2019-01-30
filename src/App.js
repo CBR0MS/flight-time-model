@@ -17,7 +17,6 @@ class App extends React.Component {
         <div>
 
         <Navigation />
-
           <Switch>
             <Route path='/' component={Landing} exact />
             <Route path='/predict' component={Predict} />

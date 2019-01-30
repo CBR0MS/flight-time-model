@@ -71,7 +71,7 @@ class LandingBackground extends React.Component {
     render() {
 
         // set the background gradient according to the current state
-        const backgroundStyle = 'linear-gradient(' + this.state.position + 'deg,rgba(25,84,123,1) 0%, rgba(255,232,195, 1) 100%)'
+        const backgroundStyle = 'linear-gradient(' + this.state.position + 'deg,rgba(25,84,123,0.75) 0%, rgba(255,232,195, 0.75) 100%)'
 
         const landingStyles = {
             background: backgroundStyle
