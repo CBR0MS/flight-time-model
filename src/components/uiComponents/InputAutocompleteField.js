@@ -1,7 +1,9 @@
 import React from 'react'
 import  Autocomplete  from 'react-autocomplete'
 
-class LandingHeadingInput extends React.Component {
+import styles from './style/style'
+
+class InputAutocompleteField extends React.Component {
 
     constructor(props) {
         super(props);
@@ -33,20 +35,6 @@ class LandingHeadingInput extends React.Component {
             val = this.state.loc
         } else { val = this.props.val}
 
-        const menuStyle = {
-            top: 'unset',
-            left: 'unset',
-            borderRadius: '3px',
-            color: 'rgba(255, 255, 255, 0.8)',
-            background: '#19547B',
-            position: 'fixed',
-            overflow: 'auto',
-            maxHeight: '75%',
-            fontSize: '1.3rem',
-            minWidth: '300px',
-            width: '300px'
-        }
-
         return (
             <Autocomplete
                 items={[
@@ -59,12 +47,12 @@ class LandingHeadingInput extends React.Component {
                 renderItem={(item, highlighted) =>
                   <div
                     key={item.id}
-                    style={{ backgroundColor: highlighted ? 'rgb(21, 68, 99)' : 'transparent'}}
+                    style={{ backgroundColor: highlighted ? styles.darkBlue : 'transparent'}}
                   >
                     {item.label}
                   </div>
                 }
-                menuStyle={menuStyle}
+                menuStyle={styles.autocompleteStyle}
                 value={val}
                 onChange={this.handleChange}
                 onSelect={value => {
@@ -80,5 +68,5 @@ class LandingHeadingInput extends React.Component {
     }
 }
 
-export default LandingHeadingInput
+export default InputAutocompleteField
 

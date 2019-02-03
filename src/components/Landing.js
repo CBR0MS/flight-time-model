@@ -1,6 +1,7 @@
 import React from 'react'
 import { withBreakpoints } from 'react-breakpoints'
 
+import style from './uiComponents/style/style'
 import LandingBackground from './uiComponents/LandingBackground'
 import LandingInputForm from './uiComponents/LandingInputForm'
 
@@ -66,21 +67,17 @@ class Landing extends React.Component {
         if (breakpoints[currentBreakpoint] > breakpoints.desktopLarge) {
             maxWidth = '1040px'
         } 
-
-
-        const frontStyle = {
-            position: 'absolute',
-            top: dispTop,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: maxWidth,
-        }
+        
+        let frontStyle = Object.assign({}, style.landingContainerStyle)
+        
+        frontStyle.top = dispTop
+        frontStyle.width = maxWidth
 
     
         return (
             <div >
                 <LandingBackground />
-                <img src="/clouds.jpeg" className='main-image' alt=''/>
+                <img src="/clouds.jpeg" style={style.landingImageStyle} alt=''/>
                 <div style={frontStyle}>
                     <LandingInputForm
                         firstInputValue={this.state.firstInputValue}

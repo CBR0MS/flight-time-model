@@ -1,5 +1,6 @@
 import React from 'react'
 
+import style from './style/style'
 const fps = 30
 const duration = 15
 const start = 120
@@ -73,10 +74,9 @@ class LandingBackground extends React.Component {
         // set the background gradient according to the current state
         const backgroundStyle = 'linear-gradient(' + this.state.position + 'deg,rgba(25,84,123,0.75) 0%, rgba(255,232,195, 0.75) 100%)'
 
-        const landingStyles = {
-            background: backgroundStyle
-        }
-
+        let landingStyles = Object.assign({}, style.landingPageBackground)
+        landingStyles.background = backgroundStyle
+        
         return (
             <div className='landing' style={landingStyles}></div>
         )

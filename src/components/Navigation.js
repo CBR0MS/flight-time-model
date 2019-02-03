@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { withBreakpoints } from 'react-breakpoints'
 
 import Menu from './uiComponents/Menu'
+import style from './uiComponents/style/style'
 
 class Navigation extends React.Component {
 
@@ -11,15 +12,21 @@ class Navigation extends React.Component {
         let logoStyle = {
             fontSize: '40px',
             left: '20px',
-            top: '10px'
+            top: '10px',
+            fontFamily: 'PanAm',
+            position: 'absolute',
+            zIndex: 100
         }
         const { breakpoints, currentBreakpoint } = this.props
 
         if (breakpoints[currentBreakpoint] > breakpoints.tablet){
             logoStyle = {
-              fontSize: '50px',
-              left: '40px',
-              top: '20px'
+                fontSize: '50px',
+                left: '40px',
+                top: '20px',
+                fontFamily: 'PanAm',
+                position: 'absolute',
+                zIndex: 100
             }
         }
         
@@ -27,7 +34,7 @@ class Navigation extends React.Component {
             <div>
                 <nav>
                     <ul>
-                      <li className='nav-logo' style={logoStyle}>
+                      <li style={logoStyle}>
                         <Link to="/">
                             <div >FlyGenius</div>
                         </Link>
@@ -36,13 +43,13 @@ class Navigation extends React.Component {
     
                         <Menu >
                             <Link to="/">
-                                <div className='menu-text'>Home</div>
+                                <div style={style.menuText}>Home</div>
                             </Link>
                             <Link to="/predict">
-                                <div className='menu-text'>Check a Flight</div>
+                                <div style={style.menuText}>Check a Flight</div>
                             </Link>
                             <Link to="/about">
-                                <div className='menu-text'>How it Works</div>
+                                <div style={style.menuText}>How it Works</div>
                             </Link>
 
                         </Menu>

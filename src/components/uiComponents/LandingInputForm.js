@@ -1,14 +1,16 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
+import styles from './style/style'
 import GoButton from './GoButton'
-import LandingHeadingInput from './LandingHeadingInput'
+import InputAutocompleteField from './InputAutocompleteField'
 
 class LandingInputForm extends React.Component {
 
      constructor(props) {
         super(props)
         this.handleForm = this.handleForm.bind(this)
-        this.submitForm = this.submitForm.bind(this)
+    
         this.state = {
             firstVal: '',
             secondVal: ''
@@ -19,62 +21,35 @@ class LandingInputForm extends React.Component {
         this.setState({ [fieldId]: value });
     }
 
-    submitForm() {
-        console.log(this.state.firstVal)
-        console.log(this.state.secondVal)
-    }
-
     render() {
 
-        const headingStyle = {
-            lineHeight: '60px',
-            color: '#154463',
-            fontWeight: '700',
-            fontStyle: 'italic',  
-            fontFamily: 'nimbus-sans-extended',
-        }
-
-        const inputStyle = {
-            backgroundColor: 'transparent',
-            border: 'none',
-            // borderBottom: '3px solid #19547B',
-            marginRight: '10px',
-            color: '#19547B',
-            width: '300px',
-            height: '50px',
-            fontWeight: '700',
-            fontStyle: 'italic', 
-            borderRadius: '5px'
-        }
-        /*value={this.state['firstVal']}*/
-  
         return (
             <div>
-                <h1 style={headingStyle}>
+                <h1 style={styles.landingHeadingStyle}>
                     <span style={{paddingRight: '10px'}}>I'm flying from</span>
-                    <LandingHeadingInput 
+                    <InputAutocompleteField 
                         val={this.props.firstInputValue} 
-                        inStyle={inputStyle}
+                        inStyle={styles.landingInputStyle}
                         key='firstVal'
                         id='firstVal'
                         onChange={this.handleForm}
                         
                         />
                     <span style={{paddingRight: '10px'}}>to</span>
-                    <LandingHeadingInput 
+                    <InputAutocompleteField 
                         val={this.props.secondInputValue} 
-                        inStyle={inputStyle}
+                        inStyle={styles.landingInputStyle}
                         key='secondVal'
                         id='secondVal'
                         onChange={this.handleForm}
                     />
                 </h1>
                 <Subtitle />        
-                <div onClick={this.submitForm}>
+                <Link to={`/predict?origin=${this.state.firstVal}&dest=${this.state.secondVal}`}>
                     <GoButton >
                         Check my flight &rarr;
                     </GoButton>
-                </div>
+                </Link>
             </div>
         )
     }
@@ -86,14 +61,8 @@ export default LandingInputForm
 
 const Subtitle = props => { 
 
-    const subStyle = {
-        margin: '40px 0',
-        color: '#154463',
-        maxWidth: '500px'
-    }
-
     return (
-       <h4 style={subStyle}>
+       <h4 style={styles.landingSubStyle}>
            Compare Airlines and departure dates. Everything you need to know about your flight.
        </h4>
    )

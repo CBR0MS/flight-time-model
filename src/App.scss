@@ -1,0 +1,107 @@
+@import url("https://use.typekit.net/gni0sjr.css");
+
+@font-face {
+  font-family: 'PanAm';
+  src: url('/PanAmTextCapsNew.ttf')  format('truetype')
+}
+
+$darkBlue: #154463;
+$lightBlue: #19547B;
+$orange: #F49E4C;
+$lightOrange: #FFE8C3;
+$adaptiveWhite: rgba(255, 255, 255, 0.7);
+
+
+html {
+  background-color: $orange;
+}
+body {
+
+  font-family: nimbus-sans, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    
+}
+
+#root {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
+
+li {
+  list-style-type: none;
+  padding: 20px;
+  margin: 0;
+  display: inline-block;
+  text-decoration: none;
+
+}
+
+a {
+  transition: color 1s ease;
+  color: $lightOrange;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+}
+
+nav {
+  height: 80px;
+}
+
+
+
+.icon-bar {
+  background-color: $lightOrange;
+  height: 4px;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+::selection {
+  background-color: $orange;
+  color: $lightOrange;
+}
+
+
+
+textarea, select, input, button { outline: none; }
+
+
+input {
+  background-color: rgba(25,84,123,0.1) !important;
+  border: none;
+  margin-right: 10px;
+  color: $lightBlue;
+  width: 300px;
+  height: 50px;
+  font-weight: 700;
+  font-style: italic;
+  border-radius: 5px;
+}
+
+@media (max-width: 375px) {
+  h1 {
+    font-size: 1.95rem;
+  }
+}
+
+
+.react-datepicker {
+  font-family: nimbus-sans;
+  background-color: #fff;
+  color: #000;
+  border: none;
+}
+
+
+
+

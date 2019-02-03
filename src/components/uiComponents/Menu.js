@@ -1,6 +1,8 @@
 import React from 'react'
 import { Spring, Transition } from 'react-spring'
 
+import style from './style/style'
+
 class Menu extends React.Component {
 
      constructor(props) {
@@ -27,19 +29,24 @@ class Menu extends React.Component {
                     <div onClick={this.handleChange}>
                         <HamburgerIcon open={!this.state.open}/>
                     </div>
-                    <div className='menu-items'>
+                    <div>
                         <Transition
                             items={this.state.open}
                             from={{ opacity: 0 }}
                             enter={{ opacity: 1 }}
                             leave={{ opacity: 0 }}>
                             {show =>
-                              show && (props =>
-                                <div className='menu-full' style={props} onClick={this.handleChange}>
-                                    <div className='menu-contents'>
+                              show && (props => {
+                                let styleNew = Object.assign({}, style.menuBackground)
+                                styleNew.opacity = props.opacity
+                                return (
+                                <div style={ styleNew } onClick={this.handleChange}>
+                                    <div style={style.menuContents}>
                                         {this.props.children}
                                     </div>
                                 </div>
+                                )
+                            }
                             )
                           }
                         </Transition>
@@ -52,24 +59,12 @@ class Menu extends React.Component {
 
 export default Menu
 
-
-
 // the menus icon 
 const HamburgerIcon = props => {
 
-    const iconStyle = {
-        width: '50px',
-        height: '50px',
-        position: 'absolute',
-        right: '20px',
-        zIndex: '1000',
-        cursor: 'pointer',
-        top: '40px'
-    }
-    
     if (props.open) {
         return (
-            <div style={iconStyle}>
+            <div style={style.hamburgerStyle}>
                 <Spring from={{ width: '30px' }} to={{ width: '40px'}}>
                     {props => <div className='icon-bar' style={props}></div>}
                 </Spring>
@@ -83,7 +78,7 @@ const HamburgerIcon = props => {
         )
     } else {
         return (
-        <div style={iconStyle}>
+        <div style={style.hamburgerStyle}>
                 <Spring from={{ width: '40px' }} to={{ width: '30px'}}>
                     {props => <div className='icon-bar' style={props}></div>}
                 </Spring>
