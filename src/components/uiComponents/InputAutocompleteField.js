@@ -23,11 +23,6 @@ class InputAutocompleteField extends React.Component {
         });
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return !this.state.userEnteredInfo || nextState !== this.state
-    // }
-
-
     render() {
 
         let val = ''
@@ -37,17 +32,13 @@ class InputAutocompleteField extends React.Component {
 
         return (
             <Autocomplete
-                items={[
-                  { id: 'foo', label: 'foo' },
-                  { id: 'bar', label: 'bar' },
-                  { id: 'baz', label: 'baz' },
-                ]}
+                items={this.props.autocompleteValues}
                 shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
                 getItemValue={item => item.label}
                 renderItem={(item, highlighted) =>
                   <div
                     key={item.id}
-                    style={{ backgroundColor: highlighted ? styles.darkBlue : 'transparent'}}
+                    style={{ paddingLeft: '5px', backgroundColor: highlighted ? styles.veryLightBlue : 'transparent'}}
                   >
                     {item.label}
                   </div>
@@ -61,7 +52,7 @@ class InputAutocompleteField extends React.Component {
                         loc: value,
                         userEnteredInfo: true
                     })} }
-                style={this.props.inStyle}
+                wrapperStyle={this.props.inStyle}
             />
             
         )

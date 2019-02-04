@@ -1,21 +1,25 @@
-const darkBlue = '#154463'
-const lightBlue = '#19547B'
-const orange = '#F49E4C'
-const lightOrange = '#FFE8C3'
+const darkBlue = 'hsl(204, 65%, 24%)'
+const lightBlue = 'hsl(204, 65%, 29%)'
+const veryLightBlue = 'hsl(204, 65%, 32%)'
+const orange = 'hsl(29, 88%, 63%)'
+const lightOrange = 'hsl(29, 88%, 88%)'
 const adaptiveWhite = 'rgba(255, 255, 255, 0.7)'
+const shadow = '5px 7px 30px hsla(204, 65%, 15%, 0.6)'
+const border = '10px'
 
 const autocompleteStyle = {
       top: 'unset',
       left: 'unset',
-      borderRadius: '3px',
       color: adaptiveWhite,
       background: lightBlue,
       position: 'fixed',
       overflow: 'auto',   
-      maxHeight: '75%',
+      maxHeight: '310px',
       fontSize: '1.3rem',
       minWidth: '300px',
-      width: '300px'
+      width: '300px',
+      boxShadow: shadow,
+      borderRadius: border,
 }
 
 const landingSubStyle = {
@@ -33,16 +37,13 @@ const landingHeadingStyle = {
 }
 
 const landingInputStyle = {
-      backgroundColor: 'transparent',
-      border: 'none',
       // borderBottom: '3px solid #19547B',
-      marginRight: '10px',
-      color: lightBlue,
       width: '300px',
       height: '50px',
       fontWeight: '700',
       fontStyle: 'italic', 
-      borderRadius: '5px'
+      display: 'inline-block',
+      marginRight: '10px'
 }
 
 const hamburgerStyle = {
@@ -69,7 +70,7 @@ const menuBackground = {
       top: 0,
       left: 0,
       backgroundColor: lightBlue,
-      zIndex: 20
+      zIndex: 20,
 }
 
 const goButtonInterior = {
@@ -98,28 +99,80 @@ const menuText = {
 
 const goButton = {
       backgroundColor: orange,
-      boxShadow: '3px 5px 20px rgba(0, 0, 0, 0.4)',
+      boxShadow: shadow,
       borderRadius: '20px',
       height: '40px',
       maxWidth: '200px',
       padding: '10px',
-      cursor: 'pointer',
+      cursor: 'pointer'
 }
 
 const landingPageBackground = {
       position: 'absolute',
       top: 0,
       left: 0,
-      background: 'linear-gradient(170deg, rgba(25,84,123,0.75) 0%, rgba(255,232,195, 0.75) 100%)',
+      background: 'linear-gradient(170deg, rgb(25,84,123) 0%, rgb(255,232,195) 100%)',
       height: '100vh',
       width: '100vw',
       zIndex: -1,
+      opacity: 0.75,
 }
 
 const landingContainerStyle = {
       position: 'absolute',
       left: '50%',
       transform: 'translateX(-50%)',
+}
+
+const logoStyle = {
+      fontSize: '40px',
+      left: '20px',
+      top: '10px',
+      fontFamily: 'PanAm',
+      position: 'absolute',
+      zIndex: 100
+}
+
+const checkInputStyle = {
+      // backgroundColor: darkBlue,
+      // border: 'none',
+      // // borderBottom: '3px solid #19547B',
+      // marginRight: '10px',
+      // color: lightBlue,
+      // width: '300px',
+      // height: '50px',
+      // fontWeight: '700',
+      // fontStyle: 'italic', 
+      // borderRadius: border,
+      // margin: '40px'
+}
+
+const checkInputBoxStyle = {
+      display: 'inline-block',
+      margin: '40px 10px'
+}
+
+const checkStyle = {
+      width: '100%',
+      maxWidth: '900px',
+      minHeight: '600px',
+      padding: '20px',
+      margin: '0 auto',
+      marginTop: '80px',
+      backgroundColor: lightBlue,
+      boxShadow: shadow,
+      borderRadius: border,
+      marginBottom: '50px'
+}
+
+const checkStyleOuter = {
+      margin: '10px'
+}
+
+const panelWrapper = {
+      margin: '0 auto',
+      width: '100%',
+      maxWidth: '680px'
 }
 
 const styles = {
@@ -137,6 +190,12 @@ const styles = {
       landingImageStyle: landingImageStyle,
       landingPageBackground: landingPageBackground,
       landingContainerStyle: landingContainerStyle,
+      logoStyle: logoStyle,
+      checkInputStyle: checkInputStyle,
+      checkStyle: checkStyle,
+      checkStyleOuter: checkStyleOuter,
+      panelWrapper: panelWrapper,
+      checkInputBoxStyle: checkInputBoxStyle,
 
       // global colors 
       darkBlue: darkBlue,
@@ -144,6 +203,7 @@ const styles = {
       orange: orange,
       lightOrange: lightOrange,
       adaptiveWhite: adaptiveWhite,
+      veryLightBlue: veryLightBlue,
       
 
 }

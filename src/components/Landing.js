@@ -14,11 +14,24 @@ class Landing extends React.Component {
             firstInputValue: 'here',
             secondInputValue: 'there'
         }
+        this.updateInputDisplayValues = this.updateInputDisplayValues.bind(this)
     }
 
     // shouldComponentUpdate(nextProps, nextState) {
     //     return nextProps !== this.props
     // }
+
+    updateInputDisplayValues(data, dataLength) {
+
+        const val1 = data[randomNum(dataLength-1)]
+        const val2 = data[randomNum(dataLength-1)+1]
+
+        this.setState({
+            firstInputValue: val1,
+            secondInputValue: val2
+        }) 
+
+    }
 
     componentDidMount() {
         fetch('./data/cities.json')
@@ -27,26 +40,19 @@ class Landing extends React.Component {
                 
                 const allData = data.cities 
                 const dataLength = allData.length
-                
+
+                this.updateInputDisplayValues(allData, dataLength)
 
                 this.interval = setInterval(() => {
-                    //console.log(Object.keys(allData)[randomNum(dataLength)])
-
-                    const val1 = allData[randomNum(dataLength-1)]
-                    const val2 = allData[randomNum(dataLength-1)+1]
-
-                    this.setState({
-                        firstInputValue: val1,
-                        secondInputValue: val2
-                    }) 
-    
-                }, 3000);
+                    this.updateInputDisplayValues(allData, dataLength)
+                    
+                }, 3000)
             })
     }
 
     componentWillUnmount() {
 
-        clearInterval(this.interval);
+        clearInterval(this.interval)
     }
 
 
@@ -73,6 +79,12 @@ class Landing extends React.Component {
         frontStyle.top = dispTop
         frontStyle.width = maxWidth
 
+        const autoCompleteValues = [
+            { id: 'foo', label: 'foo' },
+            { id: 'bar', label: 'bar' },
+            { id: 'baz', label: 'baz' },
+        ]
+
     
         return (
             <div >
@@ -81,7 +93,10 @@ class Landing extends React.Component {
                 <div style={frontStyle}>
                     <LandingInputForm
                         firstInputValue={this.state.firstInputValue}
-                        secondInputValue={this.state.secondInputValue} />
+                        firstAutocompleteValues={autoCompleteValues}
+                        secondInputValue={this.state.secondInputValue} 
+                        secondAutocompleteValues={autoCompleteValues}
+                        />
                 </div>
             </div>
         )
@@ -93,6 +108,5 @@ export default withBreakpoints(Landing)
 function randomNum(length) {
     return Math.floor(Math.random() * length-1)
 }
-
 
 

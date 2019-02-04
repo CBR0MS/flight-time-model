@@ -9,32 +9,21 @@ class Navigation extends React.Component {
 
     render() {
 
-        let logoStyle = {
-            fontSize: '40px',
-            left: '20px',
-            top: '10px',
-            fontFamily: 'PanAm',
-            position: 'absolute',
-            zIndex: 100
-        }
         const { breakpoints, currentBreakpoint } = this.props
 
+        let newLogoStyle = Object.assign({}, style.logoStyle)
+
         if (breakpoints[currentBreakpoint] > breakpoints.tablet){
-            logoStyle = {
-                fontSize: '50px',
-                left: '40px',
-                top: '20px',
-                fontFamily: 'PanAm',
-                position: 'absolute',
-                zIndex: 100
-            }
+                newLogoStyle.fontSize= '50px'
+                newLogoStyle.left = '40px'
+                newLogoStyle.top = '20px'
         }
         
         return (
             <div>
                 <nav>
                     <ul>
-                      <li style={logoStyle}>
+                      <li style={newLogoStyle}>
                         <Link to="/">
                             <div >FlyGenius</div>
                         </Link>
@@ -45,7 +34,7 @@ class Navigation extends React.Component {
                             <Link to="/">
                                 <div style={style.menuText}>Home</div>
                             </Link>
-                            <Link to="/predict">
+                            <Link to="/check">
                                 <div style={style.menuText}>Check a Flight</div>
                             </Link>
                             <Link to="/about">

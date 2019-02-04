@@ -44,7 +44,8 @@ class LandingBackground extends React.Component {
         this.state = {
             position: start,
             time: 0,
-            goingBackwards: false
+            goingBackwards: false,
+            height: '100vh'
         };
     }
 
@@ -55,10 +56,17 @@ class LandingBackground extends React.Component {
 
             const revisedStateValues = changeAngle(this.state.position, this.state.time, this.state.goingBackwards)
 
+            const height = Math.max(document.body.scrollHeight, 
+                                  document.body.offsetHeight, 
+                                  document.documentElement.clientHeight, 
+                                  document.documentElement.scrollHeight, 
+                                  document.documentElement.offsetHeight )
+            const newHeight = height.toString() + 'px'
             this.setState({
                 position: revisedStateValues[0], 
                 time: revisedStateValues[1],
-                goingBackwards: revisedStateValues[2]
+                goingBackwards: revisedStateValues[2],
+                height: newHeight 
             }) 
     
         }, 1000 / fps);
@@ -72,10 +80,15 @@ class LandingBackground extends React.Component {
     render() {
 
         // set the background gradient according to the current state
-        const backgroundStyle = 'linear-gradient(' + this.state.position + 'deg,rgba(25,84,123,0.75) 0%, rgba(255,232,195, 0.75) 100%)'
+        const backgroundStyle = 'linear-gradient(' + this.state.position + 'deg,rgb(25,84,123) 0%, rgb(255,232,195) 100%)'
 
         let landingStyles = Object.assign({}, style.landingPageBackground)
         landingStyles.background = backgroundStyle
+   
+        if (this.props.opacity === 1) {
+            landingStyles.opacity = 1
+        }
+        landingStyles.height = this.state.height 
         
         return (
             <div className='landing' style={landingStyles}></div>

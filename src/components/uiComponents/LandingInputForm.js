@@ -33,7 +33,7 @@ class LandingInputForm extends React.Component {
                         key='firstVal'
                         id='firstVal'
                         onChange={this.handleForm}
-                        
+                        autocompleteValues={this.props.firstAutocompleteValues}
                         />
                     <span style={{paddingRight: '10px'}}>to</span>
                     <InputAutocompleteField 
@@ -42,10 +42,11 @@ class LandingInputForm extends React.Component {
                         key='secondVal'
                         id='secondVal'
                         onChange={this.handleForm}
+                        autocompleteValues={this.props.secondAutocompleteValues}
                     />
                 </h1>
                 <Subtitle />        
-                <Link to={`/predict?origin=${this.state.firstVal}&dest=${this.state.secondVal}`}>
+                <Link to={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`}>
                     <GoButton >
                         Check my flight &rarr;
                     </GoButton>

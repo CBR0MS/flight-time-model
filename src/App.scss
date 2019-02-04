@@ -5,18 +5,19 @@
   src: url('/PanAmTextCapsNew.ttf')  format('truetype')
 }
 
-$darkBlue: #154463;
-$lightBlue: #19547B;
-$orange: #F49E4C;
-$lightOrange: #FFE8C3;
+$darkBlue: hsl(204, 65%, 24%);
+$lightBlue: hsl(204, 65%, 29%);
+$veryLightBlue: hsl(204, 65%, 32%);
+$orange: hsl(29, 88%, 63%);
+$lightOrange: hsl(29, 88%, 88%);
 $adaptiveWhite: rgba(255, 255, 255, 0.7);
 
 
 html {
   background-color: $orange;
 }
-body {
 
+body {
   font-family: nimbus-sans, sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -71,21 +72,24 @@ nav {
   color: $lightOrange;
 }
 
-
+// ::-webkit-scrollbar-track {
+//   background-color: $darkBlue !important; 
+// }
 
 textarea, select, input, button { outline: none; }
 
-
 input {
-  background-color: rgba(25,84,123,0.1) !important;
+  background-color: $darkBlue !important;
   border: none;
   margin-right: 10px;
-  color: $lightBlue;
+  color: $adaptiveWhite;
   width: 300px;
   height: 50px;
   font-weight: 700;
   font-style: italic;
   border-radius: 5px;
+  // margin-right: 20px;
+  padding: 10px;
 }
 
 @media (max-width: 375px) {
@@ -96,10 +100,14 @@ input {
 
 
 .react-datepicker {
-  font-family: nimbus-sans;
-  background-color: #fff;
-  color: #000;
-  border: none;
+  font-family: nimbus-sans !important;
+  background-color: #fff !important;
+  color: #000 !important;
+  border: none !important;
+}
+
+.react-datepicker__input-container {
+  margin: 40px 10px;
 }
 
 
