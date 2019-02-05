@@ -38,7 +38,7 @@ class InputAutocompleteField extends React.Component {
                 renderItem={(item, highlighted) =>
                   <div
                     key={item.id}
-                    style={{ paddingLeft: '5px', backgroundColor: highlighted ? styles.veryLightBlue : 'transparent'}}
+                    style={{ paddingLeft: '5px', backgroundColor: highlighted ? styles.lightBlue : 'transparent'}}
                   >
                     {item.label}
                   </div>

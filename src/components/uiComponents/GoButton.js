@@ -1,16 +1,21 @@
 import React from 'react'
-
-import style from './style/style'
+import { Link } from 'react-router-dom'
+import styles from './style/style'
 
 const GoButton = props => {
         
-        const joinedStyles = Object.assign({}, style.goButton)
+        const joinedStyles = Object.assign({}, styles.goButton)
         if (props.centered) {
-            joinedStyles.margin = '0 auto'
+            joinedStyles.marginLeft = 'auto'
+            joinedStyles.marginRight = 'auto'
         }
+
         return (
+
             <div style={joinedStyles}>
-                <div style={style.goButtonInterior}>{props.children}</div>
+                <Link to={props.link}>
+                    <div style={styles.goButtonInterior}>{props.children}</div>
+                </Link>
             </div>
             
         )

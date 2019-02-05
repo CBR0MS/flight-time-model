@@ -1,17 +1,21 @@
+const veryDarkBlue = 'hsl(204, 65%, 18%)'
 const darkBlue = 'hsl(204, 65%, 24%)'
 const lightBlue = 'hsl(204, 65%, 29%)'
 const veryLightBlue = 'hsl(204, 65%, 32%)'
 const orange = 'hsl(29, 88%, 63%)'
-const lightOrange = 'hsl(29, 88%, 88%)'
+const lightOrange = 'hsl(29, 88%, 83%)'
+const white = 'rgba(255, 255, 255, 0.95)'
 const adaptiveWhite = 'rgba(255, 255, 255, 0.7)'
 const shadow = '5px 7px 30px hsla(204, 65%, 15%, 0.6)'
 const border = '10px'
+
+const font = 'interstate'
 
 const autocompleteStyle = {
       top: 'unset',
       left: 'unset',
       color: adaptiveWhite,
-      background: lightBlue,
+      background: veryLightBlue,
       position: 'fixed',
       overflow: 'auto',   
       maxHeight: '310px',
@@ -31,9 +35,9 @@ const landingSubStyle = {
 const landingHeadingStyle = {
       lineHeight: '60px',
       color: '#154463',
-      fontWeight: '700',
+      fontWeight: '800',
       fontStyle: 'italic',  
-      fontFamily: 'nimbus-sans-extended',
+      fontFamily: font,
 }
 
 const landingInputStyle = {
@@ -91,9 +95,11 @@ const landingImageStyle = {
 }
 
 const menuText = {
-      fontFamily: 'nimbus-sans-extended',
-      fontSize: '2rem',
+      fontFamily: font,
+      fontSize: '2.5rem',
       padding: '20px',
+      fontWeight: 700,
+      fontStyle: 'italic',
       width: '320px',
 }
 
@@ -104,7 +110,9 @@ const goButton = {
       height: '40px',
       maxWidth: '200px',
       padding: '10px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      marginTop: '40px',
+      marginBottom: '40px'
 }
 
 const landingPageBackground = {
@@ -155,6 +163,7 @@ const checkInputBoxStyle = {
 const checkStyle = {
       width: '100%',
       maxWidth: '900px',
+      height: '100%',
       minHeight: '600px',
       padding: '20px',
       margin: '0 auto',
@@ -173,6 +182,22 @@ const panelWrapper = {
       margin: '0 auto',
       width: '100%',
       maxWidth: '680px'
+}
+
+const inputWrapperTitle = {
+      // display: 'block',
+      // width: '300px',
+      marginBottom: '-35px',
+      marginLeft: '15px',
+      color: white,
+}     
+
+const inputWrapper = {
+      width: '310px',
+      display: 'inline-block',
+      marginRight: '15px',
+      marginTop: '15px',
+      fontSize: '1.5rem',
 }
 
 const styles = {
@@ -196,6 +221,8 @@ const styles = {
       checkStyleOuter: checkStyleOuter,
       panelWrapper: panelWrapper,
       checkInputBoxStyle: checkInputBoxStyle,
+      inputWrapperTitle: inputWrapperTitle,
+      inputWrapper: inputWrapper,
 
       // global colors 
       darkBlue: darkBlue,
@@ -204,6 +231,8 @@ const styles = {
       lightOrange: lightOrange,
       adaptiveWhite: adaptiveWhite,
       veryLightBlue: veryLightBlue,
+      veryDarkBlue: veryDarkBlue,
+      white: white,
       
 
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import styles from './style/style'
 import GoButton from './GoButton'
@@ -46,11 +45,12 @@ class LandingInputForm extends React.Component {
                     />
                 </h1>
                 <Subtitle />        
-                <Link to={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`}>
-                    <GoButton >
-                        Check my flight &rarr;
-                    </GoButton>
-                </Link>
+        
+                <GoButton link={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`}>
+                        <span style={styles.goButtonInterior}>Check my flight &rarr;</span>
+                    
+                </GoButton>
+                
             </div>
         )
     }
