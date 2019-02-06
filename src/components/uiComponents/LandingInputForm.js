@@ -64,7 +64,7 @@ const Subtitle = props => {
 
     return (
        <h4 style={styles.landingSubStyle}>
-           Compare Airlines and departure dates. Everything you need to know about your flight.
+           Compare airlines and get accurate route and delay times. Enter your origin and destination to get started.
        </h4>
    )
 }
