@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import styles from './style/style'
 import GoButton from './GoButton'
@@ -27,6 +28,7 @@ class LandingInputForm extends React.Component {
                 <h1 style={styles.landingHeadingStyle}>
                     <span style={{paddingRight: '10px'}}>I'm flying from</span>
                     <InputAutocompleteField 
+                        focus={this.props.focusFirst}
                         val={this.props.firstInputValue} 
                         inStyle={styles.landingInputStyle}
                         key='firstVal'
@@ -36,6 +38,7 @@ class LandingInputForm extends React.Component {
                         />
                     <span style={{paddingRight: '10px'}}>to</span>
                     <InputAutocompleteField 
+                        focus={this.props.focusSecond}
                         val={this.props.secondInputValue} 
                         inStyle={styles.landingInputStyle}
                         key='secondVal'
@@ -46,8 +49,12 @@ class LandingInputForm extends React.Component {
                 </h1>
                 <Subtitle />        
         
-                <GoButton link={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`}>
-                        <span style={styles.goButtonInterior}>Check my flight &rarr;</span>
+                <GoButton 
+                    color={styles.orange}
+                    shadow={true}>
+                        <Link to={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`} > 
+                            <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>
+                        </Link>
                     
                 </GoButton>
                 

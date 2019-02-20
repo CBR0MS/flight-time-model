@@ -12,6 +12,7 @@ class InputAutocompleteField extends React.Component {
             userEnteredInfo: false
         }
         this.handleChange = this.handleChange.bind(this)
+
     }
 
     handleChange(event) {
@@ -23,6 +24,16 @@ class InputAutocompleteField extends React.Component {
         });
     }
 
+    componentDidUpdate(){
+        if (this.props.focus){
+            this.input.focus()
+        } 
+        if (this.input === document.activeElement) {
+            console.log('selected')
+        }
+    }
+
+
     render() {
 
         let val = ''
@@ -30,14 +41,34 @@ class InputAutocompleteField extends React.Component {
             val = this.state.loc
         } else { val = this.props.val}
 
+        let change = value => {
+            this.props.onChange(this.props.id, value)
+            this.setState({
+                loc: value,
+                userEnteredInfo: true
+            })
+        }
+
+        let placeholder = ''
+        if (this.props.placeholder !== undefined){
+            placeholder = this.props.placeholder
+        }
+        
+        if (this.props.noChange){
+            change = value => {
+                this.props.onChange(this.props.id, value)
+            }
+        }
         return (
             <Autocomplete
                 items={this.props.autocompleteValues}
+                ref={el => this.input = el}
                 shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
                 getItemValue={item => item.label}
+                inputProps={{ placeholder: placeholder }}
                 renderItem={(item, highlighted) =>
                   <div
-                    key={item.id}
+                    key={item.key}
                     style={{ paddingLeft: '5px', backgroundColor: highlighted ? styles.lightBlue : 'transparent'}}
                   >
                     {item.label}
@@ -46,12 +77,7 @@ class InputAutocompleteField extends React.Component {
                 menuStyle={styles.autocompleteStyle}
                 value={val}
                 onChange={this.handleChange}
-                onSelect={value => {
-                    this.props.onChange(this.props.id, value)
-                    this.setState({
-                        loc: value,
-                        userEnteredInfo: true
-                    })} }
+                onSelect={ change }
                 wrapperStyle={this.props.inStyle}
             />
             

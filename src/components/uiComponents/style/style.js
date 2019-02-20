@@ -16,14 +16,16 @@ const autocompleteStyle = {
       left: 'unset',
       color: adaptiveWhite,
       background: veryLightBlue,
-      position: 'fixed',
-      overflow: 'auto',   
-      maxHeight: '310px',
+      position: 'absolute',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      maxHeight: '250px',
       fontSize: '1.3rem',
       minWidth: '300px',
       width: '300px',
       boxShadow: shadow,
       borderRadius: border,
+      zIndex: '200',
 }
 
 const landingSubStyle = {
@@ -104,15 +106,16 @@ const menuText = {
 }
 
 const goButton = {
-      backgroundColor: orange,
       boxShadow: shadow,
       borderRadius: '20px',
       height: '40px',
       maxWidth: '200px',
-      padding: '10px',
+      padding: '7px 20px',
       cursor: 'pointer',
-      marginTop: '40px',
-      marginBottom: '40px'
+      marginTop: '60px',
+      marginBottom: '40px',
+      transition: 'all 0.3s linear',
+      border: '2px solid transparent',
 }
 
 const landingPageBackground = {
@@ -171,7 +174,8 @@ const checkStyle = {
       backgroundColor: lightBlue,
       boxShadow: shadow,
       borderRadius: border,
-      marginBottom: '50px'
+      marginBottom: '50px',
+      transition: 'all 0.3s linear',
 }
 
 const checkStyleOuter = {
@@ -181,7 +185,8 @@ const checkStyleOuter = {
 const panelWrapper = {
       margin: '0 auto',
       width: '100%',
-      maxWidth: '680px'
+      maxWidth: '680px',
+      transition: 'all 0.3s linear'
 }
 
 const inputWrapperTitle = {
@@ -197,7 +202,50 @@ const inputWrapper = {
       display: 'inline-block',
       marginRight: '15px',
       marginTop: '15px',
-      fontSize: '1.5rem',
+      fontSize: '1.1rem',
+}
+
+const loading = {
+      height: '64px',
+      width: '64px',
+      position: 'fixed',
+      top: '40%',
+      left: '50%',
+      transform: 'translateX(-50%) translateY(-50%)'
+}
+
+const airlineBar = {
+      display: 'inline-block',
+      width: '300px',
+      height: '50px',
+      color: adaptiveWhite,
+      backgroundColor: veryLightBlue,
+      borderRadius: border,
+      boxShadow: shadow,
+      margin: '20px 10px',
+      padding: '10px',
+}
+
+const airlineDeleteButton = {
+      float: 'right',
+      fontSize: '1.8rem',
+      cursor: 'pointer',
+      marginTop: '-6px',
+}
+
+const airlinesSection = {
+      display: 'inline-block',
+      width: '350px',
+      marginTop: '30px',
+      float: 'right',
+}
+const airlineInputWrapper = {
+      marginTop: '20px',
+      display: 'inline-block',
+}
+
+const allAirlineContentWrapper = {
+      overflow: 'auto',
 }
 
 const styles = {
@@ -223,6 +271,12 @@ const styles = {
       checkInputBoxStyle: checkInputBoxStyle,
       inputWrapperTitle: inputWrapperTitle,
       inputWrapper: inputWrapper,
+      loading: loading,
+      airlineBar: airlineBar,
+      airlineDeleteButton: airlineDeleteButton,
+      airlinesSection: airlinesSection,
+      airlineInputWrapper: airlineInputWrapper,
+      allAirlineContentWrapper: allAirlineContentWrapper,
 
       // global colors 
       darkBlue: darkBlue,

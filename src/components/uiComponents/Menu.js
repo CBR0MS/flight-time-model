@@ -1,5 +1,5 @@
 import React from 'react'
-import { Spring, Transition } from 'react-spring'
+import { Spring, Transition } from 'react-spring/renderprops'
 
 import style from './style/style'
 

@@ -11,6 +11,7 @@ $veryLightBlue: hsl(204, 65%, 32%);
 $orange: hsl(29, 88%, 63%);
 $lightOrange: hsl(29, 88%, 88%);
 $adaptiveWhite: rgba(255, 255, 255, 0.7);
+$lightWhite: rgba(255, 255, 255, 0.4);
 $font: interstate;
 $shadow: 5px 7px 30px hsla(204, 65%, 15%, 0.6);
 
@@ -143,6 +144,77 @@ input {
 //   margin: 40px 10px;
 // }
 
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 27px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 6px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 6px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 26px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 45px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(19px, 0);
+  }
+}
 
+::placeholder {
+  color: $lightWhite;
+}
 
-
+.fade-enter {
+  opacity: 0.01;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-in;
+}

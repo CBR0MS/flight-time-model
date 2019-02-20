@@ -1,9 +1,11 @@
 import React from 'react'
 import { withBreakpoints } from 'react-breakpoints'
+import { Spring } from 'react-spring/renderprops'
 
 import style from './uiComponents/style/style'
 import LandingBackground from './uiComponents/LandingBackground'
 import LandingInputForm from './uiComponents/LandingInputForm'
+
 
 
 class Landing extends React.Component {
@@ -11,6 +13,8 @@ class Landing extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            first: false,
+            second: false,
             firstInputValue: 'here',
             secondInputValue: 'there'
         }
@@ -22,14 +26,62 @@ class Landing extends React.Component {
     // }
 
     updateInputDisplayValues(data, dataLength) {
+        const index = randomNum(dataLength-2)
+        const val1 = (data[index]).split('')
+        const val2 = (data[index+1]).split('')
 
-        const val1 = data[randomNum(dataLength-1)]
-        const val2 = data[randomNum(dataLength-1)+1]
+        let i = 0
+        let j = 0
+        let start1 = ''
+        let start2 = ''
+        const bar = '|'
 
-        this.setState({
-            firstInputValue: val1,
-            secondInputValue: val2
-        }) 
+
+        this.intervalOne = setInterval(() => {
+
+            if (i < val1.length){
+                // update the array with the next char and move 'cursor'
+                start1 = start1.slice(0, -1)
+                start1 += val1[i]
+                start1 += bar
+            } else {
+                // when done, remove the 'cursor'
+                start1 = start1.slice(0, -1)
+                this.setState({
+                    firstInputValue: start1,
+                }) 
+                clearInterval(this.intervalOne)
+                // start interval 2
+                this.intervalTwo = setInterval(() => {
+
+                    if (j < val2.length) {
+                        start2 = start2.slice(0, -1)
+                        start2 += val2[j]
+                        start2 += bar
+                    } else {
+                        // when done, remove the 'cursor'
+                        start2 = start2.slice(0, -1)
+                        this.setState({
+                            secondInputValue: start2,
+                        })
+                        clearInterval(this.intervalTwo)
+                    }
+                    this.setState({
+                        secondInputValue: start2,
+                    }) 
+                    j += 1
+                            
+                }, 100)
+            }
+            this.setState({
+                firstInputValue: start1,
+            }) 
+            i += 1
+                    
+        }, 100)
+        
+
+        
 
     }
 
@@ -84,20 +136,30 @@ class Landing extends React.Component {
             { id: 'bar', label: 'bar' },
             { id: 'baz', label: 'baz' },
         ]
-
     
         return (
             <div >
-                <LandingBackground />
-                <img src="/clouds.jpeg" style={style.landingImageStyle} alt=''/>
-                <div style={frontStyle}>
-                    <LandingInputForm
-                        firstInputValue={this.state.firstInputValue}
-                        firstAutocompleteValues={autoCompleteValues}
-                        secondInputValue={this.state.secondInputValue} 
-                        secondAutocompleteValues={autoCompleteValues}
-                        />
-                </div>
+                
+                <Spring
+                  from={{ opacity: 0 }}
+                   to={{ opacity: 1 }}>
+                  {props => 
+                    <div style={props}>
+                        <LandingBackground />
+                        <img src="/clouds.jpeg" style={style.landingImageStyle} alt=''/>
+                        <div style={frontStyle}>
+                            <LandingInputForm
+                                focusFirst={this.state.first}
+                                focusSecond={this.state.second}
+                                firstInputValue={this.state.firstInputValue}
+                                firstAutocompleteValues={autoCompleteValues}
+                                secondInputValue={this.state.secondInputValue} 
+                                secondAutocompleteValues={autoCompleteValues}
+                                />
+                        </div>
+                  </div>}
+                </Spring>
+                
             </div>
         )
     }
@@ -106,7 +168,7 @@ class Landing extends React.Component {
 export default withBreakpoints(Landing)
 
 function randomNum(length) {
-    return Math.floor(Math.random() * length-1)
+    return Math.ceil(Math.random() * length-1)
 }
 
 
