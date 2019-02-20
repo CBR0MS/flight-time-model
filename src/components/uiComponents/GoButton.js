@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './style/style'
+import { Link } from 'react-router-dom'
 
 const GoButton = props => {
         
@@ -23,6 +24,15 @@ const GoButton = props => {
         joinedStyles.backgroundColor = props.color
         joinedStylesInterior.color = props.interiorColor
 
+        if (props.link !== undefined){
+            return (
+            <div style={joinedStyles} onClick={props.onClick}>
+                <Link to={props.link}>
+                    <div style={joinedStylesInterior}>{props.children}</div>
+                </Link>
+            </div>
+            )
+        }
         return (
 
             <div style={joinedStyles} onClick={props.onClick}>

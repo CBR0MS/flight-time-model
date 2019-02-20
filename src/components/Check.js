@@ -20,6 +20,7 @@ class Check extends React.Component {
   }
 
   componentDidMount() {
+    document.title = 'Check a Flight - FlyGenius'
     const newParams = queryString.parse(this.props.location.search)
     fetch('https://api.flygeni.us/airports/?use_details=True', {
       headers: {'Authorization': 'Token 62cfb7c66a3ac717a98d9b9d9eb16cdd4b7d15ba'}

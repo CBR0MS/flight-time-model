@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import styles from './style/style'
 import GoButton from './GoButton'
@@ -51,11 +50,9 @@ class LandingInputForm extends React.Component {
         
                 <GoButton 
                     color={styles.orange}
-                    shadow={true}>
-                        <Link to={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`} > 
-                            <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>
-                        </Link>
-                    
+                    shadow={true}
+                    link={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`} > 
+                        <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>
                 </GoButton>
                 
             </div>
@@ -71,7 +68,7 @@ const Subtitle = props => {
 
     return (
        <h4 style={styles.landingSubStyle}>
-           Compare airlines and get accurate route and delay times. Enter your origin and destination to get started.
+           Compare airlines and get accurate route and delay times for any U.S. domestic flight. Enter your origin and destination to get started.
        </h4>
    )
 }

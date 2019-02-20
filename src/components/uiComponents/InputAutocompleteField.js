@@ -16,7 +16,7 @@ class InputAutocompleteField extends React.Component {
     }
 
     handleChange(event) {
-        const text = event.target.value;
+        const text = event.target.value
         this.props.onChange(this.props.id, text)
         this.setState({
             loc: event.target.value,
@@ -28,9 +28,6 @@ class InputAutocompleteField extends React.Component {
         if (this.props.focus){
             this.input.focus()
         } 
-        if (this.input === document.activeElement) {
-            console.log('selected')
-        }
     }
 
 

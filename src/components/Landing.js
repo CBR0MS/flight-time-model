@@ -16,7 +16,8 @@ class Landing extends React.Component {
             first: false,
             second: false,
             firstInputValue: 'here',
-            secondInputValue: 'there'
+            secondInputValue: 'there',
+            autocompleteValues: [{value: '', label: ''}], 
         }
         this.updateInputDisplayValues = this.updateInputDisplayValues.bind(this)
     }
@@ -69,29 +70,34 @@ class Landing extends React.Component {
                     this.setState({
                         secondInputValue: start2,
                     }) 
-                    j += 1
-                            
+                    j += 1  
                 }, 100)
             }
             this.setState({
                 firstInputValue: start1,
             }) 
-            i += 1
-                    
+            i += 1  
         }, 100)
-        
-
-        
 
     }
 
     componentDidMount() {
+        document.title = 'Flight Stats Prediction - FlyGenius'
         fetch('./data/cities.json')
             .then(res => res.json())
             .then(data => {
-                
+
+                let newData = []
+                for (const loc in data.cities) {
+                    const displayName = data.cities[loc]
+                    const valueName = data.cities[loc]
+                newData.push({label: displayName, value: valueName, key: loc})
+                }
                 const allData = data.cities 
                 const dataLength = allData.length
+                this.setState({
+                    autocompleteValues: newData
+                })
 
                 this.updateInputDisplayValues(allData, dataLength)
 
@@ -103,7 +109,6 @@ class Landing extends React.Component {
     }
 
     componentWillUnmount() {
-
         clearInterval(this.interval)
     }
 
@@ -131,12 +136,6 @@ class Landing extends React.Component {
         frontStyle.top = dispTop
         frontStyle.width = maxWidth
 
-        const autoCompleteValues = [
-            { id: 'foo', label: 'foo' },
-            { id: 'bar', label: 'bar' },
-            { id: 'baz', label: 'baz' },
-        ]
-    
         return (
             <div >
                 
@@ -152,9 +151,9 @@ class Landing extends React.Component {
                                 focusFirst={this.state.first}
                                 focusSecond={this.state.second}
                                 firstInputValue={this.state.firstInputValue}
-                                firstAutocompleteValues={autoCompleteValues}
+                                firstAutocompleteValues={this.state.autocompleteValues}
                                 secondInputValue={this.state.secondInputValue} 
-                                secondAutocompleteValues={autoCompleteValues}
+                                secondAutocompleteValues={this.state.autocompleteValues}
                                 />
                         </div>
                   </div>}

@@ -109,7 +109,7 @@ const goButton = {
       boxShadow: shadow,
       borderRadius: '20px',
       height: '40px',
-      maxWidth: '200px',
+      maxWidth: '300px',
       padding: '7px 20px',
       cursor: 'pointer',
       marginTop: '60px',

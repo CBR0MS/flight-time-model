@@ -1,7 +1,6 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
 import stringSimilarity from 'string-similarity'
-import { Link } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import styles from './style/style'
@@ -222,7 +221,7 @@ class CheckInputForm extends React.Component {
                                     centered={false} 
                                     color={styles.darkBlue}
                                     interiorColor={styles.adaptiveWhite}>
-                                    <span>Select Airlines</span>
+                                    <span>Compare Selected Airlines</span>
                                 </GoButton>
                             </div>
                             {airlinePicker}
@@ -230,16 +229,15 @@ class CheckInputForm extends React.Component {
                                 centered={true} 
                                 color={styles.orange}
                                 interiorColor={styles.darkBlue}
-                                shadow={true}>   
-                                <Link to={`/predict?origin=${this.state.org_id}`
+                                shadow={true}
+                                link={`/predict?origin=${this.state.org_id}`
                                       +`&dest=${this.state.dest_id}`
                                       +`&airlines=${this.state.airlinesIDs}`
                                       +`&allAirlines=${this.state.allAirlines}`
                                       +`&date=${this.state.date !== null 
                                         ? this.state.date.toISOString()
                                         : 0 }`}>
-                                    <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>
-                                </Link>    
+                                    <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>   
                                 
                             </GoButton>
                         </div>

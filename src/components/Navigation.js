@@ -40,6 +40,9 @@ class Navigation extends React.Component {
                             <Link to="/about">
                                 <div style={style.menuText}>How it Works</div>
                             </Link>
+                            <a href="https://api.flygeni.us/docs">
+                                <div style={style.menuText}>FlyGenius API</div>
+                            </a>
 
                         </Menu>
 
