@@ -1,13 +1,13 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
 import stringSimilarity from 'string-similarity'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import styles from './style/style'
 import GoButton from './GoButton'
 import InputAutocompleteField from './InputAutocompleteField'
 import InputWrapper from './InputWrapper'
 import AirlinePicker from './AirlinePicker'
+import PanelGroup from './PanelGroup'
 
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -22,6 +22,7 @@ class CheckInputForm extends React.Component {
         this.handleAllAirlinesButton = this.handleAllAirlinesButton.bind(this)
         this.handleAirlineSelect = this.handleAirlineSelect.bind(this)
         this.removeAirline = this.removeAirline.bind(this)
+        this.removeAlert = this.removeAlert.bind(this)
 
         this.state = {
             origin: '',
@@ -30,7 +31,7 @@ class CheckInputForm extends React.Component {
             org_id: '',
             airline: '',
             airlines: [],
-            airlinesIDs: [],
+            alerts: [],
             allAirlines: true,
             selectAirlines: false,
             date: new Date()
@@ -53,37 +54,39 @@ class CheckInputForm extends React.Component {
         this.setState({allAirlines: !this.state.allAirlines})
     }
 
-    handleAirlineSelect(id, value) {
-        if (value.includes('(') && value.includes(')')) {
+    handleAirlineSelect(id, airline) {
+        const reducedArr = this.props.autocompleteDataAirlines.filter((value, index, arr)=> {
+            return airline === value.label
+        })
+        if (reducedArr.length > 0) {
+            const id = reducedArr[0].value
             let airlines = this.state.airlines
-            let airlinesIDs = this.state.airlinesIDs
-            airlines.push(value)
-            value = value.split(' (')[1]
-            value = value.split(')')[0]
-            airlinesIDs.push(value)
-
+            airlines.push(id)
             this.setState({
-                airlines: airlines,
-                airlinesIDs: airlinesIDs,
+                airlines: airlines
             })
         }
     }
 
     removeAirline(valueToRemove) {
-        const name = valueToRemove.airline
-        let id = name.split(' (')[1]
-        id = id.split(')')[0]
+        const id = valueToRemove
         const oldAirlines = this.state.airlines
-        const oldAirlineIds = this.state.airlinesIDs
-        const newAirlines = oldAirlines.filter(function(value, index, arr){
-            return value !== name;
-        })
-        const newAirlineIds = oldAirlineIds.filter(function(value, index, arr){
+        const newAirlines = oldAirlines.filter((value, index, arr) => {
             return value !== id;
         })
         this.setState({
             airlines: newAirlines,
-            airlinesIDs: newAirlineIds,
+        })
+    }
+
+    removeAlert(valueToRemove) {
+        const id = valueToRemove
+        const oldAlerts = this.state.alerts
+        const newAlerts = oldAlerts.filter((value, index, arr) => {
+            return value !== id;
+        })
+        this.setState({
+            alerts: newAlerts,
         })
     }
 
@@ -92,7 +95,6 @@ class CheckInputForm extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.params)
         this.locations = this.props.locations
 
         const passedOrigin = this.props.params.origin !== undefined && this.props.params.origin.length > 0
@@ -101,13 +103,38 @@ class CheckInputForm extends React.Component {
         const passedDest = this.props.params.dest !== undefined && this.props.params.dest.length > 0
                                 ? this.findMostSimilarInput(this.props.params.dest, this.locations) 
                                 : this.state.destination
-        
+
+        const passedAirlines = this.props.params.airlines !== undefined && this.props.params.airlines.length > 0
+                                ? this.props.params.airlines.split(',')
+                                : []
+        // const passedAirlinesSelect = this.props.params.allAirlines !== undefined 
+        //                             ? !(this.props.params.allAirlines === 'false')
+        //                             : true
+        const passedDate = this.props.params.date !== undefined 
+                            ? new Date(this.props.params.date)
+                            : new Date()
+
         this.setState({
             origin: passedOrigin,
-            destination: passedDest
+            destination: passedDest,
+            airlines: passedAirlines,
+            date: passedDate,
         })
         this.handleForm('dest_id', passedDest)
         this.handleForm('org_id', passedOrigin)
+
+        let alerts = this.state.alerts
+        if (this.props.params.error === 'emptyPlaces'){
+            alerts.push('Be sure to include a valid origin and destination for your flight')
+        }
+        if (this.props.params.error === 'emptyDate') {
+            alerts.push('Be sure to include a date for your flight')
+        } 
+        if (this.props.params.error === 'badRoute') {
+            alerts.push('The flight route you entered does not exist')
+        }
+        this.setState({alerts: alerts})
+        //this.setState({allAirlines: passedAirlinesSelect})
     }
 
     render() {
@@ -121,27 +148,26 @@ class CheckInputForm extends React.Component {
 
         let allOutlined = true
         let airlinePicker = (<div></div>)
+
         if (!this.state.allAirlines) {
+
             allOutlined = false
+            const airlineValues = this.state.airlines
+
             const listItems = (
-            <TransitionGroup >
-            {this.state.airlines.map((airline, index) =>
-                <CSSTransition
-                    key={index}
-                    timeout={250}
-                    classNames='fade'
-                >
-                <div key={index} style={styles.airlineBar}>
-                    {airline} 
-                    <span 
-                        style={styles.airlineDeleteButton}
-                        onClick={() => this.removeAirline({airline})}>
-                        &times;
-                    </span>
-                </div>
-                </CSSTransition>
-            )} 
-            </TransitionGroup>
+
+                <PanelGroup 
+                    badgeStyle={styles.airlineBar}
+                    fadeOut={false} 
+                    removeValue={this.removeAirline}
+                    showValue={(airline) => {
+                        return (
+                        this.props.autocompleteDataAirlines.filter((value, index, arr) => {
+                            return airline === value.value
+                        })[0].label)}}
+                    values={airlineValues}>
+                </PanelGroup>
+
             )
 
 
@@ -167,7 +193,25 @@ class CheckInputForm extends React.Component {
             )
         }
 
+        let alerts = (<div></div>)
+
+        if (this.state.alert !== ''){
+            alerts = (
+                <PanelGroup 
+                containerStyle={styles.alertBox}
+                badgeStyle={styles.alertBar}
+                fadeOut={true}
+                removeValue={this.removeAlert}
+                showValue={(alert) => alert}
+                values={this.state.alerts}>
+                </PanelGroup>
+            )
+        }
+
+
         return (
+            <div> 
+                {alerts}
                 <div style={styles.checkStyleOuter}>
                    
                     <div style={styles.checkStyle}>
@@ -232,7 +276,7 @@ class CheckInputForm extends React.Component {
                                 shadow={true}
                                 link={`/predict?origin=${this.state.org_id}`
                                       +`&dest=${this.state.dest_id}`
-                                      +`&airlines=${this.state.airlinesIDs}`
+                                      +`&airlines=${this.state.airlines}`
                                       +`&allAirlines=${this.state.allAirlines}`
                                       +`&date=${this.state.date !== null 
                                         ? this.state.date.toISOString()
@@ -242,7 +286,8 @@ class CheckInputForm extends React.Component {
                             </GoButton>
                         </div>
                     </div>
-                </div>     
+                </div> 
+            </div>     
         )
     }
 }

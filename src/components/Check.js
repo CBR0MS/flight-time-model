@@ -22,9 +22,7 @@ class Check extends React.Component {
   componentDidMount() {
     document.title = 'Check a Flight - FlyGenius'
     const newParams = queryString.parse(this.props.location.search)
-    fetch('https://api.flygeni.us/airports/?use_details=True', {
-      headers: {'Authorization': 'Token 62cfb7c66a3ac717a98d9b9d9eb16cdd4b7d15ba'}
-    })
+    fetch('./data/airports.json')
       .then(res => res.json())
       .then(data => {
 
@@ -39,18 +37,15 @@ class Check extends React.Component {
             destinations.push(displayName)
           }
 
-          fetch('https://api.flygeni.us/airlines/?use_details=True', {
-            headers: {'Authorization': 'Token 62cfb7c66a3ac717a98d9b9d9eb16cdd4b7d15ba'}
-          })
+          fetch('./data/airlines.json')
           .then(res => res.json())
           .then(data => {
              
               for (const loc in data) {
-                const displayName = data[loc].airline_name + ' (' + data[loc].airline_id + ')'
+                const displayName = data[loc].airline_name 
                 const valueName = data[loc].airline_id
                 airlines.push({label: displayName, value: valueName, key: loc})
               }
-              
           })
           
           this.setState({
@@ -60,8 +55,6 @@ class Check extends React.Component {
             locations: destinations
           })
       })
-
-      
   }
 
  

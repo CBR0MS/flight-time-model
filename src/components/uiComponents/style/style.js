@@ -64,7 +64,7 @@ const hamburgerStyle = {
 
 const menuContents =  {
       position: 'absolute',
-      top: '40%',
+      top: '50%',
       left: '50%',
       transform: 'translateX(-50%) translateY(-50%)'
 }
@@ -217,9 +217,21 @@ const loading = {
 const airlineBar = {
       display: 'inline-block',
       width: '300px',
-      height: '50px',
+      height: 50,
       color: adaptiveWhite,
       backgroundColor: veryLightBlue,
+      borderRadius: border,
+      boxShadow: shadow,
+      margin: '20px 10px',
+      padding: '10px',
+}
+
+const alertBar = {
+      display: 'inline-block',
+      width: '300px',
+      height: 80,
+      color: darkBlue,
+      backgroundColor: orange,
       borderRadius: border,
       boxShadow: shadow,
       margin: '20px 10px',
@@ -246,6 +258,16 @@ const airlineInputWrapper = {
 
 const allAirlineContentWrapper = {
       overflow: 'auto',
+}
+
+const alertBox = {
+      position: 'fixed',
+      top: '0',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '320px',
+      height: '100px',
+      zIndex: 1000,
 }
 
 const styles = {
@@ -277,6 +299,8 @@ const styles = {
       airlinesSection: airlinesSection,
       airlineInputWrapper: airlineInputWrapper,
       allAirlineContentWrapper: allAirlineContentWrapper,
+      alertBox: alertBox,
+      alertBar: alertBar,
 
       // global colors 
       darkBlue: darkBlue,

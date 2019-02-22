@@ -15,8 +15,19 @@ class Menu extends React.Component {
 
     handleChange(event) {
 
-        const curState = this.state.open
+        function preventDefault(e) {
+            e = e || window.event;
+            if (e.preventDefault)
+            e.preventDefault();
+            e.returnValue = false;  
+        }
 
+        const curState = this.state.open
+        if (curState) {
+            window.ontouchmove = preventDefault;
+        } else {
+            window.ontouchmove = null;
+        }
         this.setState({
             open: !curState
         });
