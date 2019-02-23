@@ -12,6 +12,7 @@ $orange: hsl(29, 88%, 63%);
 $lightOrange: hsl(29, 88%, 88%);
 $adaptiveWhite: rgba(255, 255, 255, 0.7);
 $lightWhite: rgba(255, 255, 255, 0.4);
+$white: rgba(255, 255, 255, 0.95);
 $font: interstate;
 $shadow: 5px 7px 30px hsla(204, 65%, 15%, 0.6);
 
@@ -203,18 +204,9 @@ input {
 ::placeholder {
   color: $lightWhite;
 }
-
-.fade-enter {
-  opacity: 0.01;
-}
-.fade-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-.fade-exit {
-  opacity: 1;
-}
-.fade-exit-active {
-  opacity: 0.01;
-  transition: opacity 500ms ease-in;
-}
+ h4 {
+  // font-family: interstate-mono;
+  // font-weight: 700;
+  // margin: 15px 0;
+  // color: $white;
+ }

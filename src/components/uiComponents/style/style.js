@@ -270,6 +270,61 @@ const alertBox = {
       zIndex: 1000,
 }
 
+const sidebarWrapper = {
+
+      margin: '0 20px',
+      flex: '1 0 auto',
+      minWidth: 200,
+      //width: '95%',
+     //maxWidth: 400,
+}
+
+const contentWrapper = {
+
+      margin: '0 20px',
+      flex: '9 0 auto',
+
+}
+
+const predictionWrapper = {
+      maxWidth: 1900,
+      //width: '90%',
+      margin: '60px auto',
+      display: 'flex',
+      flexFlow: 'row wrap',
+      justifyContent: 'center',
+
+}
+
+const accordionPanel = {
+      backgroundColor: lightBlue,
+      borderRadius: border,
+      boxShadow: shadow,
+      padding: 20,
+      color: adaptiveWhite,
+      cursor: 'pointer',
+}
+
+const inlineWrapper =  {
+      display: 'inline-block',
+      width: 140,
+      margin: '20px 0px',
+}
+
+const inlineWrapperNoMargin = {
+      fontFamily: 'interstate-mono',
+       display: 'inline-block',
+       color: white,
+}
+
+const flexTable = {
+      display: 'flex',
+      flexFlow: 'row wrap',
+      justifyContent: 'space-around',
+      margin: '0 auto',
+      width: 320,
+}
+
 const styles = {
       // components' styles 
       autocompleteStyle: autocompleteStyle,
@@ -301,6 +356,14 @@ const styles = {
       allAirlineContentWrapper: allAirlineContentWrapper,
       alertBox: alertBox,
       alertBar: alertBar,
+      sidebarWrapper: sidebarWrapper,
+      contentWrapper: contentWrapper,
+      accordionPanel: accordionPanel,
+      predictionWrapper: predictionWrapper,
+      inlineWrapper: inlineWrapper,
+      inlineWrapperNoMargin: inlineWrapperNoMargin,
+      flexTable: flexTable,
+
 
       // global colors 
       darkBlue: darkBlue,
