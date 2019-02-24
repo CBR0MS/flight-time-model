@@ -3,7 +3,6 @@ import { withBreakpoints } from 'react-breakpoints'
 import { Spring } from 'react-spring/renderprops'
 
 import style from './uiComponents/style/style'
-import LandingBackground from './uiComponents/LandingBackground'
 import LandingInputForm from './uiComponents/LandingInputForm'
 
 
@@ -144,8 +143,8 @@ class Landing extends React.Component {
                    to={{ opacity: 1 }}>
                   {props => 
                     <div style={props}>
-                        <LandingBackground />
-                        <img src="/clouds.jpeg" style={style.landingImageStyle} alt=''/>
+                       
+                       
                         <div style={frontStyle}>
                             <LandingInputForm
                                 focusFirst={this.state.first}

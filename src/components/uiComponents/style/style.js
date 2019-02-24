@@ -9,6 +9,25 @@ const adaptiveWhite = 'rgba(255, 255, 255, 0.7)'
 const shadow = '5px 7px 30px hsla(204, 65%, 15%, 0.6)'
 const border = '10px'
 
+
+const interpolate = require('color-interpolate')
+ 
+let bottomColorMap = interpolate(['#1a5175', '#5c7789', '#ffbf71', '#d5e6f2', '#f4faff', '#fff9ed', '#ffd2b2', '#708c9e', '#1a5175'])
+let topColorMap = interpolate(['#001523', '#001523', '#054a77', '#054a77', '#054a77', '#054a77', '#023759', '#001523', '#001523' ])
+
+let currentTime = new Date();
+let hour = currentTime.getHours();
+//let hour = 9
+let shiftedTime = hour / 24
+
+let timeOfDay2 = bottomColorMap(shiftedTime)
+let timeOfDay1 = topColorMap(shiftedTime)
+
+let adaptiveToTimeOfDay = darkBlue
+if (hour < 6 || hour >= 18) {
+      adaptiveToTimeOfDay = adaptiveWhite
+}
+
 const font = 'interstate'
 
 const autocompleteStyle = {
@@ -30,13 +49,13 @@ const autocompleteStyle = {
 
 const landingSubStyle = {
       margin: '40px 0',
-      color: darkBlue,
+      color: adaptiveToTimeOfDay,
       maxWidth: '500px'
 }
 
 const landingHeadingStyle = {
       lineHeight: '60px',
-      color: '#154463',
+      color: adaptiveToTimeOfDay,
       fontWeight: '800',
       fontStyle: 'italic',  
       fontFamily: font,
@@ -374,7 +393,10 @@ const styles = {
       veryLightBlue: veryLightBlue,
       veryDarkBlue: veryDarkBlue,
       white: white,
-      
+
+      timeOfDay1: timeOfDay1,
+      timeOfDay2: timeOfDay2,
+      hour: hour,
 
 }
 

@@ -3,7 +3,6 @@ import queryString from 'query-string'
 import { Redirect } from 'react-router-dom'
 
 import LoadingScreen from './uiComponents/LoadingScreen'
-import LandingBackground from './uiComponents/LandingBackground'
 import styles from './uiComponents/style/style'
 import PanelGroup from './uiComponents/PanelGroup'
 import AccordionSidebar from './uiComponents/AccordionSidebar'
@@ -265,7 +264,6 @@ class Predict extends React.Component {
     if (!this.state.loadedSucessfully) {
       return (
         <div>
-          <LandingBackground opacity={1}/>
           <LoadingScreen/>
         </div>
       )
@@ -273,7 +271,6 @@ class Predict extends React.Component {
 
     return (
       <div>
-          <LandingBackground opacity={1}/>
           {alerts}
           <div style= {styles.predictionWrapper}>
             <div style={styles.sidebarWrapper}>

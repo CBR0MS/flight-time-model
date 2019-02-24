@@ -4,7 +4,6 @@ import { Spring } from 'react-spring/renderprops'
 
 import CheckInputForm from './uiComponents/CheckInputForm'
 import LoadingScreen from './uiComponents/LoadingScreen'
-import LandingBackground from './uiComponents/LandingBackground'
 
 
 class Check extends React.Component {
@@ -62,14 +61,12 @@ class Check extends React.Component {
     if (this.state.autocompleteLocations.length <= 0) {
       return (
         <div>
-          <LandingBackground opacity={1}/>
           <LoadingScreen/>
         </div>
       )
     }
     return (
       <div>
-        <LandingBackground opacity={1}/>
         <Spring
           from={{ opacity: 0 }}
            to={{ opacity: 1 }}>
