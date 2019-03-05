@@ -4,6 +4,7 @@ import styles from './style/style'
 const LoadingScreen= props => {
     return (
         <div style={styles.loading}>
+        <h4 style={styles.loadingText}>{props.text}</h4>
             <div className='lds-ellipsis'>
                 <div></div>
                 <div></div>

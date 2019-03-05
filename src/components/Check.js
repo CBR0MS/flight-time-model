@@ -14,7 +14,8 @@ class Check extends React.Component {
       params: {},
       autocompleteLocations: [],
       autocompleteAirlines: [],
-      locations: []
+      locations: [],
+      loadingText: ''
     }
   }
 
@@ -24,7 +25,7 @@ class Check extends React.Component {
     fetch('./data/airports.json')
       .then(res => res.json())
       .then(data => {
-
+  
           let airports = []
           let airlines = []
           let destinations = []
@@ -61,7 +62,7 @@ class Check extends React.Component {
     if (this.state.autocompleteLocations.length <= 0) {
       return (
         <div>
-          <LoadingScreen/>
+          <LoadingScreen text={this.state.loadingText}/>
         </div>
       )
     }

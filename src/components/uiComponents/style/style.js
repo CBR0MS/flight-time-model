@@ -225,12 +225,13 @@ const inputWrapper = {
 }
 
 const loading = {
-      height: '64px',
-      width: '64px',
+      height: 200,
+      width: 200,
       position: 'fixed',
       top: '40%',
       left: '50%',
-      transform: 'translateX(-50%) translateY(-50%)'
+      transform: 'translateX(-50%) translateY(-50%)',
+      textAlign: 'center',
 }
 
 const airlineBar = {
@@ -334,6 +335,7 @@ const inlineWrapperNoMargin = {
       fontFamily: 'interstate-mono',
        display: 'inline-block',
        color: white,
+       marginBottom: 15,
 }
 
 const flexTable = {
@@ -342,6 +344,11 @@ const flexTable = {
       justifyContent: 'space-around',
       margin: '0 auto',
       width: 320,
+}
+
+const loadingText = {
+      color: adaptiveWhite,
+      width: 200,
 }
 
 const styles = {
@@ -382,6 +389,7 @@ const styles = {
       inlineWrapper: inlineWrapper,
       inlineWrapperNoMargin: inlineWrapperNoMargin,
       flexTable: flexTable,
+      loadingText: loadingText,
 
 
       // global colors 

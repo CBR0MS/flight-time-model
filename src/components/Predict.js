@@ -19,9 +19,38 @@ const FlexTable = props => {
 const NumberGroup = props => {
   return (
     <div style={styles.inlineWrapper}>
-      {props.children}
+      <h1 style={styles.inlineWrapperNoMargin}>{props.title}</h1>
+      {props.suffix !== undefined ? (<p style={styles.inlineWrapperNoMargin}>{props.suffix}</p>) : null}
+      <p>{props.caption}</p>
     </div>
     )
+}
+
+const DataCollection = props => {
+  return (
+  <FlexTable>
+    <NumberGroup
+      title={props.topLeft}
+      suffix={props.topLeftSuffix}
+      caption={props.topLeftCaption}
+    /> 
+    <NumberGroup
+      title={props.topRight}
+      suffix={props.topRightSuffix}
+      caption={props.topRightCaption}
+    /> 
+    <NumberGroup
+      title={props.bottomLeft}
+      suffix={props.bottomLeftSuffix}
+      caption={props.bottomLeftCaption}
+    />
+    <NumberGroup
+      title={props.bottomRight}
+      suffix={props.bottomRightSuffix}
+      caption={props.bottomRightCaption}
+    />
+  </FlexTable>
+  )
 }
 
 class Predict extends React.Component {
@@ -36,6 +65,7 @@ class Predict extends React.Component {
       origin: '',
       destination: '',
       alerts: [],
+      loadingText: ''
     }
     this.removeAlert = this.removeAlert.bind(this)
     this.setSidebarContent = this.setSidebarContent.bind(this)
@@ -61,6 +91,7 @@ class Predict extends React.Component {
     } else if (params.date === ''){
       this.setState({ redirectLoc: `/check${this.props.location.search}&error=emptyDate`})
     } else {
+      this.setState({loadingText: 'Checking route'})
       // if we have the info, proceed to verify it 
       const route = params.origin + '_' + params.dest
       // get the route 
@@ -86,6 +117,9 @@ class Predict extends React.Component {
               if (airlinesInData.length !== passedAirlines.length && params.allAirlines === 'false') {
                   alerts.push('Some airlines you selected do not fly the route you entered')
               }
+
+              this.setState({loadingText: 'Checking airports'})
+
               fetch(`https://api.flygeni.us/airports/${data.route_origin_airport}/`, {
                 headers: {'Authorization': 'Token 62cfb7c66a3ac717a98d9b9d9eb16cdd4b7d15ba'}
               }).then(res => res.json()).then(originData => {
@@ -128,7 +162,8 @@ class Predict extends React.Component {
       }
       return 'th';
     }
-    const formatTime = (n) => `${n / 60 ^ 0}:` + n % 60
+    const formatTime = (n) => `${n / 60 ^ 0}:` + ('0' + n % 60).slice(-2)
+
 
     let firstContent = {}
     firstContent.title = ( <div>
@@ -141,31 +176,21 @@ class Predict extends React.Component {
       <h6>{this.state.originObject.airport_id + '\'s flight statistics →'}</h6>
     )
     firstContent.content = (
-      <div> 
-        <FlexTable>
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.originObject.airport_flight_volume_rank.toLocaleString()}</h1>
-            <p style={styles.inlineWrapperNoMargin}>{ordinalSuffixOf(this.state.originObject.airport_flight_volume_rank)}</p>
-            <p>busiest in U.S.</p>
-          </NumberGroup>  
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.originObject.airport_percent_ontime_departure}</h1>
-            <p style={styles.inlineWrapperNoMargin}>%</p>
-            <p>ontime departures</p>
-          </NumberGroup> 
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.originObject.airport_ontime_departure_rank.toLocaleString()}</h1>
-            <p style={styles.inlineWrapperNoMargin}>{ordinalSuffixOf(this.state.originObject.airport_ontime_departure_rank)}</p>
-            <p>most punctual in U.S.</p>
-          </NumberGroup>  
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.originObject.airport_departure_delay}</h1>
-            <p style={styles.inlineWrapperNoMargin}>min</p>
-            <p>average delay</p>
-          </NumberGroup>  
-        </FlexTable>
-      </div>
+      <DataCollection
+        topLeft={this.state.originObject.airport_flight_volume_rank.toLocaleString()}
+        topLeftSuffix={ordinalSuffixOf(this.state.originObject.airport_flight_volume_rank)}
+        topLeftCaption={'busiest in U.S.'}
+        topRight={this.state.originObject.airport_percent_ontime_departure}
+        topRightSuffix={'%'}
+        topRightCaption={'ontime departures'}
+        bottomLeft={this.state.originObject.airport_ontime_departure_rank.toLocaleString()}
+        bottomLeftSuffix={ordinalSuffixOf(this.state.originObject.airport_ontime_departure_rank)}
+        bottomLeftCaption={'most punctual in U.S.'}
+        bottomRight={this.state.originObject.airport_departure_delay}
+        bottomRightSuffix={'min'}
+        bottomRightCaption={'average delay'}/>
     )
+
     let secondContent = {}
     secondContent.title = (<div>
       <h6>Route</h6>
@@ -175,28 +200,18 @@ class Predict extends React.Component {
       <h6>This route's statistics →</h6>
     )
     secondContent.content = (
-      <FlexTable>
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.routeObject.route_flight_volume_rank.toLocaleString()}</h1>
-            <p style={styles.inlineWrapperNoMargin}>{ordinalSuffixOf(this.state.routeObject.route_flight_volume_rank)}</p>
-            <p>busiest in U.S.</p>
-          </NumberGroup>  
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{formatTime(this.state.routeObject.route_time)}</h1>
-            <p>average flight time</p>
-          </NumberGroup> 
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.routeObject.route_airlines.length}</h1>
-            <p style={styles.inlineWrapperNoMargin}>airlines</p>
-            <p>fly this route</p>
-          </NumberGroup> 
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.routeObject.route_flights_per_year.toLocaleString()}</h1>
-            <p>flights per year</p>
-          </NumberGroup> 
-        </FlexTable>
+      <DataCollection
+        topLeft={this.state.routeObject.route_flight_volume_rank.toLocaleString()}
+        topLeftSuffix={ordinalSuffixOf(this.state.routeObject.route_flight_volume_rank)}
+        topLeftCaption={'busiest in U.S.'}
+        topRight={formatTime(this.state.routeObject.route_time)}
+        topRightCaption={'average flight time'}
+        bottomLeft={this.state.routeObject.route_airlines.length}
+        bottomLeftSuffix={'airlines'}
+        bottomLeftCaption={'fly this route'}
+        bottomRight={this.state.routeObject.route_flights_per_year.toLocaleString()}
+        bottomRightCaption={'flights per year'}/>
     )
-
     let thirdContent = {}
     thirdContent.title = (<div>
       <h6>Destination Airport</h6>
@@ -207,28 +222,19 @@ class Predict extends React.Component {
       <h6>{this.state.destinationObject.airport_id + '\'s flight statistics →'}</h6>
     )
     thirdContent.content = (
-      <FlexTable>
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.destinationObject.airport_flight_volume_rank.toLocaleString()}</h1>
-            <p style={styles.inlineWrapperNoMargin}>{ordinalSuffixOf(this.state.destinationObject.airport_flight_volume_rank)}</p>
-            <p>busiest in U.S.</p>
-          </NumberGroup>  
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.destinationObject.airport_percent_ontime_departure}</h1>
-            <p style={styles.inlineWrapperNoMargin}>%</p>
-            <p>ontime departures</p>
-          </NumberGroup> 
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.destinationObject.airport_ontime_departure_rank.toLocaleString()}</h1>
-            <p style={styles.inlineWrapperNoMargin}>{ordinalSuffixOf(this.state.destinationObject.airport_ontime_departure_rank)}</p>
-            <p>most punctual in U.S.</p>
-          </NumberGroup>  
-          <NumberGroup>
-            <h1 style={styles.inlineWrapperNoMargin}>{this.state.destinationObject.airport_departure_delay}</h1>
-            <p style={styles.inlineWrapperNoMargin}>min</p>
-            <p>average delay</p>
-          </NumberGroup>  
-        </FlexTable>
+       <DataCollection
+        topLeft={this.state.destinationObject.airport_flight_volume_rank.toLocaleString()}
+        topLeftSuffix={ordinalSuffixOf(this.state.destinationObject.airport_flight_volume_rank)}
+        topLeftCaption={'busiest in U.S.'}
+        topRight={this.state.destinationObject.airport_percent_ontime_departure}
+        topRightSuffix={'%'}
+        topRightCaption={'ontime departures'}
+        bottomLeft={this.state.destinationObject.airport_ontime_departure_rank.toLocaleString()}
+        bottomLeftSuffix={ordinalSuffixOf(this.state.destinationObject.airport_ontime_departure_rank)}
+        bottomLeftCaption={'most punctual in U.S.'}
+        bottomRight={this.state.destinationObject.airport_departure_delay}
+        bottomRightSuffix={'min'}
+        bottomRightCaption={'average delay'}/>
     )
 
     let newData = [{content: firstContent, key: uuidv1(), open: false }]
@@ -254,7 +260,7 @@ class Predict extends React.Component {
             </PanelGroup>
         )
     }
-    
+
     if (this.state.redirectLoc !== ''){
       return (
         <Redirect to={ this.state.redirectLoc } push />
@@ -264,7 +270,7 @@ class Predict extends React.Component {
     if (!this.state.loadedSucessfully) {
       return (
         <div>
-          <LoadingScreen/>
+          <LoadingScreen text={this.state.loadingText}/>
         </div>
       )
     }
