@@ -240,7 +240,7 @@ class Predict extends React.Component {
     )
 
     let newData = [{content: firstContent, key: uuidv1(), open: false }]
-    newData.push({content: secondContent, key: uuidv1(), open: true })
+    newData.push({content: secondContent, key: uuidv1(), open: false })
     newData.push({content: thirdContent, key: uuidv1(), open: false })
 
     this.setState({ sidebarContent: newData })

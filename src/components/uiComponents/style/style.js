@@ -76,13 +76,14 @@ const interiorGradient = {
 }
 
 const navDummyStyle = {
-      //WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10px)',
+      WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,1) 3px)',
       height: 'calc(100vh - 100px)',
       position: 'fixed',
       width: '100vw',
       bottom: 0,
       left: 0,
-      overflow: 'auto'
+      overflow: 'auto',
+      zIndex: 2,
 }
 
 const navWrapperStyle = {
@@ -90,7 +91,8 @@ const navWrapperStyle = {
       top: 0,
       left: 0,
       width: '100vw',
-      height: 100
+      height: 100,
+      zIndex: 200,
 }
 
 const hamburgerStyle = {
@@ -113,11 +115,11 @@ const menuContents =  {
 const menuBackground = {
       height: '100vh',
       width: '100vw',
-      position: 'absolute',
+      position: 'fixed',
       top: 0,
       left: 0,
       backgroundColor: lightBlue,
-      zIndex: 20,
+      zIndex: 200,
 }
 
 const goButtonInterior = {
@@ -182,7 +184,7 @@ const logoStyle = {
       top: '0px',
       fontFamily: 'PanAm',
       position: 'absolute',
-      zIndex: 100
+      zIndex: 1000
 }
 
 const checkInputStyle = {
@@ -211,7 +213,7 @@ const checkStyle = {
       minHeight: '600px',
       padding: '20px',
       margin: '0 auto',
-      marginTop: '80px',
+      marginTop: 30,
       backgroundColor: lightBlue,
       boxShadow: shadow,
       borderRadius: border,
@@ -331,7 +333,7 @@ const contentWrapper = {
 const predictionWrapper = {
       maxWidth: 1900,
       //width: '90%',
-      margin: '60px auto',
+      margin: '20px auto',
       display: 'flex',
       flexFlow: 'row wrap',
       justifyContent: 'center',
