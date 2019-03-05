@@ -116,15 +116,15 @@ class Landing extends React.Component {
 
         const { breakpoints, currentBreakpoint } = this.props
         let maxWidth = '320px'
-        let dispTop = '120px'
+        let dispTop = '60'
         
         if (breakpoints[currentBreakpoint] > breakpoints.mobile) {
             maxWidth = '620px'
-            dispTop = '200px'
+            dispTop = '100'
         } 
         if (breakpoints[currentBreakpoint] > breakpoints.tablet) {
             maxWidth = '800px'
-            dispTop = '250px'
+            dispTop = '125px'
         } 
         if (breakpoints[currentBreakpoint] > breakpoints.desktopLarge) {
             maxWidth = '1040px'

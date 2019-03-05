@@ -16,40 +16,49 @@ class Navigation extends React.Component {
         if (breakpoints[currentBreakpoint] > breakpoints.tablet){
                 newLogoStyle.fontSize= '50px'
                 newLogoStyle.left = '40px'
-                newLogoStyle.top = '20px'
+                newLogoStyle.top = 0
         }
         
         return (
             <div>
-                <nav>
-                    <ul>
-                      <li style={newLogoStyle}>
-                        <Link to="/">
-                            <div >FlyGenius</div>
-                        </Link>
-                      </li>
-                      <li className='nav-item'>
-    
-                        <Menu >
+                <div style={style.navWrapperStyle} >
+                    <nav>
+                        <ul>
+                          <li style={newLogoStyle}>
                             <Link to="/">
-                                <div style={style.menuText}>Home</div>
+                                <div >FlyGenius</div>
                             </Link>
-                            <Link to="/check">
-                                <div style={style.menuText}>Check a Flight</div>
-                            </Link>
-                            <Link to="/about">
-                                <div style={style.menuText}>How it Works</div>
-                            </Link>
-                            <a href="https://api.flygeni.us/docs">
-                                <div style={style.menuText}>FlyGenius API</div>
-                            </a>
+                          </li>
+                          <li className='nav-item'>
+        
+                            <Menu >
+                                <Link to="/">
+                                    <div style={style.menuText}>Home</div>
+                                </Link>
+                                <Link to="/check">
+                                    <div style={style.menuText}>Check a Flight</div>
+                                </Link>
+                                <Link to="/about">
+                                    <div style={style.menuText}>How it Works</div>
+                                </Link>
+                                <a href="https://api.flygeni.us/docs">
+                                    <div style={style.menuText}>FlyGenius API</div>
+                                </a>
 
-                        </Menu>
+                            </Menu>
 
-                      </li>
-                    </ul>
-                    
-                </nav>
+                          </li>
+                        </ul>
+                        
+                    </nav>
+                </div>
+                <div style={style.navDummyStyle}>
+                    <div style={style.interiorGradient}>
+                        {this.props.children}
+                    </div>
+
+                </div>
+               
             </div>
             
         )

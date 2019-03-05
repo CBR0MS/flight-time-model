@@ -71,6 +71,28 @@ const landingInputStyle = {
       marginRight: '10px'
 }
 
+const interiorGradient = {
+      
+}
+
+const navDummyStyle = {
+      WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 20px, rgba(0,0,0,1) 50px, rgba(0,0,0,1) 100%)',
+      height: 'calc(100vh - 100px)',
+      position: 'fixed',
+      width: '100vw',
+      bottom: 0,
+      left: 0,
+      overflow: 'auto'
+}
+
+const navWrapperStyle = {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: 100
+}
+
 const hamburgerStyle = {
       width: '50px',
       height: '50px',
@@ -78,7 +100,7 @@ const hamburgerStyle = {
       right: '20px',
       zIndex: '1000',
       cursor: 'pointer',
-      top: '40px'
+      top: '20px'
 }
 
 const menuContents =  {
@@ -107,7 +129,7 @@ const goButtonInterior = {
 const landingImageStyle = {
       width: '100vw',
       height: '100vh',
-      position: 'absolute',
+      position: 'fixed',
       top: 0,
       left: 0,
       zIndex: -2,
@@ -157,7 +179,7 @@ const landingContainerStyle = {
 const logoStyle = {
       fontSize: '40px',
       left: '20px',
-      top: '10px',
+      top: '0px',
       fontFamily: 'PanAm',
       position: 'absolute',
       zIndex: 100
@@ -357,6 +379,9 @@ const styles = {
       landingInputStyle: landingInputStyle,
       landingHeadingStyle: landingHeadingStyle,
       landingSubStyle: landingSubStyle,
+      navWrapperStyle: navWrapperStyle,
+      interiorGradient: interiorGradient,
+      navDummyStyle: navDummyStyle,
       hamburgerStyle: hamburgerStyle,
       menuContents: menuContents,
       menuBackground: menuBackground,

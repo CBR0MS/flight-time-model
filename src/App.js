@@ -26,7 +26,7 @@ class App extends React.Component {
         <LandingBackground />
          {image}
 
-        <Navigation />
+        <Navigation>
           <Switch>
             <Route path='/' component={Landing} exact />
             <Route path='/predict' component={Predict} />
@@ -34,6 +34,7 @@ class App extends React.Component {
             <Route path='/about' component={About} />
             <Route component={Error} />
           </Switch>
+        </Navigation>
         </div>
 
       </BrowserRouter>
