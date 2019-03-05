@@ -76,7 +76,7 @@ const interiorGradient = {
 }
 
 const navDummyStyle = {
-      WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 20px, rgba(0,0,0,1) 50px, rgba(0,0,0,1) 100%)',
+      //WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10px)',
       height: 'calc(100vh - 100px)',
       position: 'fixed',
       width: '100vw',

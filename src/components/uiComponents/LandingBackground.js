@@ -57,17 +57,17 @@ class LandingBackground extends React.Component {
 
             const revisedStateValues = changeAngle(this.state.position, this.state.time, this.state.goingBackwards)
 
-            const height = Math.max(document.body.scrollHeight, 
-                                  document.body.offsetHeight, 
-                                  document.documentElement.clientHeight, 
-                                  document.documentElement.scrollHeight, 
-                                  document.documentElement.offsetHeight )
-            const newHeight = height.toString() + 'px'
+            // const height = Math.max(document.body.scrollHeight, 
+            //                       document.body.offsetHeight, 
+            //                       document.documentElement.clientHeight, 
+            //                       document.documentElement.scrollHeight, 
+            //                       document.documentElement.offsetHeight )
+            // const newHeight = height.toString() + 'px'
             this.setState({
                 position: revisedStateValues[0], 
                 time: revisedStateValues[1],
                 goingBackwards: revisedStateValues[2],
-                height: newHeight 
+                // height: newHeight 
             }) 
     
         }, 1000 / fps);

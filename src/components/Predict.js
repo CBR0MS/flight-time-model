@@ -85,6 +85,9 @@ class Predict extends React.Component {
   componentDidMount(){
 
     const params = queryString.parse(this.props.location.search)
+
+    document.title =  params.origin + ' to ' + params.dest + ' - FlyGenius'
+
     // check if basic info is missing and redirect
     if (params.dest === '' || params.orgin === '') {
       this.setState({ redirectLoc: `/check${this.props.location.search}&error=emptyPlaces`})
@@ -107,7 +110,6 @@ class Predict extends React.Component {
               const airlinesInData = data.route_airlines.filter((value, index, arr) =>{
                   return passedAirlines.includes(value)
               })
-
 
               if (params.allAirlines || airlinesInData.length >= 1) {
                 console.log('good!')
@@ -201,11 +203,11 @@ class Predict extends React.Component {
     )
     secondContent.content = (
       <DataCollection
-        topLeft={this.state.routeObject.route_flight_volume_rank.toLocaleString()}
-        topLeftSuffix={ordinalSuffixOf(this.state.routeObject.route_flight_volume_rank)}
-        topLeftCaption={'busiest in U.S.'}
-        topRight={formatTime(this.state.routeObject.route_time)}
-        topRightCaption={'average flight time'}
+        topRight={this.state.routeObject.route_flight_volume_rank.toLocaleString()}
+        topRightSuffix={ordinalSuffixOf(this.state.routeObject.route_flight_volume_rank)}
+        topRightCaption={'busiest in U.S.'}
+        topLeft={formatTime(this.state.routeObject.route_time)}
+        topLeftCaption={'average flight time'}
         bottomLeft={this.state.routeObject.route_airlines.length}
         bottomLeftSuffix={'airlines'}
         bottomLeftCaption={'fly this route'}
