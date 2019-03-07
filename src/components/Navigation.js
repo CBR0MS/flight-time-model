@@ -52,12 +52,7 @@ class Navigation extends React.Component {
                         
                     </nav>
                 </div>
-                <div style={style.navDummyStyle}>
-                    <div style={style.interiorGradient}>
-                        {this.props.children}
-                    </div>
-
-                </div>
+                
                
             </div>
             

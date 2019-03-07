@@ -6,6 +6,7 @@ import LoadingScreen from './uiComponents/LoadingScreen'
 import styles from './uiComponents/style/style'
 import PanelGroup from './uiComponents/PanelGroup'
 import AccordionSidebar from './uiComponents/AccordionSidebar'
+import ContentWrapper from './uiComponents/ContentWrapper'
 
 const uuidv1 = require('uuid/v1')
 
@@ -25,6 +26,7 @@ const NumberGroup = props => {
     </div>
     )
 }
+
 
 const DataCollection = props => {
   return (
@@ -61,6 +63,7 @@ class Predict extends React.Component {
       couldNotCalcAllAirlines: false,
       redirectLoc: '',
       loadedSucessfully: false,
+      apiError: false,
       airlines: [],
       origin: '',
       destination: '',
@@ -69,6 +72,7 @@ class Predict extends React.Component {
     }
     this.removeAlert = this.removeAlert.bind(this)
     this.setSidebarContent = this.setSidebarContent.bind(this)
+    this.tooManyRequestsError = this.tooManyRequestsError.bind(this)
   }
 
   removeAlert(valueToRemove) {
@@ -79,6 +83,15 @@ class Predict extends React.Component {
     })
     this.setState({
         alerts: newAlerts,
+    })
+}
+
+tooManyRequestsError() {
+  let alerts = this.state.alerts
+  alerts.push('You\'ve made too many requests. Please try again later!')
+  this.setState({
+    alerts: alerts,
+    apiError: true,
     })
 }
 
@@ -98,14 +111,18 @@ class Predict extends React.Component {
       // if we have the info, proceed to verify it 
       const route = params.origin + '_' + params.dest
       // get the route 
-      fetch(`https://api.flygeni.us/routes/${route}/?use_rc_ids=True`, {
-        headers: {'Authorization': 'Token 62cfb7c66a3ac717a98d9b9d9eb16cdd4b7d15ba'}
-      })
+      fetch(`https://api.flygeni.us/routes/${route}/?use_rc_ids=True`)
         .then(res => res.json())
         .then(data => {
             if (data.detail === 'Not found.'){
+
               this.setState({ redirectLoc: `/check${this.props.location.search}&error=badRoute`})
+
+            } else if (data.route_airlines === undefined){
+  
+              this.tooManyRequestsError()
             } else {
+
               const passedAirlines = params.airlines.split(',')
               const airlinesInData = data.route_airlines.filter((value, index, arr) =>{
                   return passedAirlines.includes(value)
@@ -122,13 +139,9 @@ class Predict extends React.Component {
 
               this.setState({loadingText: 'Checking airports'})
 
-              fetch(`https://api.flygeni.us/airports/${data.route_origin_airport}/`, {
-                headers: {'Authorization': 'Token 62cfb7c66a3ac717a98d9b9d9eb16cdd4b7d15ba'}
-              }).then(res => res.json()).then(originData => {
+              fetch(`https://api.flygeni.us/airports/${data.route_origin_airport}/`).then(res => res.json()).then(originData => {
 
-                fetch(`https://api.flygeni.us/airports/${data.route_destination_airport}/`, {
-                  headers: {'Authorization': 'Token 62cfb7c66a3ac717a98d9b9d9eb16cdd4b7d15ba'}
-                }).then(res => res.json()).then(destinationData => {
+                fetch(`https://api.flygeni.us/airports/${data.route_destination_airport}/`).then(res => res.json()).then(destinationData => {
 
                   this.setState({
                     alerts: alerts,
@@ -140,10 +153,10 @@ class Predict extends React.Component {
                   this.setSidebarContent()
                   this.setState({loadedSucessfully: true})
                   
-                })
-              })
+                }).catch(() => this.tooManyRequestsError())
+              }).catch(() => this.tooManyRequestsError())
             }
-        })
+        }).catch(() => this.tooManyRequestsError())
     }
   }
 
@@ -269,6 +282,31 @@ class Predict extends React.Component {
       )
     }
 
+    if (this.state.apiError){
+      alerts = (
+            <PanelGroup 
+            containerStyle={styles.alertBox}
+            badgeStyle={styles.alertBar}
+            fadeOut={false}
+            removeValue={() => {
+              this.removeAlert()
+              this.setState({
+                redirectLoc: '/'
+              })
+
+            }}
+            showValue={(alert) => alert}
+            values={this.state.alerts}>
+            </PanelGroup>
+        )
+
+      return (
+        <div>
+          {alerts}
+        </div>
+      )
+    }
+
     if (!this.state.loadedSucessfully) {
       return (
         <div>
@@ -278,20 +316,24 @@ class Predict extends React.Component {
     }
 
     return (
+
       <div>
           {alerts}
+        <ContentWrapper>
           <div style= {styles.predictionWrapper}>
             <div style={styles.sidebarWrapper}>
               <AccordionSidebar
                 content={this.state.sidebarContent}/>
             </div> 
             <div style={styles.contentWrapper}>
-              <AccordionSidebar
-                content={this.state.sidebarContent}/>
+              {/*<AccordionSidebar
+                content={this.state.sidebarContent}/>*/}
             </div> 
           </div>
+        </ContentWrapper>
+        
 
-        </div>
+      </div>
     )
   }
 

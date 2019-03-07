@@ -76,8 +76,9 @@ const interiorGradient = {
 }
 
 const navDummyStyle = {
-      WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,1) 3px)',
-      height: 'calc(100vh - 100px)',
+      WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.3) 60px, rgba(0,0,0,1) 140px)',
+      paddingTop: 100,
+      height: '100vh',
       position: 'fixed',
       width: '100vw',
       bottom: 0,
@@ -173,9 +174,10 @@ const landingPageBackground = {
 }
 
 const landingContainerStyle = {
-      position: 'absolute',
-      left: '50%',
-      transform: 'translateX(-50%)',
+      maxWidth: 1000,
+      width: '90%',
+      margin: '12vh auto',
+
 }
 
 const logoStyle = {
@@ -311,7 +313,7 @@ const alertBox = {
       transform: 'translateX(-50%)',
       width: '320px',
       height: '100px',
-      zIndex: 1000,
+      zIndex: 2000,
 }
 
 const sidebarWrapper = {

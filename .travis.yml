@@ -12,4 +12,4 @@ deploy:
   domain: flygenius.surge.sh
   project: ./build/
 on:
-  branch: master
+  branch: deploy

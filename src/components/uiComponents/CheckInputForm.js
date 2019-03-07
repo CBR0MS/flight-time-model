@@ -8,6 +8,7 @@ import InputAutocompleteField from './InputAutocompleteField'
 import InputWrapper from './InputWrapper'
 import AirlinePicker from './AirlinePicker'
 import PanelGroup from './PanelGroup'
+import ContentWrapper from './ContentWrapper'
 
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -212,81 +213,87 @@ class CheckInputForm extends React.Component {
         return (
             <div> 
                 {alerts}
-                <div style={styles.checkStyleOuter}>
-                   
-                    <div style={styles.checkStyle}>
 
-                        <div style={styles.panelWrapper}>
+                <ContentWrapper>
+                    <div style={styles.checkStyleOuter}>
+                       
+                        <div style={styles.checkStyle}>
 
-                            <h1 style={revisedHeadingStyle}>Check a Flight</h1>
-                            <InputWrapper title='Origin'>
-                                <InputAutocompleteField 
-                                val={this.state.origin} 
-                                inStyle={styles.checkInputBoxStyle}
-                                key='origin'
-                                id='org_id'
-                                onChange={this.handleForm}
-                                autocompleteValues={this.props.autocompleteDataLocations}
-                                />
-                            </InputWrapper>
+                            <div style={styles.panelWrapper}>
 
-                            <InputWrapper title='Destination'>
-                                <InputAutocompleteField 
-                                    val={this.state.destination} 
+                                <h1 style={revisedHeadingStyle}>Check a Flight</h1>
+                                <InputWrapper title='Origin'>
+                                    <InputAutocompleteField 
+                                    val={this.state.origin} 
                                     inStyle={styles.checkInputBoxStyle}
-                                    key='destination'
-                                    id='dest_id'
+                                    key='origin'
+                                    id='org_id'
                                     onChange={this.handleForm}
                                     autocompleteValues={this.props.autocompleteDataLocations}
-                                />
-                            </InputWrapper>
-
-                            <InputWrapper title='Date'>
-                                <div style={styles.checkInputBoxStyle}>
-                                    <DatePicker
-                                        selected={this.state.date}
-                                        onChange={this.handleDateChange}
                                     />
-                                </div>
-                            </InputWrapper>
-                            <div> 
-                                <GoButton 
-                                    outlined={allOutlined}
-                                    onClick={this.handleAllAirlinesButton}
-                                    centered={false} 
-                                    color={styles.darkBlue}
-                                    interiorColor={styles.adaptiveWhite}>
-                                    <span>Compare All Airlines</span>
-                                </GoButton>
+                                </InputWrapper>
 
+                                <InputWrapper title='Destination'>
+                                    <InputAutocompleteField 
+                                        val={this.state.destination} 
+                                        inStyle={styles.checkInputBoxStyle}
+                                        key='destination'
+                                        id='dest_id'
+                                        onChange={this.handleForm}
+                                        autocompleteValues={this.props.autocompleteDataLocations}
+                                    />
+                                </InputWrapper>
+
+                                <InputWrapper title='Date'>
+                                    <div style={styles.checkInputBoxStyle}>
+                                        <DatePicker
+                                            selected={this.state.date}
+                                            onChange={this.handleDateChange}
+                                        />
+                                    </div>
+                                </InputWrapper>
+                                <div> 
+                                    <GoButton 
+                                        outlined={allOutlined}
+                                        onClick={this.handleAllAirlinesButton}
+                                        centered={false} 
+                                        color={styles.darkBlue}
+                                        interiorColor={styles.adaptiveWhite}>
+                                        <span>Compare All Airlines</span>
+                                    </GoButton>
+
+                                    <GoButton 
+                                        outlined={!allOutlined}
+                                        onClick={this.handleAllAirlinesButton}
+                                        centered={false} 
+                                        color={styles.darkBlue}
+                                        interiorColor={styles.adaptiveWhite}>
+                                        <span>Compare Selected Airlines</span>
+                                    </GoButton>
+                                </div>
+                                {airlinePicker}
                                 <GoButton 
-                                    outlined={!allOutlined}
-                                    onClick={this.handleAllAirlinesButton}
-                                    centered={false} 
-                                    color={styles.darkBlue}
-                                    interiorColor={styles.adaptiveWhite}>
-                                    <span>Compare Selected Airlines</span>
+                                    centered={true} 
+                                    color={styles.orange}
+                                    interiorColor={styles.darkBlue}
+                                    shadow={true}
+                                    link={`/predict?origin=${this.state.org_id}`
+                                          +`&dest=${this.state.dest_id}`
+                                          +`&airlines=${this.state.airlines}`
+                                          +`&allAirlines=${this.state.allAirlines}`
+                                          +`&date=${this.state.date !== null 
+                                            ? this.state.date.toISOString()
+                                            : 0 }`}>
+                                        <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>   
+                                    
                                 </GoButton>
                             </div>
-                            {airlinePicker}
-                            <GoButton 
-                                centered={true} 
-                                color={styles.orange}
-                                interiorColor={styles.darkBlue}
-                                shadow={true}
-                                link={`/predict?origin=${this.state.org_id}`
-                                      +`&dest=${this.state.dest_id}`
-                                      +`&airlines=${this.state.airlines}`
-                                      +`&allAirlines=${this.state.allAirlines}`
-                                      +`&date=${this.state.date !== null 
-                                        ? this.state.date.toISOString()
-                                        : 0 }`}>
-                                    <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>   
-                                
-                            </GoButton>
                         </div>
-                    </div>
-                </div> 
+                    </div> 
+                    
+
+                </ContentWrapper>
+                
             </div>     
         )
     }

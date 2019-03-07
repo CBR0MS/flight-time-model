@@ -1,9 +1,9 @@
 import React from 'react'
-import { withBreakpoints } from 'react-breakpoints'
 import { Spring } from 'react-spring/renderprops'
 
 import style from './uiComponents/style/style'
 import LandingInputForm from './uiComponents/LandingInputForm'
+import ContentWrapper from './uiComponents/ContentWrapper'
 
 
 
@@ -108,32 +108,14 @@ class Landing extends React.Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.interval)
+        if (this.interval !== undefined){
+            clearInterval(this.interval)
+        }
+        
     }
 
 
     render() {
-
-        const { breakpoints, currentBreakpoint } = this.props
-        let maxWidth = '320px'
-        let dispTop = '60'
-        
-        if (breakpoints[currentBreakpoint] > breakpoints.mobile) {
-            maxWidth = '620px'
-            dispTop = '100'
-        } 
-        if (breakpoints[currentBreakpoint] > breakpoints.tablet) {
-            maxWidth = '800px'
-            dispTop = '125px'
-        } 
-        if (breakpoints[currentBreakpoint] > breakpoints.desktopLarge) {
-            maxWidth = '1040px'
-        } 
-        
-        let frontStyle = Object.assign({}, style.landingContainerStyle)
-        
-        frontStyle.top = dispTop
-        frontStyle.width = maxWidth
 
         return (
             <div >
@@ -144,8 +126,8 @@ class Landing extends React.Component {
                   {props => 
                     <div style={props}>
                        
-                       
-                        <div style={frontStyle}>
+                        <ContentWrapper>
+                        <div style={style.landingContainerStyle}>
                             <LandingInputForm
                                 focusFirst={this.state.first}
                                 focusSecond={this.state.second}
@@ -155,6 +137,9 @@ class Landing extends React.Component {
                                 secondAutocompleteValues={this.state.autocompleteValues}
                                 />
                         </div>
+                            
+                        </ContentWrapper>
+                        
                   </div>}
                 </Spring>
                 
@@ -163,7 +148,7 @@ class Landing extends React.Component {
     }
 }
 
-export default withBreakpoints(Landing)
+export default Landing
 
 function randomNum(length) {
     return Math.ceil(Math.random() * length-1)
