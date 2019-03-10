@@ -11,7 +11,7 @@ const GoButton = props => {
             joinedStyles.marginRight = 'auto'
         } else {
             joinedStyles.display = 'inline-block'
-            joinedStyles.margin = '10px 20px 10px 10px'
+            joinedStyles.margin = '10px 30px 10px 0'
         }
 
         if (!props.shadow){
@@ -19,7 +19,7 @@ const GoButton = props => {
         }
 
         if (props.outlined) {
-            joinedStyles.border = '2px solid ' +  props.interiorColor
+            joinedStyles.border = '1px solid ' +  props.interiorColor
         }
         joinedStyles.backgroundColor = props.color
         joinedStylesInterior.color = props.interiorColor

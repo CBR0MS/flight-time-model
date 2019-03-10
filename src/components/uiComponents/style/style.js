@@ -24,7 +24,7 @@ let timeOfDay2 = bottomColorMap(shiftedTime)
 let timeOfDay1 = topColorMap(shiftedTime)
 
 let adaptiveToTimeOfDay = darkBlue
-if (hour < 6 || hour >= 18) {
+if (hour < 6 || hour >= 19) {
       adaptiveToTimeOfDay = adaptiveWhite
 }
 
@@ -45,6 +45,7 @@ const autocompleteStyle = {
       boxShadow: shadow,
       borderRadius: border,
       zIndex: '200',
+      marginBottom: 100,
 }
 
 const landingSubStyle = {
@@ -76,7 +77,7 @@ const interiorGradient = {
 }
 
 const navDummyStyle = {
-      WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.3) 60px, rgba(0,0,0,1) 140px)',
+      WebkitMaskImage: 'linear-gradient( rgba(0,0,0,0) 40px, rgba(0,0,0,1) 100px)',
       paddingTop: 100,
       height: '100vh',
       position: 'fixed',
@@ -159,7 +160,7 @@ const goButton = {
       marginTop: '60px',
       marginBottom: '40px',
       transition: 'all 0.3s linear',
-      border: '2px solid transparent',
+      border: '1px solid transparent',
 }
 
 const landingPageBackground = {
@@ -205,7 +206,7 @@ const checkInputStyle = {
 
 const checkInputBoxStyle = {
       display: 'inline-block',
-      margin: '40px 10px'
+      margin: '40px 10px 20px 0px'
 }
 
 const checkStyle = {
@@ -229,7 +230,7 @@ const checkStyleOuter = {
 
 const panelWrapper = {
       margin: '0 auto',
-      width: '100%',
+      width: '95%',
       maxWidth: '680px',
       transition: 'all 0.3s linear'
 }
@@ -238,7 +239,7 @@ const inputWrapperTitle = {
       // display: 'block',
       // width: '300px',
       marginBottom: '-35px',
-      marginLeft: '15px',
+      marginLeft: '0',
       color: white,
 }     
 
@@ -339,6 +340,7 @@ const predictionWrapper = {
       display: 'flex',
       flexFlow: 'row wrap',
       justifyContent: 'center',
+      minHeight: '82vh'
 
 }
 
@@ -375,6 +377,25 @@ const flexTable = {
 const loadingText = {
       color: adaptiveWhite,
       width: 200,
+}
+
+const aboutPageContent = {
+      maxWidth: 500,
+      margin: '0 auto',
+      padding: 10,
+      color: adaptiveToTimeOfDay,
+      marginBottom: 100,
+
+}
+
+const aboutMargins = {
+      margin: '25px 0',
+}
+
+const footer = {
+      width: 300,
+      margin: '0 auto',
+      fontSize: '85%',
 }
 
 const styles = {
@@ -419,6 +440,9 @@ const styles = {
       inlineWrapperNoMargin: inlineWrapperNoMargin,
       flexTable: flexTable,
       loadingText: loadingText,
+      aboutPageContent: aboutPageContent,
+      aboutMargins: aboutMargins,
+      footer: footer,
 
 
       // global colors 
@@ -430,7 +454,7 @@ const styles = {
       veryLightBlue: veryLightBlue,
       veryDarkBlue: veryDarkBlue,
       white: white,
-
+      adaptiveToTimeOfDay: adaptiveToTimeOfDay,
       timeOfDay1: timeOfDay1,
       timeOfDay2: timeOfDay2,
       hour: hour,

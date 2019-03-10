@@ -143,7 +143,7 @@ class CheckInputForm extends React.Component {
         let revisedHeadingStyle = Object.assign({}, styles.landingHeadingStyle)
 
         revisedHeadingStyle.color = styles.white    
-        revisedHeadingStyle.paddingLeft = '15px'
+        //revisedHeadingStyle.paddingLeft = '15px'
         revisedHeadingStyle.marginBottom = '25px'
         revisedHeadingStyle.marginTop = '25px'
 
@@ -290,7 +290,6 @@ class CheckInputForm extends React.Component {
                             </div>
                         </div>
                     </div> 
-                    
 
                 </ContentWrapper>
                 

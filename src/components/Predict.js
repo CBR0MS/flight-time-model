@@ -7,6 +7,7 @@ import styles from './uiComponents/style/style'
 import PanelGroup from './uiComponents/PanelGroup'
 import AccordionSidebar from './uiComponents/AccordionSidebar'
 import ContentWrapper from './uiComponents/ContentWrapper'
+import Footer from './uiComponents/Footer'
 
 const uuidv1 = require('uuid/v1')
 
@@ -330,9 +331,11 @@ tooManyRequestsError() {
                 content={this.state.sidebarContent}/>*/}
             </div> 
           </div>
+          <Footer/>
+
         </ContentWrapper>
         
-
+      
       </div>
     )
   }

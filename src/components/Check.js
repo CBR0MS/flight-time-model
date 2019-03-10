@@ -67,22 +67,19 @@ class Check extends React.Component {
       )
     }
     return (
-      <div>
-        <Spring
-          from={{ opacity: 0 }}
-           to={{ opacity: 1 }}>
-          {props => 
-            <div style={props}>
-            <CheckInputForm 
-              params={this.state.params}
-              autocompleteDataLocations={this.state.autocompleteLocations}
-              autocompleteDataAirlines={this.state.autocompleteAirlines}
-              locations={this.state.locations}
-            />
-          </div>}
-        </Spring>
-        
-      </div>
+      <Spring
+        from={{ opacity: 0 }}
+         to={{ opacity: 1 }}>
+        {props => 
+          <div style={props}>
+          <CheckInputForm 
+            params={this.state.params}
+            autocompleteDataLocations={this.state.autocompleteLocations}
+            autocompleteDataAirlines={this.state.autocompleteAirlines}
+            locations={this.state.locations}
+          />
+        </div>}
+      </Spring>
     )
   }
 

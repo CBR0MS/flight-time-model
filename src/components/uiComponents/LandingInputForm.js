@@ -51,8 +51,18 @@ class LandingInputForm extends React.Component {
                 <GoButton 
                     color={styles.orange}
                     shadow={true}
+                    interiorColor={styles.darkBlue}
                     link={`/check?origin=${this.state.firstVal}&dest=${this.state.secondVal}`} > 
-                        <span style={{color: styles.darkBlue}}>Check my flight &rarr;</span>
+                        <span>Check my flight &rarr;</span>
+                </GoButton>
+
+                <GoButton 
+                    outlined={true}
+                    color={'transparent'}
+                    interiorColor={styles.adaptiveToTimeOfDay}
+                    shadow={false}
+                    link={`/about`} > 
+                        <span>How it works</span>
                 </GoButton>
                 
             </div>
