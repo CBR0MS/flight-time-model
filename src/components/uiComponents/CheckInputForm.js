@@ -6,7 +6,6 @@ import styles from './style/style'
 import GoButton from './GoButton'
 import InputAutocompleteField from './InputAutocompleteField'
 import InputWrapper from './InputWrapper'
-import AirlinePicker from './AirlinePicker'
 import PanelGroup from './PanelGroup'
 import ContentWrapper from './ContentWrapper'
 
@@ -21,26 +20,27 @@ class CheckInputForm extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this)
         this.findMostSimilarInput = this.findMostSimilarInput.bind(this)
         this.handleAllAirlinesButton = this.handleAllAirlinesButton.bind(this)
+        this.handleConnectionsButton = this.handleConnectionsButton.bind(this)
         this.handleAirlineSelect = this.handleAirlineSelect.bind(this)
         this.removeAirline = this.removeAirline.bind(this)
         this.removeAlert = this.removeAlert.bind(this)
 
         this.state = {
-            origin: '',
-            destination: '',
-            dest_id: '',
-            org_id: '',
+            origin: '', org_id: '',
+            destination: '', dest_id: '',
+            connection: '', conn_id: '',
             airline: '',
             airlines: [],
             alerts: [],
             allAirlines: true,
             selectAirlines: false,
+            connections: false,
             date: new Date()
         }
     }
 
     handleForm(fieldId, value) {
-        if ((fieldId === 'org_id' || fieldId === 'dest_id') && (value.includes('(') && value.includes(')'))){
+        if ((fieldId === 'org_id' || fieldId === 'dest_id' || fieldId === 'conn_id') && (value.includes('(') && value.includes(')'))){
             value = value.split(' (')[1]
             value = value.split(')')[0]
         }
@@ -53,6 +53,10 @@ class CheckInputForm extends React.Component {
 
     handleAllAirlinesButton(e){
         this.setState({allAirlines: !this.state.allAirlines})
+    }
+
+    handleConnectionsButton(e){
+        this.setState({connections: !this.state.connections})
     }
 
     handleAirlineSelect(id, airline) {
@@ -134,6 +138,9 @@ class CheckInputForm extends React.Component {
         if (this.props.params.error === 'badRoute') {
             alerts.push('The flight route you entered does not exist')
         }
+        if (this.props.params.error === 'badConnection') {
+            alerts.push('Be sure to include a valid connection airport for your flight')
+        }
         this.setState({alerts: alerts})
         //this.setState({allAirlines: passedAirlinesSelect})
     }
@@ -147,16 +154,13 @@ class CheckInputForm extends React.Component {
         revisedHeadingStyle.marginBottom = '25px'
         revisedHeadingStyle.marginTop = '25px'
 
-        let allOutlined = true
         let airlinePicker = (<div></div>)
 
         if (!this.state.allAirlines) {
 
-            allOutlined = false
             const airlineValues = this.state.airlines
 
             const listItems = (
-
                 <PanelGroup 
                     badgeStyle={styles.airlineBar}
                     fadeOut={false} 
@@ -168,12 +172,10 @@ class CheckInputForm extends React.Component {
                         })[0].label)}}
                     values={airlineValues}>
                 </PanelGroup>
-
             )
 
-
             airlinePicker = (
-                <AirlinePicker>
+                <div style={styles.allAirlineContentWrapper}>
                     <div style={styles.airlineInputWrapper}>
                         <h5 style={styles.inputWrapperTitle}>Airlines</h5>
                       <InputAutocompleteField 
@@ -190,7 +192,27 @@ class CheckInputForm extends React.Component {
                     <div style={styles.airlinesSection}>
                         {listItems}
                     </div>
-                </AirlinePicker>
+                </div>
+            )
+        }
+
+        let conn1 = (<div></div>)
+
+        if (this.state.connections) {
+
+             conn1 = (
+                <div>
+                    <InputWrapper title='Connection Airport'>
+                        <InputAutocompleteField 
+                            val={this.state.connection} 
+                            inStyle={styles.checkInputBoxStyle}
+                            key='connection'
+                            id='conn_id'
+                            onChange={this.handleForm}
+                            autocompleteValues={this.props.autocompleteDataLocations}
+                        />
+                    </InputWrapper>
+                </div>
             )
         }
 
@@ -244,6 +266,28 @@ class CheckInputForm extends React.Component {
                                     />
                                 </InputWrapper>
 
+                                <div>
+                                    <GoButton 
+                                        outlined={!this.state.connections}
+                                        onClick={this.handleConnectionsButton}
+                                        centered={false} 
+                                        color={styles.darkBlue}
+                                        interiorColor={styles.adaptiveWhite}>
+                                        <span>This is a Nonstop Flight</span>
+                                    </GoButton>
+
+                                    <GoButton 
+                                        outlined={this.state.connections}
+                                        onClick={this.handleConnectionsButton}
+                                        centered={false} 
+                                        color={styles.darkBlue}
+                                        interiorColor={styles.adaptiveWhite}>
+                                        <span>This Flight Has a Stop</span>
+                                    </GoButton>
+                                </div>
+
+                                {conn1}
+
                                 <InputWrapper title='Date'>
                                     <div style={styles.checkInputBoxStyle}>
                                         <DatePicker
@@ -252,9 +296,13 @@ class CheckInputForm extends React.Component {
                                         />
                                     </div>
                                 </InputWrapper>
+
+
+                                
+
                                 <div> 
                                     <GoButton 
-                                        outlined={allOutlined}
+                                        outlined={this.state.allAirlines}
                                         onClick={this.handleAllAirlinesButton}
                                         centered={false} 
                                         color={styles.darkBlue}
@@ -263,7 +311,7 @@ class CheckInputForm extends React.Component {
                                     </GoButton>
 
                                     <GoButton 
-                                        outlined={!allOutlined}
+                                        outlined={!this.state.allAirlines}
                                         onClick={this.handleAllAirlinesButton}
                                         centered={false} 
                                         color={styles.darkBlue}
@@ -271,7 +319,9 @@ class CheckInputForm extends React.Component {
                                         <span>Compare Selected Airlines</span>
                                     </GoButton>
                                 </div>
+
                                 {airlinePicker}
+
                                 <GoButton 
                                     centered={true} 
                                     color={styles.orange}
@@ -279,6 +329,8 @@ class CheckInputForm extends React.Component {
                                     shadow={true}
                                     link={`/predict?origin=${this.state.org_id}`
                                           +`&dest=${this.state.dest_id}`
+                                          +`&conn=${this.state.conn_id}`
+                                          +`&connections=${this.state.connections}`
                                           +`&airlines=${this.state.airlines}`
                                           +`&allAirlines=${this.state.allAirlines}`
                                           +`&date=${this.state.date !== null 
