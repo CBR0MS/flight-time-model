@@ -3,7 +3,7 @@ import queryString from 'query-string'
 import { Redirect } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops'
 
-import * as tf from '@tensorflow/tfjs'
+//import * as tf from '@tensorflow/tfjs'
 
 import LoadingScreen from './uiComponents/LoadingScreen'
 import styles from './uiComponents/style/style'

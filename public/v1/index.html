@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>FlyGenius - Flight Time Prediction</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-82288001-3"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-82288001-3');
+    </script>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <meta name="description" content="Get accurate departure, arrival, and flight time estimates
+    for any US domestic flight.">
+    <meta property="og:description" content="Get accurate departure, arrival, and flight time estimates
+    for any US domestic flight.">
+    <meta property="og:title" content="FlyGenius - Flight Time Prediction">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid" style="height: 100vh;">
+
+        <div class="row">
+            <div class="col-md-12 col-xl-4 ko">
+                <div class="container">
+                    <h1 class="display-4">On-time? <br>A little early? <br>Even better.</h1>
+                    <p class="lead">Leverage the power of machine learning to get
+                        accurate departure and arrival time estimates
+                    for any US domestic flight. </p>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-8 co">
+             <div class="container plate">
+                <h2 class="plate-head">Check a Flight</h2>
+
+                <form autocomplete="off" style="margin: auto" id="form">
+
+                    <div class="form-row">
+                        <div class="col centered">
+
+                            <div class="autocomplete">
+                                <label for="origin">Origin</label>
+                                <input id="origin" type="text" name="origin" class="form-control" placeholder="Pittsburgh, PA (PIT)">
+                            </div>
+                        </div>
+                        <div class="col centered">
+
+                          <div class="autocomplete">
+                            <label for="destination">Destination</label>
+                            <input id="destination" type="text" name="dest" class="form-control" placeholder="San Francisco, CA (SFO)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col centered">
+
+                        <div class="autocomplete">
+                            <label for="airline">Airline</label>
+                            <input id="airline" type="text" name="airline" class="form-control" placeholder="Delta Airlines">
+                        </div>
+                    </div>
+                    <div class="col centered">
+
+                      <div class="autocomplete">
+                        <label for="date">Date</label>
+                        <input type="text" class="form-control" id="date" style="border-radius: 5px" name="date" placeholder=""><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                    <script type="text/javascript">
+                    let now = new Date();
+                    let formattedDate = now.toLocaleString("en-us", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                    });
+                    $(document).ready(function(){
+                       document.getElementById("date").placeholder = formattedDate;
+                   });
+                    
+                    </script>
+                </div> 
+                <script type="text/javascript">
+                $(function () {
+                    $('#date').datepicker({
+                        format: 'MM dd, yyyy'
+                    });
+                });
+                </script>
+            </div>
+            <div class="form-row">
+                <div class="col centered">
+                 <input class="btn go centered" id="main-button" type="submit" value="Check my flight!">
+             </div>
+         </div>
+     </form>
+ </div>
+</div>
+</div>
+</div>
+</body>
+</html>
