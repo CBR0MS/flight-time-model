@@ -60,9 +60,7 @@ class CheckInputForm extends React.Component {
     }
 
     handleAirlineSelect(id, airline) {
-        const reducedArr = this.props.autocompleteDataAirlines.filter((value, index, arr)=> {
-            return airline === value.label
-        })
+        const reducedArr = this.props.autocompleteDataAirlines.filter((value) => airline === value.label)
         if (reducedArr.length > 0) {
             const id = reducedArr[0].value
             let airlines = this.state.airlines
@@ -76,9 +74,7 @@ class CheckInputForm extends React.Component {
     removeAirline(valueToRemove) {
         const id = valueToRemove
         const oldAirlines = this.state.airlines
-        const newAirlines = oldAirlines.filter((value, index, arr) => {
-            return value !== id;
-        })
+        const newAirlines = oldAirlines.filter((value) => value !== id)
         this.setState({
             airlines: newAirlines,
         })
@@ -87,9 +83,7 @@ class CheckInputForm extends React.Component {
     removeAlert(valueToRemove) {
         const id = valueToRemove
         const oldAlerts = this.state.alerts
-        const newAlerts = oldAlerts.filter((value, index, arr) => {
-            return value !== id;
-        })
+        const newAlerts = oldAlerts.filter((value) => value !== id)
         this.setState({
             alerts: newAlerts,
         })
@@ -167,9 +161,7 @@ class CheckInputForm extends React.Component {
                     removeValue={this.removeAirline}
                     showValue={(airline) => {
                         return (
-                        this.props.autocompleteDataAirlines.filter((value, index, arr) => {
-                            return airline === value.value
-                        })[0].label)}}
+                        this.props.autocompleteDataAirlines.filter((value) => airline === value.value)[0].label)}}
                     values={airlineValues}>
                 </PanelGroup>
             )
@@ -201,18 +193,17 @@ class CheckInputForm extends React.Component {
         if (this.state.connections) {
 
              conn1 = (
-                <div>
-                    <InputWrapper title='Connection Airport'>
-                        <InputAutocompleteField 
-                            val={this.state.connection} 
-                            inStyle={styles.checkInputBoxStyle}
-                            key='connection'
-                            id='conn_id'
-                            onChange={this.handleForm}
-                            autocompleteValues={this.props.autocompleteDataLocations}
-                        />
-                    </InputWrapper>
-                </div>
+                <InputWrapper title='Connection Airport'>
+                    <InputAutocompleteField 
+                        val={this.state.connection} 
+                        inStyle={styles.checkInputBoxStyle}
+                        key='connection'
+                        id='conn_id'
+                        onChange={this.handleForm}
+                        autocompleteValues={this.props.autocompleteDataLocations}
+                    />
+                </InputWrapper>
+
             )
         }
 
@@ -288,7 +279,7 @@ class CheckInputForm extends React.Component {
 
                                 {conn1}
 
-                                <InputWrapper title='Date'>
+                                <InputWrapper title='Flight Date'>
                                     <div style={styles.checkInputBoxStyle}>
                                         <DatePicker
                                             selected={this.state.date}
@@ -296,9 +287,6 @@ class CheckInputForm extends React.Component {
                                         />
                                     </div>
                                 </InputWrapper>
-
-
-                                
 
                                 <div> 
                                     <GoButton 

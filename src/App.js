@@ -15,9 +15,9 @@ class App extends React.Component {
 
   render() {
 
-    let image = (<img src="/clouds.jpeg" style={styles.landingImageStyle} alt=''/>)
+    let image = (<img src="/images/clouds.jpeg" style={styles.landingImageStyle} alt=''/>)
     if (styles.hour < 6 || styles.hour > 18){
-      image = (<img src="/mountain.jpg" style={styles.landingImageStyle} alt=''/>)
+      image = (<img src="/images/mountain.jpg" style={styles.landingImageStyle} alt=''/>)
     }
 
     return (

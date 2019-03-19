@@ -6,7 +6,7 @@ import styles from './style/style'
 
 const AccordionPanel = props => {
 
-  const { x } = useSpring({ from: { x: 100 }, x: props.show ? 400 : 100, config: { duration: 300 } })
+  const { x } = useSpring({ from: { x: 85 }, x: props.show ? 400 : 85, config: { duration: 300 } })
   const interiorOpacity = useSpring({ from: {height: 'none', opacity: 0, overflow: 'hidden'}, 
                                     opacity: props.show ? 1 : 0,
                                     height: props.show ? 300 : 0,
@@ -22,14 +22,20 @@ const AccordionPanel = props => {
         </animated.div>
         )
 
-    const interior = (
-        <animated.div style={interiorOpacity}>
-           {props.content.content}
-        </animated.div>
-    )
+  const interior = (
+      <animated.div style={interiorOpacity}>
+         {props.content.content}
+      </animated.div>
+  )
+
+  let accordionStyles = Object.assign({}, styles.accordionPanel)
+
+  if (props.color !== undefined) {
+    accordionStyles.backgroundColor = props.color
+  }
 
   return (
-    <div onClick={props.toggle} style={styles.accordionPanel}>
+    <div onClick={props.toggle} style={accordionStyles}>
       <animated.div
         style={{ height: x }}>
         {props.content.title}
@@ -81,11 +87,12 @@ class AccordionSidebar extends React.Component {
                       keys={item => item.key}
                       from={{ marginTop: -1 * (100 + 40), opacity: 0 }}
                       leave={{ marginTop: -1 * (100 + 40), opacity: 0 }}
-                      enter={{ marginTop: 30, opacity: 1 }}
+                      enter={{ marginTop: 15, opacity: 1 }}
                       trail={300}>
                       {item => props => 
                             <animated.div style={props}>
                                 <AccordionPanel
+                                    color={item.color}
                                     show={item.open}
                                     toggle={() => this.handleToggle({item})}
                                     content={item.content}

@@ -348,9 +348,19 @@ const accordionPanel = {
       backgroundColor: lightBlue,
       borderRadius: border,
       boxShadow: shadow,
-      padding: 20,
+      padding: 10,
+      paddingLeft: 20,
       color: adaptiveWhite,
       cursor: 'pointer',
+}
+
+const predictionsStyle = {
+      backgroundColor: lightBlue,
+      borderRadius: border, 
+      padding: 10,
+      color: adaptiveWhite,
+      marginTop: 15,
+      height: 700,
 }
 
 const inlineWrapper =  {
@@ -443,6 +453,7 @@ const styles = {
       aboutPageContent: aboutPageContent,
       aboutMargins: aboutMargins,
       footer: footer,
+      predictionsStyle: predictionsStyle,
 
 
       // global colors 

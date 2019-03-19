@@ -8,7 +8,7 @@ const start = 120
 const finish = 210
 
 // easing function 
-function easeInOutQuad(x, t, b, c, d) {
+const easeInOutQuad = (x, t, b, c, d) => {
 
     if ((t /= d / 2) < 1) {
         return c / 2 * t * t + b;
@@ -18,7 +18,7 @@ function easeInOutQuad(x, t, b, c, d) {
 }
 
 // functio to change the angle of the background gradient 
-function changeAngle(position, time, sub) {
+const changeAngle = (position, time, sub) => {
 
     time += 1 / fps;
     if (sub){
@@ -46,8 +46,7 @@ class LandingBackground extends React.Component {
             position: start,
             time: 0,
             goingBackwards: false,
-            height: '100vh'
-        };
+        }
     }
 
     componentDidMount() {
@@ -57,20 +56,13 @@ class LandingBackground extends React.Component {
 
             const revisedStateValues = changeAngle(this.state.position, this.state.time, this.state.goingBackwards)
 
-            // const height = Math.max(document.body.scrollHeight, 
-            //                       document.body.offsetHeight, 
-            //                       document.documentElement.clientHeight, 
-            //                       document.documentElement.scrollHeight, 
-            //                       document.documentElement.offsetHeight )
-            // const newHeight = height.toString() + 'px'
             this.setState({
                 position: revisedStateValues[0], 
                 time: revisedStateValues[1],
                 goingBackwards: revisedStateValues[2],
-                // height: newHeight 
             }) 
     
-        }, 1000 / fps);
+        }, 1000 / fps)
     }
 
     componentWillUnmount() {
@@ -89,7 +81,6 @@ class LandingBackground extends React.Component {
         if (this.props.opacity === 1) {
             landingStyles.opacity = 1
         }
-        landingStyles.height = this.state.height 
         
         return (
             <div className='landing' style={landingStyles}></div>
