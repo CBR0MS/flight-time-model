@@ -60,6 +60,9 @@ const landingHeadingStyle = {
       fontWeight: '800',
       fontStyle: 'italic',  
       fontFamily: font,
+      marginBottom: 0,
+      marginTop: 10,
+      
 }
 
 const landingInputStyle = {
@@ -247,7 +250,8 @@ const inputWrapper = {
       width: '310px',
       display: 'inline-block',
       marginRight: '15px',
-      marginTop: '15px',
+      marginTop: 30,
+      marginBottom: 10,
       fontSize: '1.1rem',
 }
 

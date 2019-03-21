@@ -41,6 +41,7 @@ const getDataFromAPI = async (resource, loc) => {
   if (responseData.detail === 'Not found.') {
     return Promise.reject('badRoute')
   } else if (responseData.database_id === undefined) {
+    // response should be {"detail":"Request was throttled. Expected available in 81909 seconds."}
     return Promise.reject('tooManyRequests')
   }
   return Promise.resolve(responseData)

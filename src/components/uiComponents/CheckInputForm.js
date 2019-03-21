@@ -140,13 +140,6 @@ class CheckInputForm extends React.Component {
     }
 
     render() {
-        
-        let revisedHeadingStyle = Object.assign({}, styles.landingHeadingStyle)
-
-        revisedHeadingStyle.color = styles.white    
-        //revisedHeadingStyle.paddingLeft = '15px'
-        revisedHeadingStyle.marginBottom = '25px'
-        revisedHeadingStyle.marginTop = '25px'
 
         let airlinePicker = (<div></div>)
 
@@ -234,7 +227,7 @@ class CheckInputForm extends React.Component {
 
                             <div style={styles.panelWrapper}>
 
-                                <h1 style={revisedHeadingStyle}>Check a Flight</h1>
+                                <h1 style={ styles.landingHeadingStyle}>Check a Flight</h1>
                                 <InputWrapper title='Origin'>
                                     <InputAutocompleteField 
                                     val={this.state.origin} 
