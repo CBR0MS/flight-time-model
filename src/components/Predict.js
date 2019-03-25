@@ -3,7 +3,7 @@ import queryString from 'query-string'
 import { Redirect } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops'
 
-//import * as tf from '@tensorflow/tfjs'
+import * as tf from '@tensorflow/tfjs'
 
 import LoadingScreen from './uiComponents/LoadingScreen'
 import styles from './uiComponents/style/style'
@@ -93,6 +93,7 @@ class Predict extends React.Component {
     let params = queryString.parse(this.props.location.search)
     // query string can't parse booleans to the correct type
     params.connections = !(params.connections === 'false')
+    params.allAirlines = !(params.allAirlines === 'false')
 
     document.title =  params.origin + ' to ' + params.dest + ' - FlyGenius'
 
@@ -128,8 +129,8 @@ class Predict extends React.Component {
         }
 
         this.setState({loadingText: 'Checking airports'})
-
-        newData[0] = await getDataFromAPI('airports', params.origin)
+        const origin =  await getDataFromAPI('airports', params.origin)
+        newData[0] = origin
 
         if (!params.connections){
           newData[2] = await getDataFromAPI('airports', params.dest)
@@ -138,32 +139,59 @@ class Predict extends React.Component {
           newData[4] = await getDataFromAPI('airports', params.dest)
         }
 
-        this.setState({loadingText: 'Creating predictions'})
+        this.setState({loadingText: 'Making predictions'})
         
         // now we load the models 
-         //const arrivalModel = await tf.loadLayersModel('/models/arrival.json')
+        const arrivalModel = await tf.loadLayersModel('/model/model.json')
+        const usrDate = new Date(params.date)
+        const month = usrDate.getMonth() + 1
+        const dayOfWeek = usrDate.getUTCDay() + 1
+       
 
         // now we check if the user's selected airlines match available airlines 
         const passedAirlines = params.airlines.split(',')
-
-        let airlinesInData = newData[1].route_airlines.filter((value) => passedAirlines.includes(value))
+        let airlinesInData = newData[1].route_airlines
         let airlinesInData2 = []
+        if (params.connections) {airlinesInData2 = newData[3].route_airlines}
 
-        if (params.connections){
-          airlinesInData2 = newData[3].route_airlines.filter((value) => passedAirlines.includes(value))
+        // reducing the list of all airlines if the user enters a specific set to try
+        if (!params.allAirlines && passedAirlines.length > 0){
+          airlinesInData = newData[1].route_airlines.filter((value) => passedAirlines.includes(value))
+          if (params.connections){
+            airlinesInData2 = newData[3].route_airlines.filter((value) => passedAirlines.includes(value))
+          }
         }
+
+        let completeAirlinesList = airlinesInData
+
+        // if we have two flights, create a set of airlines that fly both
+        if (params.allAirlines && params.connections) {
+          if (airlinesInData2.length > airlinesInData.length) {
+            completeAirlinesList = airlinesInData2.filter((value) => airlinesInData.includes(value))
+          } else { completeAirlinesList = airlinesInData.filter((value) => airlinesInData2.includes(value)) }
+        }
+        
+        console.log(airlinesInData)
+        console.log(airlinesInData2)
+        console.log(completeAirlinesList)
 
         if (((params.connections && 
               airlinesInData.length !== passedAirlines.length && 
               airlinesInData2.length !== passedAirlines.length) || 
             (!params.connections && 
               airlinesInData.length !== passedAirlines.length)) && 
-              params.allAirlines === 'false') {
+              !params.allAirlines) {
 
             let alerts = this.state.alerts
             alerts.push('Some airlines you selected do not fly the route you entered')
             this.setState({alerts: alerts})
         }
+
+        // const testAirline = await getDataFromAPI('airlines', passedAirlines[0]) 
+        // const input = tf.tensor([[month, dayOfWeek, testAirline.airline_percent_ontime_arrival, origin.airport_percent_ontime_departure, 0 ]])
+        // const predictionDep = Array.from(arrivalModel.predict(input).dataSync())
+        // console.log(predictionDep)
+
         
         // this.setState({
         //   dataObjects: newData,
@@ -236,6 +264,7 @@ class Predict extends React.Component {
         })
 
       } catch(err) {
+        console.log(err)
         // errors from API calls 
         switch (err){
           case 'badRoute':
