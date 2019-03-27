@@ -1,10 +1,12 @@
 import React from 'react'
 import { Spring } from 'react-spring/renderprops'
+import { config } from 'react-spring'
 
 import style from './uiComponents/style/style'
 import LandingInputForm from './uiComponents/LandingInputForm'
 import ContentWrapper from './uiComponents/ContentWrapper'
 
+import { randomNum } from './helpers/Assorted'
 
 
 class Landing extends React.Component {
@@ -21,10 +23,6 @@ class Landing extends React.Component {
         this.updateInputDisplayValues = this.updateInputDisplayValues.bind(this)
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return nextProps !== this.props
-    // }
-
     updateInputDisplayValues(data, dataLength) {
         const index = randomNum(dataLength-2)
         const val1 = (data[index]).split('')
@@ -35,7 +33,6 @@ class Landing extends React.Component {
         let start1 = ''
         let start2 = ''
         const bar = '|'
-
 
         this.intervalOne = setInterval(() => {
 
@@ -90,10 +87,12 @@ class Landing extends React.Component {
                 for (const loc in data.cities) {
                     const displayName = data.cities[loc]
                     const valueName = data.cities[loc]
-                newData.push({label: displayName, value: valueName, key: loc})
+                    newData.push({label: displayName, value: valueName, key: loc})
                 }
+
                 const allData = data.cities 
                 const dataLength = allData.length
+
                 this.setState({
                     autocompleteValues: newData
                 })
@@ -111,47 +110,42 @@ class Landing extends React.Component {
         if (this.interval !== undefined){
             clearInterval(this.interval)
         }
-        
+        if (this.intervalOne !== undefined){
+            clearInterval(this.intervalOne)
+        }
+        if (this.intervalTwo !== undefined){
+            clearInterval(this.intervalTwo)
+        }
     }
 
 
     render() {
 
         return (
-            <div >
-                
-                <Spring
-                  from={{ opacity: 0 }}
-                   to={{ opacity: 1 }}>
-                  {props => 
-                    <div style={props}>
-                       
-                        <ContentWrapper>
+            <Spring
+              from={{ opacity: 0 }}
+               to={{ opacity: 1 }}
+               config={config.default}>
+              {props => 
+                <div style={props}>
+                    <ContentWrapper>
                         <div style={style.landingContainerStyle}>
                             <LandingInputForm
-                                focusFirst={this.state.first}
-                                focusSecond={this.state.second}
-                                firstInputValue={this.state.firstInputValue}
-                                firstAutocompleteValues={this.state.autocompleteValues}
-                                secondInputValue={this.state.secondInputValue} 
-                                secondAutocompleteValues={this.state.autocompleteValues}
-                                />
-                        </div>
-                            
-                        </ContentWrapper>
-                        
-                  </div>}
-                </Spring>
-                
-            </div>
+                            focusFirst={this.state.first}
+                            focusSecond={this.state.second}
+                            firstInputValue={this.state.firstInputValue}
+                            firstAutocompleteValues={this.state.autocompleteValues}
+                            secondInputValue={this.state.secondInputValue} 
+                            secondAutocompleteValues={this.state.autocompleteValues}
+                            />
+                        </div> 
+                    </ContentWrapper>   
+                </div>}
+            </Spring>
         )
     }
 }
 
 export default Landing
-
-function randomNum(length) {
-    return Math.ceil(Math.random() * length-1)
-}
 
 

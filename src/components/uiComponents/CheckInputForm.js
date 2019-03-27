@@ -215,6 +215,9 @@ class CheckInputForm extends React.Component {
             )
         }
 
+        let headingStyle = Object.assign({}, styles.landingHeadingStyle)
+        headingStyle.color = styles.white
+
 
         return (
             <div> 
@@ -227,7 +230,7 @@ class CheckInputForm extends React.Component {
 
                             <div style={styles.panelWrapper}>
 
-                                <h1 style={ styles.landingHeadingStyle}>Check a Flight</h1>
+                                <h1 style={headingStyle}>Check a Flight</h1>
                                 <InputWrapper title='Origin'>
                                     <InputAutocompleteField 
                                     val={this.state.origin} 

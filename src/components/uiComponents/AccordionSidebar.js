@@ -1,20 +1,20 @@
 import React from 'react'
 import { Transition } from 'react-spring/renderprops'
-import { useSpring, animated } from 'react-spring'
+import { useSpring, animated, config } from 'react-spring'
 
 import styles from './style/style'
 
 const AccordionPanel = props => {
 
-  const { x } = useSpring({ from: { x: 85 }, x: props.show ? 400 : 85, config: { duration: 300 } })
+  const { x } = useSpring({ from: { x: 85 }, x: props.show ? 350 : 85, config: config.default })
   const interiorOpacity = useSpring({ from: {height: 'none', opacity: 0, overflow: 'hidden'}, 
                                     opacity: props.show ? 1 : 0,
-                                    height: props.show ? 300 : 0,
-                                     config: {duration: 300 } })
+                                    height: props.show ? 250 : 0,
+                                     config: config.default })
   const topOpacity = useSpring({ from: {opacity: 1}, 
                                 opacity: props.show ? 0 : 1, 
                                 height: props.show ? 0 : 30,
-                                config: {duration: 300 } })
+                                config: config.default })
 
   const top = (
     <animated.div style={topOpacity}>
@@ -35,7 +35,7 @@ const AccordionPanel = props => {
   }
 
   return (
-    <div onClick={props.toggle} style={accordionStyles}>
+    <div onClick={props.toggle} className={`accordionPanel ${props.class}`} style={accordionStyles}>
       <animated.div
         style={{ height: x }}>
         {props.content.title}
@@ -88,11 +88,13 @@ class AccordionSidebar extends React.Component {
                       from={{ marginTop: -1 * (100 + 40), opacity: 0 }}
                       leave={{ marginTop: -1 * (100 + 40), opacity: 0 }}
                       enter={{ marginTop: 15, opacity: 1 }}
+                      congig={config.default}
                       trail={300}>
                       {item => props => 
                             <animated.div style={props}>
                                 <AccordionPanel
                                     color={item.color}
+                                    class={item.color === styles.lightBlue ? 'panelBlue' : (item.color === styles.veryLightBlue ? 'panelLightBlue' : 'panelOrange')}
                                     show={item.open}
                                     toggle={() => this.handleToggle({item})}
                                     content={item.content}

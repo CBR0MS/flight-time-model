@@ -3,6 +3,7 @@ const darkBlue = 'hsl(204, 65%, 24%)'
 const lightBlue = 'hsl(204, 65%, 29%)'
 const veryLightBlue = 'hsl(204, 65%, 32%)'
 const orange = 'hsl(29, 88%, 63%)'
+const mediumOrange = 'hsl(29, 88%, 71%)'
 const lightOrange = 'hsl(29, 88%, 83%)'
 const white = 'rgba(255, 255, 255, 0.95)'
 const adaptiveWhite = 'rgba(255, 255, 255, 0.7)'
@@ -279,7 +280,7 @@ const airlineBar = {
 
 const alertBar = {
       display: 'inline-block',
-      width: '300px',
+      width: 325,
       height: 80,
       color: darkBlue,
       backgroundColor: orange,
@@ -287,13 +288,16 @@ const alertBar = {
       boxShadow: shadow,
       margin: '20px 10px',
       padding: '10px',
+      paddingRight: 25,
 }
 
 const airlineDeleteButton = {
-      float: 'right',
-      fontSize: '1.8rem',
+      position: 'absolute',
+      fontSize: '1.7rem',
       cursor: 'pointer',
-      marginTop: '-6px',
+      right: 7,
+      top: '50%',
+      transform: 'translateY(-50%)'
 }
 
 const airlinesSection = {
@@ -390,7 +394,7 @@ const flexTable = {
 
 const loadingText = {
       color: adaptiveWhite,
-      width: 200,
+      width: 210,
 }
 
 const aboutPageContent = {
@@ -410,6 +414,17 @@ const footer = {
       width: 300,
       margin: '0 auto',
       fontSize: '85%',
+}
+
+const loadingBar = {
+      position: 'absolute',
+      left: 0,
+      bottom: 0,
+      height: 15,
+      borderBottomLeftRadius: border,
+      borderBottomRightRadius: border,
+      borderTopRightRadius: border,
+      backgroundColor: mediumOrange,
 }
 
 const styles = {
@@ -458,6 +473,7 @@ const styles = {
       aboutMargins: aboutMargins,
       footer: footer,
       predictionsStyle: predictionsStyle,
+      loadingBar: loadingBar,
 
 
       // global colors 

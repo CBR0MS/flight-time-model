@@ -30,10 +30,10 @@ class Check extends React.Component {
           let airlines = []
           let destinations = []
 
-          for (const loc in data) {
-            const displayName = data[loc].airport_city + ', ' + data[loc].airport_state + ' (' + data[loc].airport_id + ')'
-            const valueName = data[loc].airport_id
-            airports.push({label: displayName, value: valueName, key: loc})
+          for (const i in data) {
+            const displayName = data[i].airport_city + ', ' + data[i].airport_state + ' (' + data[i].airport_id + ')'
+            const valueName = data[i].airport_id
+            airports.push({label: displayName, value: valueName, key: i})
             destinations.push(displayName)
           }
 
@@ -41,10 +41,10 @@ class Check extends React.Component {
           .then(res => res.json())
           .then(data => {
              
-              for (const loc in data) {
-                const displayName = data[loc].airline_name 
-                const valueName = data[loc].airline_id
-                airlines.push({label: displayName, value: valueName, key: loc})
+              for (const i in data) {
+                const displayName = data[i].airline_name 
+                const valueName = data[i].airline_id
+                airlines.push({label: displayName, value: valueName, key: i})
               }
           })
           
@@ -60,11 +60,7 @@ class Check extends React.Component {
  
   render() {
     if (this.state.autocompleteLocations.length <= 0) {
-      return (
-        <div>
-          <LoadingScreen text={this.state.loadingText}/>
-        </div>
-      )
+      return (<LoadingScreen text={this.state.loadingText}/>)
     }
     return (
       <Spring

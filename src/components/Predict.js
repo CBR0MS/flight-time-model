@@ -12,40 +12,79 @@ import AccordionSidebar from './uiComponents/AccordionSidebar'
 import ContentWrapper from './uiComponents/ContentWrapper'
 import Footer from './uiComponents/Footer'
 import DataCollection from './uiComponents/DataCollection'
-import PredictionsPanel from './uiComponents/PredictionsPanel'
+
+// helpers 
+import { formatTime, ordinalSuffixOf } from './helpers/Assorted'
+import { getDataFromAPI, makePredictions, filterListOfAirlinesWithAirports } from './helpers/Predict'
 
 const uuidv1 = require('uuid/v1')
 
-const formatTime = (n) => `${n / 60 ^ 0}:` + ('0' + n % 60).slice(-2)
+const constructSidebar = newData => {
 
-//https://stackoverflow.com/a/13627586
-const ordinalSuffixOf = (i) => {
-  let j = i % 10, k = i % 100;
-  if (j === 1 && k !== 11) {
-    return 'st'
-  }
-  if (j === 2 && k !== 12) {
-    return 'nd'
-  }
-  if (j === 3 && k !== 13) {
-    return 'rd'
-  }
-  return 'th'
+  let sidebarData = []
+
+  // now we can construct the sidebar objects 
+  for (const index in newData){
+    
+    const data = newData[index]
+    let content = {}
+    let color = styles.lightBlue
+
+    if (data.airport_id !== undefined){
+
+      content.title = ( <div>
+        <h6>Airport</h6>
+        <h4>{data.airport_city + ', ' + data.airport_state + 
+             ' (' + data.airport_id + ')'}</h4>
+             </div>
+      )
+      content.prompt = (
+        <h6>{data.airport_id + '\'s flight statistics →'}</h6>
+      )
+      content.content = (
+        <DataCollection
+          topLeft={data.airport_flight_volume_rank.toLocaleString()}
+          topLeftSuffix={ordinalSuffixOf(data.airport_flight_volume_rank)}
+          topLeftCaption={'busiest in U.S.'}
+          topRight={data.airport_percent_ontime_departure}
+          topRightSuffix={'%'}
+          topRightCaption={'ontime departures'}
+          bottomLeft={data.airport_ontime_departure_rank.toLocaleString()}
+          bottomLeftSuffix={ordinalSuffixOf(data.airport_ontime_departure_rank)}
+          bottomLeftCaption={'most punctual in U.S.'}
+          bottomRight={data.airport_departure_delay}
+          bottomRightSuffix={'min'}
+          bottomRightCaption={'average delay'}/>
+      )
+    } else {
+      content.title = (<div>
+        <h6>Route</h6>
+        <h4>{data.route_origin_airport + ' → ' + data.route_destination_airport}</h4> </div>
+      )
+      content.prompt = (
+        <h6>This route's statistics →</h6>
+      )
+      content.content = (
+        <DataCollection
+          topRight={data.route_flight_volume_rank.toLocaleString()}
+          topRightSuffix={ordinalSuffixOf(data.route_flight_volume_rank)}
+          topRightCaption={'busiest in U.S.'}
+          topLeft={formatTime(data.route_time)}
+          topLeftCaption={'average flight time'}
+          bottomLeft={data.route_airlines.length}
+          bottomLeftSuffix={'airlines'}
+          bottomLeftCaption={'fly this route'}
+          bottomRight={data.route_flights_per_year.toLocaleString()}
+          bottomRightCaption={'flights per year'}/>
+      )
+      color = styles.veryLightBlue
+    }
+    sidebarData.push({content: content, key: uuidv1(), open: false, color: color })
+  } 
+  return sidebarData
 }
 
-const getDataFromAPI = async (resource, loc) => {
 
-  const responseData = await fetch(`https://api.flygeni.us/${resource}/${loc}/?use_rc_ids=True`)
-                            .then(res => res.json())
-                            .then(data => data)
-  if (responseData.detail === 'Not found.') {
-    return Promise.reject('badRoute')
-  } else if (responseData.database_id === undefined) {
-    // response should be {"detail":"Request was throttled. Expected available in 81909 seconds."}
-    return Promise.reject('tooManyRequests')
-  }
-  return Promise.resolve(responseData)
-}
 
 class Predict extends React.Component {
   constructor(props){
@@ -91,7 +130,7 @@ class Predict extends React.Component {
   async componentDidMount(): Promise<void> {
 
     let params = queryString.parse(this.props.location.search)
-    // query string can't parse booleans to the correct type
+    // query string can't parse booleans to the correct type, so let's convert
     params.connections = !(params.connections === 'false')
     params.allAirlines = !(params.allAirlines === 'false')
 
@@ -116,7 +155,7 @@ class Predict extends React.Component {
         secondLeg = params.conn + '_' + params.dest
       }
 
-      // try getting the data 
+      // try getting the data, model, and making predictions
       try {
 
         let newData = {}
@@ -129,6 +168,7 @@ class Predict extends React.Component {
         }
 
         this.setState({loadingText: 'Checking airports'})
+
         const origin =  await getDataFromAPI('airports', params.origin)
         newData[0] = origin
 
@@ -141,122 +181,52 @@ class Predict extends React.Component {
 
         this.setState({loadingText: 'Making predictions'})
         
-        // now we load the models 
-        const arrivalModel = await tf.loadLayersModel('/model/model.json')
+        // now we gather the data used to make the prediction and load the model
         const usrDate = new Date(params.date)
-        const month = usrDate.getMonth() + 1
-        const dayOfWeek = usrDate.getUTCDay() + 1
+
+        const meta = {
+          date: usrDate,
+          month: usrDate.getMonth() + 1,
+          dayOfWeek: usrDate.getUTCDay() + 1,
+          arrivalModel: await tf.loadLayersModel('/model/model.json')
+        }
        
-
-        // now we check if the user's selected airlines match available airlines 
+        // filter the list of airlines to test based on the airports entered by the user
+        let airlinesLists = filterListOfAirlinesWithAirports(params, newData)
+       
         const passedAirlines = params.airlines.split(',')
-        let airlinesInData = newData[1].route_airlines
-        let airlinesInData2 = []
-        if (params.connections) {airlinesInData2 = newData[3].route_airlines}
-
-        // reducing the list of all airlines if the user enters a specific set to try
-        if (!params.allAirlines && passedAirlines.length > 0){
-          airlinesInData = newData[1].route_airlines.filter((value) => passedAirlines.includes(value))
-          if (params.connections){
-            airlinesInData2 = newData[3].route_airlines.filter((value) => passedAirlines.includes(value))
-          }
-        }
-
-        let completeAirlinesList = airlinesInData
-
-        // if we have two flights, create a set of airlines that fly both
-        if (params.allAirlines && params.connections) {
-          if (airlinesInData2.length > airlinesInData.length) {
-            completeAirlinesList = airlinesInData2.filter((value) => airlinesInData.includes(value))
-          } else { completeAirlinesList = airlinesInData.filter((value) => airlinesInData2.includes(value)) }
-        }
         
-        console.log(airlinesInData)
-        console.log(airlinesInData2)
-        console.log(completeAirlinesList)
-
+         // now we check if the user's selected airlines match available airlines 
         if (((params.connections && 
-              airlinesInData.length !== passedAirlines.length && 
-              airlinesInData2.length !== passedAirlines.length) || 
+              airlinesLists.airlinesInData.length !== passedAirlines.length && 
+              airlinesLists.airlinesInData2.length !== passedAirlines.length) || 
             (!params.connections && 
-              airlinesInData.length !== passedAirlines.length)) && 
+              airlinesLists.airlinesInData.length !== passedAirlines.length)) && 
               !params.allAirlines) {
 
             let alerts = this.state.alerts
-            alerts.push('Some airlines you selected do not fly the route you entered')
+            
+            
+            // if the user entered all bad airlines, try again with all airlines
+            if (airlinesLists.completeAirlinesList.length === 0) {
+                alerts.push('No airlines you entered fly this route. Comparing all airlines instead.')
+                params.allAirlines = true
+                airlinesLists = filterListOfAirlinesWithAirports(params, newData)
+            } else {
+              alerts.push('Some airlines you selected do not fly the route you entered.')
+            }
+
             this.setState({alerts: alerts})
         }
 
-        // const testAirline = await getDataFromAPI('airlines', passedAirlines[0]) 
-        // const input = tf.tensor([[month, dayOfWeek, testAirline.airline_percent_ontime_arrival, origin.airport_percent_ontime_departure, 0 ]])
-        // const predictionDep = Array.from(arrivalModel.predict(input).dataSync())
-        // console.log(predictionDep)
+        // fetch the airline data from the API and make predictions
+        const predictions = await makePredictions(newData, airlinesLists.completeAirlinesList, meta)
+        
+        console.log(predictions)
 
-        
-        // this.setState({
-        //   dataObjects: newData,
-        // })
-        
-        let sidebarData = []
+        // create the sidebar jsx 
+        const sidebarData = constructSidebar(newData)
       
-        // now we can construct the sidebar objects 
-        for (const index in newData){
-          
-          const data = newData[index]
-          let content = {}
-          let color = styles.lightBlue
-
-          if (data.airport_id !== undefined){
-
-            content.title = ( <div>
-              <h6>Airport</h6>
-              <h4>{data.airport_city + ', ' + data.airport_state + 
-                   ' (' + data.airport_id + ')'}</h4>
-                   </div>
-            )
-            content.prompt = (
-              <h6>{data.airport_id + '\'s flight statistics →'}</h6>
-            )
-            content.content = (
-              <DataCollection
-                topLeft={data.airport_flight_volume_rank.toLocaleString()}
-                topLeftSuffix={ordinalSuffixOf(data.airport_flight_volume_rank)}
-                topLeftCaption={'busiest in U.S.'}
-                topRight={data.airport_percent_ontime_departure}
-                topRightSuffix={'%'}
-                topRightCaption={'ontime departures'}
-                bottomLeft={data.airport_ontime_departure_rank.toLocaleString()}
-                bottomLeftSuffix={ordinalSuffixOf(data.airport_ontime_departure_rank)}
-                bottomLeftCaption={'most punctual in U.S.'}
-                bottomRight={data.airport_departure_delay}
-                bottomRightSuffix={'min'}
-                bottomRightCaption={'average delay'}/>
-            )
-          } else {
-            content.title = (<div>
-              <h6>Route</h6>
-              <h4>{data.route_origin_airport + ' → ' + data.route_destination_airport}</h4> </div>
-            )
-            content.prompt = (
-              <h6>This route's statistics →</h6>
-            )
-            content.content = (
-              <DataCollection
-                topRight={data.route_flight_volume_rank.toLocaleString()}
-                topRightSuffix={ordinalSuffixOf(data.route_flight_volume_rank)}
-                topRightCaption={'busiest in U.S.'}
-                topLeft={formatTime(data.route_time)}
-                topLeftCaption={'average flight time'}
-                bottomLeft={data.route_airlines.length}
-                bottomLeftSuffix={'airlines'}
-                bottomLeftCaption={'fly this route'}
-                bottomRight={data.route_flights_per_year.toLocaleString()}
-                bottomRightCaption={'flights per year'}/>
-            )
-            color = styles.veryLightBlue
-          }
-          sidebarData.push({content: content, key: uuidv1(), open: false, color: color })
-        } 
 
         this.setState({
           loadedSucessfully: true,
@@ -305,45 +275,36 @@ class Predict extends React.Component {
     
     // if we need to redirect, to that now
     if (this.state.redirectLoc !== ''){
-      return (
-        <Redirect to={ this.state.redirectLoc } push />
-      )
+      return ( <Redirect to={ this.state.redirectLoc } push /> )
+    }
+
+    // while loading, show the loading text only 
+    if (!this.state.loadedSucessfully) {
+      return (<LoadingScreen text={this.state.loadingText}/>)
     }
 
     // if there's an API error, show the message and redirect on close 
     if (this.state.apiError){
       return (
-        <div>
-          <PanelGroup 
-            containerStyle={styles.alertBox}
-            badgeStyle={styles.alertBar}
-            fadeOut={false}
-            removeValue={() => {
-              this.removeAlert()
-              this.setState({
-                redirectLoc: '/'
-              })
-            }}
-            showValue={(alert) => alert}
-            values={this.state.alerts}>
-            </PanelGroup>
-        </div>
-      )
-    }
-    
-    // while loading, show the loading text only 
-    if (!this.state.loadedSucessfully) {
-      return (
-        <div>
-          <LoadingScreen text={this.state.loadingText}/>
-        </div>
+        <PanelGroup 
+          containerStyle={styles.alertBox}
+          badgeStyle={styles.alertBar}
+          fadeOut={false}
+          removeValue={() => {
+            this.removeAlert()
+            this.setState({
+              redirectLoc: '/'
+            })
+          }}
+          showValue={(alert) => alert}
+          values={this.state.alerts}>
+        </PanelGroup>
       )
     }
 
     return (
-
       <div>
-          {alerts}
+        {alerts}
         <ContentWrapper>
           <div style= {styles.predictionWrapper}>
             <div style={styles.sidebarWrapper}>
@@ -357,16 +318,15 @@ class Predict extends React.Component {
                to={{ opacity: 1 }}>
               {props => 
                 <div style={props}>
-                  <PredictionsPanel/>
+                <AccordionSidebar
+                content={this.state.sidebarContent}/>
+                 
                 </div>}
               </Spring>
             </div> 
           </div>
           <Footer/>
-
         </ContentWrapper>
-        
-      
       </div>
     )
   }

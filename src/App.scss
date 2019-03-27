@@ -8,6 +8,7 @@
 $darkBlue: hsl(204, 65%, 24%);
 $lightBlue: hsl(204, 65%, 29%);
 $veryLightBlue: hsl(204, 65%, 32%);
+$extremelyLightBlue: hsl(204, 65%, 34%);
 $orange: hsl(29, 88%, 63%);
 $lightOrange: hsl(29, 88%, 88%);
 $adaptiveWhite: rgba(255, 255, 255, 0.7);
@@ -88,11 +89,8 @@ input {
   color: $adaptiveWhite;
   width: 300px;
   font-size: 1.25rem;
-  height: 50px;
-  //font-weight: 700;
-  // font-style: italic;
+  height: 40px;
   border-radius: 5px;
-  // margin-right: 20px;
   padding: 10px;
 }
 
@@ -100,6 +98,22 @@ input {
   h1 {
     font-size: 1.95rem;
   }
+}
+
+.accordionPanel {
+  transition: background-color 0.5s ease;
+}
+
+.accordionPanel.panelBlue:hover {
+  background-color: $veryLightBlue !important;
+}
+
+.accordionPanel.panelLightBlue:hover {
+  background-color: $extremelyLightBlue !important;
+}
+
+.accordionPanel.panelOrange:hover {
+  background-color: $lightOrange !important;
 }
 
 
