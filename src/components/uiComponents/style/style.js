@@ -338,6 +338,7 @@ const contentWrapper = {
 
       margin: '0 20px',
       flex: '9 0 auto',
+      minWidth: 200,
 
 }
 
@@ -374,21 +375,21 @@ const predictionsStyle = {
 const inlineWrapper =  {
       display: 'inline-block',
       width: 140,
-      margin: '20px 0px',
+    //  margin: '20px 0px',
 }
 
 const inlineWrapperNoMargin = {
       fontFamily: 'interstate-mono',
        display: 'inline-block',
-       color: white,
-       marginBottom: 15,
+      // color: white,
+       marginBottom: 0,
 }
 
 const flexTable = {
       display: 'flex',
       flexFlow: 'row wrap',
       justifyContent: 'space-around',
-      margin: '0 auto',
+      margin: '20px auto',
       width: 320,
 }
 

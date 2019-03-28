@@ -1,7 +1,6 @@
 import React from 'react'
 import queryString from 'query-string'
 import { Redirect } from 'react-router-dom'
-import { Spring } from 'react-spring/renderprops'
 
 import * as tf from '@tensorflow/tfjs'
 
@@ -11,79 +10,9 @@ import PanelGroup from './uiComponents/PanelGroup'
 import AccordionSidebar from './uiComponents/AccordionSidebar'
 import ContentWrapper from './uiComponents/ContentWrapper'
 import Footer from './uiComponents/Footer'
-import DataCollection from './uiComponents/DataCollection'
 
-// helpers 
-import { formatTime, ordinalSuffixOf } from './helpers/Assorted'
-import { getDataFromAPI, makePredictions, filterListOfAirlinesWithAirports } from './helpers/Predict'
-
-const uuidv1 = require('uuid/v1')
-
-const constructSidebar = newData => {
-
-  let sidebarData = []
-
-  // now we can construct the sidebar objects 
-  for (const index in newData){
-    
-    const data = newData[index]
-    let content = {}
-    let color = styles.lightBlue
-
-    if (data.airport_id !== undefined){
-
-      content.title = ( <div>
-        <h6>Airport</h6>
-        <h4>{data.airport_city + ', ' + data.airport_state + 
-             ' (' + data.airport_id + ')'}</h4>
-             </div>
-      )
-      content.prompt = (
-        <h6>{data.airport_id + '\'s flight statistics →'}</h6>
-      )
-      content.content = (
-        <DataCollection
-          topLeft={data.airport_flight_volume_rank.toLocaleString()}
-          topLeftSuffix={ordinalSuffixOf(data.airport_flight_volume_rank)}
-          topLeftCaption={'busiest in U.S.'}
-          topRight={data.airport_percent_ontime_departure}
-          topRightSuffix={'%'}
-          topRightCaption={'ontime departures'}
-          bottomLeft={data.airport_ontime_departure_rank.toLocaleString()}
-          bottomLeftSuffix={ordinalSuffixOf(data.airport_ontime_departure_rank)}
-          bottomLeftCaption={'most punctual in U.S.'}
-          bottomRight={data.airport_departure_delay}
-          bottomRightSuffix={'min'}
-          bottomRightCaption={'average delay'}/>
-      )
-    } else {
-      content.title = (<div>
-        <h6>Route</h6>
-        <h4>{data.route_origin_airport + ' → ' + data.route_destination_airport}</h4> </div>
-      )
-      content.prompt = (
-        <h6>This route's statistics →</h6>
-      )
-      content.content = (
-        <DataCollection
-          topRight={data.route_flight_volume_rank.toLocaleString()}
-          topRightSuffix={ordinalSuffixOf(data.route_flight_volume_rank)}
-          topRightCaption={'busiest in U.S.'}
-          topLeft={formatTime(data.route_time)}
-          topLeftCaption={'average flight time'}
-          bottomLeft={data.route_airlines.length}
-          bottomLeftSuffix={'airlines'}
-          bottomLeftCaption={'fly this route'}
-          bottomRight={data.route_flights_per_year.toLocaleString()}
-          bottomRightCaption={'flights per year'}/>
-      )
-      color = styles.veryLightBlue
-    }
-    sidebarData.push({content: content, key: uuidv1(), open: false, color: color })
-  } 
-  return sidebarData
-}
-
+import { getDataFromAPI, makePredictions, filterListOfAirlinesWithAirports, 
+        constructSidebar, constructMain } from './helpers/Predict'
 
 
 class Predict extends React.Component {
@@ -113,9 +42,16 @@ class Predict extends React.Component {
     })
   }
 
-  setPageError(error) {
+  setPageError(error, update) {
     let alerts = this.state.alerts
-    alerts.push(error)
+    // if update, we are updating a previous message rather than adding a new one
+    // the component knows to do this since the message is an object rather than a string
+    if (update) {
+      alerts[alerts.length - 1] = {val: error, index: alerts.length - 1}
+    } else {
+       alerts.push(error)
+    }
+
     this.setState({
       alerts: alerts,
       apiError: true,
@@ -226,33 +162,51 @@ class Predict extends React.Component {
 
         // create the sidebar jsx 
         const sidebarData = constructSidebar(newData)
-      
+        const mainData = constructMain(predictions)
 
         this.setState({
           loadedSucessfully: true,
           sidebarContent: sidebarData,
+          mainContent: mainData,
         })
 
       } catch(err) {
         console.log(err)
         // errors from API calls 
-        switch (err){
+        switch (err.err){
           case 'badRoute':
             this.setRedirectError('badRoute')
             break
 
           case 'tooManyRequests':
-            this.setPageError('You\'ve made too many requests. Please try again later!')
+            let seconds = err.time
+            this.setPageError(`You've made too many requests. Please try again in ${seconds} seconds.`, false)
+            // set an interval to count down the number of seconds until timeout is over
+            this.tryAgainInterval = setInterval(() => {
+              seconds -= 1
+              if (seconds <= 0){
+                clearInterval(this.tryAgainInterval)
+                this.setState({ redirectLoc: `/check`})
+              } else {
+                this.setPageError(`You've made too many requests. Please try again in ${seconds} seconds.`, true)
+              }
+            }, 1000)
             break
 
           default: 
-            this.setPageError('An unknown error ocurred. Please try again later!')
+            this.setPageError('An unknown error ocurred. Please try again later!', false)
             break
         }
       }
     }
 
     return Promise.resolve();
+}
+
+componentWillUnmount() {
+  if (this.tryAgainInterval !== undefined) {
+    clearInterval(this.tryAgainInterval)
+  }
 }
 
   render() {
@@ -279,7 +233,7 @@ class Predict extends React.Component {
     }
 
     // while loading, show the loading text only 
-    if (!this.state.loadedSucessfully) {
+    if (!this.state.loadedSucessfully && !this.state.apiError) {
       return (<LoadingScreen text={this.state.loadingText}/>)
     }
 
@@ -312,17 +266,8 @@ class Predict extends React.Component {
                 content={this.state.sidebarContent}/>
             </div> 
             <div style={styles.contentWrapper}>
-            <Spring
-              config={{duration: 1000}}
-              from={{ opacity: 0 }}
-               to={{ opacity: 1 }}>
-              {props => 
-                <div style={props}>
-                <AccordionSidebar
-                content={this.state.sidebarContent}/>
-                 
-                </div>}
-              </Spring>
+              <AccordionSidebar
+                content={this.state.mainContent}/>
             </div> 
           </div>
           <Footer/>

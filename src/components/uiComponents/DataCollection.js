@@ -9,18 +9,23 @@ const FlexTable = props => {
     </div>
   )
 }
-const NumberGroup = props => {
+export const NumberGroup = props => {
   return (
-    <div style={styles.inlineWrapper}>
-      <h1 style={styles.inlineWrapperNoMargin}>{props.title}</h1>
-      {props.suffix !== undefined ? (<p style={styles.inlineWrapperNoMargin}>{props.suffix}</p>) : null}
-      <p>{props.caption}</p>
+    <div style={props.style !== undefined ? Object.assign(props.style, styles.inlineWrapper) : styles.inlineWrapper}>
+    <div style={props.floatNum !== undefined ? {float: props.floatNum, display: 'inline-block'} : {}}>
+      <h1 style={Object.assign({fontSize: '2.5rem'}, styles.inlineWrapperNoMargin)}>{props.title}</h1>
+        {props.suffix !== undefined ? (<p style={styles.inlineWrapperNoMargin}>{props.suffix}</p>) : null}
+    </div>
+    <p>{props.caption}</p>
+      
+  
+      
     </div>
     )
 }
 
 
-const DataCollection = props => {
+export const DataCollection = props => {
   return (
   <FlexTable>
     <NumberGroup
@@ -46,6 +51,3 @@ const DataCollection = props => {
   </FlexTable>
   )
 }
-
-
-export default DataCollection

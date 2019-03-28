@@ -30,6 +30,7 @@ class App extends React.Component {
           <Switch>
             <Route path='/' component={Landing} exact />
             <Route path='/predict' component={Predict} />
+            {/*<Route path='predict/:params' component={Predict}/>*/}
             <Route path='/check' component={Check} />
             <Route path='/about' component={About} />
             <Route component={Error} />

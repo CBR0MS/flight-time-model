@@ -6,10 +6,10 @@ import styles from './style/style'
 
 const AccordionPanel = props => {
 
-  const { x } = useSpring({ from: { x: 85 }, x: props.show ? 350 : 85, config: config.default })
+  const { x } = useSpring({ from: { x: 85 }, x: props.show ? 250 : 85, config: config.default })
   const interiorOpacity = useSpring({ from: {height: 'none', opacity: 0, overflow: 'hidden'}, 
                                     opacity: props.show ? 1 : 0,
-                                    height: props.show ? 250 : 0,
+                                    height: props.show ? 220 : 0,
                                      config: config.default })
   const topOpacity = useSpring({ from: {opacity: 1}, 
                                 opacity: props.show ? 0 : 1, 
@@ -32,12 +32,17 @@ const AccordionPanel = props => {
 
   if (props.color !== undefined) {
     accordionStyles.backgroundColor = props.color
+    if (props.color === styles.orange) {
+      accordionStyles.color = styles.darkBlue
+    }
   }
+
+
 
   return (
     <div onClick={props.toggle} className={`accordionPanel ${props.class}`} style={accordionStyles}>
       <animated.div
-        style={{ height: x }}>
+        style={{ minHeight: x, minWidth: 325 }}>
         {props.content.title}
         {top}
         {interior}

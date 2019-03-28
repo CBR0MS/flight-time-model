@@ -19,30 +19,49 @@ class PanelGroup extends React.Component {
     }
 
     updateMessages() {
-         const content = this.props.values.filter((value) => {
-            return !this.state.messages.some(e => e.content === value)
-         })
+        
+        // if we are updating an already rendered message, the new message will be 
+        // an object rather than a string 
+        const updates = this.props.values.filter((value) => value.val !== undefined)
 
-        if (content.length > 0){
+        if (updates.length > 0 ) {
+            let messages = this.state.messages
+            for (const i in updates) {
+                messages[updates[i].index].content = updates[i].val
+            }
 
-            const newContent = content.map((value, index)=>{
+            this.setState({messages: messages})
+        } else {
+            
+            // add a new message, first removing updated messages from the props
+            let removed = this.props.values.filter((value) => value.val === undefined)
 
-                if (this.props.fadeOut){
-                    // set a timeout to remove the content
-                    const timeoutName = 'timeout_' + index.toString()
-                    this[timeoutName] = setTimeout(()=>{
-                        const newContent = this.state.messages.filter((value1) => value.content === value1.content)
-                        this.props.removeValue(value)
-                        this.setState({messages: newContent})
-                    }, this.state.badgeDuration)
-                }
-                
-                return {content: value, key: uuidv1()}
-            })
-            this.setState({
-                messages: this.state.messages.concat(newContent)
-            })
-        }   
+            const content = removed.filter((value) => {
+                return !this.state.messages.some(e => e.content === value)
+             })
+
+            if (content.length > 0){
+
+                const newContent = content.map((value, index)=>{
+
+                    if (this.props.fadeOut){
+                        // set a timeout to remove the content
+                        const timeoutName = 'timeout_' + index.toString()
+                        this[timeoutName] = setTimeout(()=>{
+                            const newContent = this.state.messages.filter((value1) => value.content === value1.content)
+                            this.props.removeValue(value)
+                            this.setState({messages: newContent})
+                        }, this.state.badgeDuration)
+                    }
+                    
+                    return {content: value, key: uuidv1()}
+                })
+
+                this.setState({
+                    messages: this.state.messages.concat(newContent)
+                })
+            } 
+        }          
     }
 
     removeAlert(object){
@@ -60,8 +79,13 @@ class PanelGroup extends React.Component {
 
     render() {
 
+        if (this.props.values.length > 0 && this.props.values[0].val !== undefined && 
+            this.props.values[0].val !== this.state.messages[this.props.values[0].index].content) {
+             this.updateMessages()
+        }
+
         if (this.props.values.length > this.state.messages.length){
-            this.updateMessages()
+           this.updateMessages()
         }
 
         let revisedContainerStyle = Object.assign({}, this.props.containerStyle)
