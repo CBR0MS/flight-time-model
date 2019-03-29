@@ -2,7 +2,7 @@ import React from 'react'
 import { Spring, Transition } from 'react-spring/renderprops'
 import { config } from 'react-spring'
 
-import style from './style/style'
+import styles from '../../Style/style'
 
 class Menu extends React.Component {
 
@@ -48,11 +48,11 @@ class Menu extends React.Component {
                     config={config.default}>
                     {show =>
                       show && (props => {
-                        let styleNew = Object.assign({}, style.menuBackground)
+                        let styleNew = Object.assign({}, styles.menuBackground)
                         styleNew.opacity = props.opacity
                         return (
                         <div style={ styleNew } onClick={this.handleChange}>
-                            <div style={style.menuContents}>
+                            <div style={styles.menuContents}>
                                 {this.props.children}
                             </div>
                         </div>
@@ -73,7 +73,7 @@ const HamburgerIcon = props => {
 
     if (props.open) {
         return (
-            <div style={style.hamburgerStyle}>
+            <div style={styles.hamburgerStyle}>
                 <Spring from={{ width: '30px' }} to={{ width: '40px'}}>
                     {props => <div className='icon-bar' style={props}></div>}
                 </Spring>
@@ -87,7 +87,7 @@ const HamburgerIcon = props => {
         )
     } else {
         return (
-        <div style={style.hamburgerStyle}>
+        <div style={styles.hamburgerStyle}>
                 <Spring from={{ width: '40px' }} to={{ width: '30px'}}>
                     {props => <div className='icon-bar' style={props}></div>}
                 </Spring>

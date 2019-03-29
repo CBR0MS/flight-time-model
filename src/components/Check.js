@@ -2,8 +2,8 @@ import React from 'react'
 import queryString from 'query-string'
 import { Spring } from 'react-spring/renderprops'
 
-import CheckInputForm from './uiComponents/CheckInputForm'
-import LoadingScreen from './uiComponents/LoadingScreen'
+import CheckInputForm from './UIComponents/Forms/CheckInputForm'
+import LoadingScreen from './UIComponents/Backgrounds/LoadingScreen'
 
 
 class Check extends React.Component {

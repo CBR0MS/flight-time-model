@@ -2,11 +2,11 @@ import React from 'react'
 import { Spring } from 'react-spring/renderprops'
 import { config } from 'react-spring'
 
-import style from './uiComponents/style/style'
-import LandingInputForm from './uiComponents/LandingInputForm'
-import ContentWrapper from './uiComponents/ContentWrapper'
+import style from './Style/style'
+import LandingInputForm from './UIComponents/Forms/LandingInputForm'
+import ContentWrapper from './UIComponents/Wrappers/ContentWrapper'
 
-import { randomNum } from './helpers/Assorted'
+import { randomNum } from './Helpers/Assorted'
 
 
 class Landing extends React.Component {

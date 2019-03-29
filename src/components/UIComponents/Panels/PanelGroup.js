@@ -2,7 +2,7 @@ import React from 'react'
 import { Transition, animated, Spring } from 'react-spring/renderprops'
 
 
-import styles from './style/style'
+import styles from '../../Style/style'
 
 const uuidv1 = require('uuid/v1');
 

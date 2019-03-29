@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import Menu from './uiComponents/Menu'
-import style from './uiComponents/style/style'
+import Menu from './UIComponents/Backgrounds/Menu'
+import style from './Style/style'
 
 class Navigation extends React.Component {
 

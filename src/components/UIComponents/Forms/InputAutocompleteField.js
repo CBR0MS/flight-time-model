@@ -1,7 +1,7 @@
 import React from 'react'
 import  Autocomplete  from 'react-autocomplete'
 
-import styles from './style/style'
+import styles from '../../Style/style'
 
 class InputAutocompleteField extends React.Component {
 

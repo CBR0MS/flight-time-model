@@ -1,8 +1,8 @@
 import * as tf from '@tensorflow/tfjs'
 import React from 'react'
 
-import {DataCollection, NumberGroup } from '../uiComponents/DataCollection'
-import styles from '../uiComponents/style/style'
+import {DataCollection, NumberGroup } from '../UIComponents/Wrappers/DataCollection'
+import styles from '../Style/style'
 
 import { formatTime, ordinalSuffixOf } from './Assorted'
 
@@ -155,7 +155,8 @@ export const constructSidebar = newData => {
 
 // construct the jsx for the main section with prediction info 
 export const constructMain = (predictions) => {
-
+    
+    // compare the overall attribute of two predictions object 
     const compare = (a, b) => {
       const aVal = Math.round(a.overall * 100)
       const bVal = Math.round(b.overall * 100)
@@ -188,8 +189,7 @@ export const constructMain = (predictions) => {
             <h6>{displayIndex.toString() + ordinalSuffixOf(displayIndex) + ' Best Airline'}</h6>
             <h4>{sortedPredictions[index].airline.airline_name.split(' Air')[0]}</h4>
         </div>
-        
-            <NumberGroup
+        <NumberGroup
             title={Math.round(sortedPredictions[index].overall * 100)}
             suffix='%'
             caption=''
@@ -200,9 +200,7 @@ export const constructMain = (predictions) => {
     content.prompt = (
         <h6>{sortedPredictions[index].airline.airline_id + '\'s flight statistics →'}</h6>
     )
-    content.content = (
-        <div></div>
-    )
+    content.content = (<div></div>)
 
     if (parseInt(index) % 2 === 1){ color = styles.veryLightBlue }
     if (parseInt(index) === 0){ color = styles.orange }    

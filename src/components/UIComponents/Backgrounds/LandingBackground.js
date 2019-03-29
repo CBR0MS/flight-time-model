@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from './style/style'
+import styles from '../../Style/style'
 
 const fps = 30
 const duration = 15

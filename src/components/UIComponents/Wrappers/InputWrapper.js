@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './style/style'
+import styles from '../../Style/style'
 
 const InputWrapper = props => {
     return (

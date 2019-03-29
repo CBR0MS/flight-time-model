@@ -2,12 +2,12 @@ import React from 'react'
 import DatePicker from 'react-datepicker'
 import stringSimilarity from 'string-similarity'
 
-import styles from './style/style'
+import styles from '../../Style/style'
 import GoButton from './GoButton'
 import InputAutocompleteField from './InputAutocompleteField'
-import InputWrapper from './InputWrapper'
-import PanelGroup from './PanelGroup'
-import ContentWrapper from './ContentWrapper'
+import InputWrapper from '../Wrappers/InputWrapper'
+import PanelGroup from '../Panels/PanelGroup'
+import ContentWrapper from '../Wrappers/ContentWrapper'
 
 
 import 'react-datepicker/dist/react-datepicker.css'

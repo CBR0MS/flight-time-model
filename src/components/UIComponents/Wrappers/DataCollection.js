@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from './style/style'
+import styles from '../../Style/style'
 
 const FlexTable = props => {
   return (
@@ -9,19 +9,17 @@ const FlexTable = props => {
     </div>
   )
 }
+
 export const NumberGroup = props => {
   return (
     <div style={props.style !== undefined ? Object.assign(props.style, styles.inlineWrapper) : styles.inlineWrapper}>
-    <div style={props.floatNum !== undefined ? {float: props.floatNum, display: 'inline-block'} : {}}>
-      <h1 style={Object.assign({fontSize: '2.5rem'}, styles.inlineWrapperNoMargin)}>{props.title}</h1>
-        {props.suffix !== undefined ? (<p style={styles.inlineWrapperNoMargin}>{props.suffix}</p>) : null}
+      <div style={props.floatNum !== undefined ? {float: props.floatNum, display: 'inline-block'} : {}}>
+        <h1 style={Object.assign({fontSize: '2.5rem'}, styles.inlineWrapperNoMargin)}>{props.title}</h1>
+          {props.suffix !== undefined ? (<p style={styles.inlineWrapperNoMargin}>{props.suffix}</p>) : null}
+      </div>
+      <p>{props.caption}</p>
     </div>
-    <p>{props.caption}</p>
-      
-  
-      
-    </div>
-    )
+  )
 }
 
 

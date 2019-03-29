@@ -4,15 +4,15 @@ import { Redirect } from 'react-router-dom'
 
 import * as tf from '@tensorflow/tfjs'
 
-import LoadingScreen from './uiComponents/LoadingScreen'
-import styles from './uiComponents/style/style'
-import PanelGroup from './uiComponents/PanelGroup'
-import AccordionSidebar from './uiComponents/AccordionSidebar'
-import ContentWrapper from './uiComponents/ContentWrapper'
-import Footer from './uiComponents/Footer'
+import LoadingScreen from './UIComponents/Backgrounds/LoadingScreen'
+import styles from './Style/style'
+import PanelGroup from './UIComponents/Panels/PanelGroup'
+import AccordionSidebar from './UIComponents/Panels/AccordionSidebar'
+import ContentWrapper from './UIComponents/Wrappers/ContentWrapper'
+import Footer from './UIComponents/Backgrounds/Footer'
 
 import { getDataFromAPI, makePredictions, filterListOfAirlinesWithAirports, 
-        constructSidebar, constructMain } from './helpers/Predict'
+        constructSidebar, constructMain } from './Helpers/Predict'
 
 
 class Predict extends React.Component {

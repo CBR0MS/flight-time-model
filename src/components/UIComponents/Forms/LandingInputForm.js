@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from './style/style'
+import styles from '../../Style/style'
 import GoButton from './GoButton'
 import InputAutocompleteField from './InputAutocompleteField'
 

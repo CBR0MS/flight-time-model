@@ -25,9 +25,13 @@ let timeOfDay2 = bottomColorMap(shiftedTime)
 let timeOfDay1 = topColorMap(shiftedTime)
 
 let adaptiveToTimeOfDay = darkBlue
+let imageUrl = '/images/clouds.jpeg'
+
 if (hour < 6 || hour >= 19) {
       adaptiveToTimeOfDay = adaptiveWhite
+      imageUrl = '/images/mountain.jpg'
 }
+
 
 const font = 'interstate'
 
@@ -428,6 +432,23 @@ const loadingBar = {
       backgroundColor: mediumOrange,
 }
 
+const defaultLanding = {
+      position: 'fixed',
+      left: 0,
+      top: 0,
+      height: '100vh',
+      width: '100vw',
+      backgroundColor: darkBlue,
+      zIndex: 2000,
+}
+
+const loadingLogo = {
+      fontSize: '40px',
+      fontFamily: 'PanAm',
+      //position: 'absolute',
+      color: lightOrange,
+}
+
 const styles = {
       // components' styles 
       autocompleteStyle: autocompleteStyle,
@@ -475,6 +496,8 @@ const styles = {
       footer: footer,
       predictionsStyle: predictionsStyle,
       loadingBar: loadingBar,
+      defaultLanding: defaultLanding,
+      loadingLogo: loadingLogo,
 
 
       // global colors 
@@ -486,10 +509,13 @@ const styles = {
       veryLightBlue: veryLightBlue,
       veryDarkBlue: veryDarkBlue,
       white: white,
+
+      // time of day things
       adaptiveToTimeOfDay: adaptiveToTimeOfDay,
       timeOfDay1: timeOfDay1,
       timeOfDay2: timeOfDay2,
       hour: hour,
+      backgroundImageUrl: imageUrl,
 
 }
 

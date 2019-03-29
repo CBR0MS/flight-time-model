@@ -2,7 +2,7 @@ import React from 'react'
 import { Transition } from 'react-spring/renderprops'
 import { useSpring, animated, config } from 'react-spring'
 
-import styles from './style/style'
+import styles from '../../Style/style'
 
 const AccordionPanel = props => {
 
@@ -96,15 +96,15 @@ class AccordionSidebar extends React.Component {
                       congig={config.default}
                       trail={300}>
                       {item => props => 
-                            <animated.div style={props}>
-                                <AccordionPanel
-                                    color={item.color}
-                                    class={item.color === styles.lightBlue ? 'panelBlue' : (item.color === styles.veryLightBlue ? 'panelLightBlue' : 'panelOrange')}
-                                    show={item.open}
-                                    toggle={() => this.handleToggle({item})}
-                                    content={item.content}
-                                    />
-                            </animated.div>}
+                          <animated.div style={props}>
+                            <AccordionPanel
+                                color={item.color}
+                                class={item.color === styles.lightBlue ? 'panelBlue' : (item.color === styles.veryLightBlue ? 'panelLightBlue' : 'panelOrange')}
+                                show={item.open}
+                                toggle={() => this.handleToggle({item})}
+                                content={item.content}
+                                />
+                          </animated.div>}
                         </Transition>
 
 

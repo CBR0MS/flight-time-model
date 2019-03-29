@@ -1,9 +1,9 @@
 import React from 'react'
-
-import ContentWrapper from './uiComponents/ContentWrapper'
 import { Spring } from 'react-spring/renderprops'
-import styles from './uiComponents/style/style'
-import GoButton from './uiComponents/GoButton'
+
+import ContentWrapper from './UIComponents/Wrappers/ContentWrapper'
+import styles from './Style/style'
+import GoButton from './UIComponents/Forms/GoButton'
 
 class About extends React.Component {
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Spring } from 'react-spring/renderprops'
+
 import './App.scss';
 
 import Navigation from './components/Navigation'
@@ -8,39 +10,77 @@ import Predict from './components/Predict'
 import About from './components/About'
 import Check from './components/Check'
 import Error from './components/Error'
-import styles from './components/uiComponents/style/style'
-import LandingBackground from './components/uiComponents/LandingBackground'
+import styles from './components/Style/style'
+
+import LandingBackground from './components/UIComponents/Backgrounds/LandingBackground'
+import LoadingScreen from './components/UIComponents/Backgrounds/LoadingScreen'
 
 class App extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {loaded: false}
+    this.showPage = this.showPage.bind(this)
+  }
+
+  showPage() {
+    this.setState({loaded: true})
+  }
+
   render() {
 
-    let image = (<img src="/images/clouds.jpeg" style={styles.landingImageStyle} alt=''/>)
-    if (styles.hour < 6 || styles.hour > 18){
-      image = (<img src="/images/mountain.jpg" style={styles.landingImageStyle} alt=''/>)
-    }
-
-    return (
-      <BrowserRouter>
-        <div>
-        <LandingBackground />
-         {image}
-
-        <Navigation/>
-          <Switch>
-            <Route path='/' component={Landing} exact />
-            <Route path='/predict' component={Predict} />
-            {/*<Route path='predict/:params' component={Predict}/>*/}
-            <Route path='/check' component={Check} />
-            <Route path='/about' component={About} />
-            <Route component={Error} />
-          </Switch>
-        </div>
-      
-      </BrowserRouter>
-
+    let image = (
+      <img 
+        src={styles.backgroundImageUrl} 
+        style={styles.landingImageStyle} 
+        onLoad={this.showPage}
+        alt=''/>
     )
+    
+    if (!this.state.loaded) {
+      return (
+        <div>
+          <div style={styles.defaultLanding}>
+            <LoadingScreen>
+              <span style={styles.loadingLogo}>
+                FlyGenius
+              </span>
+            </LoadingScreen>
+          </div>
+          {image}
+        </div>
+      )
+    }
+    
+    return (
 
+      <Spring
+        from={{ opacity: 0 }}
+         to={{ opacity: 1 }}>
+        {props => 
+          <div style={props}>
+
+            <BrowserRouter>
+              <div>
+                <LandingBackground />
+                {image}
+                <Navigation/>
+                <Switch>
+                  <Route path='/' component={Landing} exact />
+                  <Route path='/predict' component={Predict} />
+                  <Route path='/check' component={Check} />
+                  <Route path='/about' component={About} />
+                  <Route component={Error} />
+                </Switch>
+              </div>
+            </BrowserRouter>
+          
+          </div>}
+      </Spring>
+
+
+      
+    )
   }
 }
 
