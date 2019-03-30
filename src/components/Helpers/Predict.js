@@ -1,6 +1,8 @@
 import * as tf from '@tensorflow/tfjs'
 import React from 'react'
 
+import { Sankey } from 'react-vis'
+
 import {DataCollection, NumberGroup } from '../UIComponents/Wrappers/DataCollection'
 import styles from '../Style/style'
 
@@ -179,9 +181,28 @@ export const constructMain = (predictions) => {
   for (const index in sortedPredictions){
     
     let content = {}
-    let color = styles.lightBlue
     
     const displayIndex = parseInt(index) + 1 
+
+    const goodColor = displayIndex === 1 ? styles.darkBlue : styles.orange
+    const badColor = displayIndex === 1 ? styles.lightBlue : styles.lightOrange
+    const backgroundColor =  displayIndex === 1 ? styles.orange : (displayIndex % 2 === 1 ? styles.veryLightBlue : styles.lightBlue)
+
+    const nodes = [{name: 'Total', color:backgroundColor},
+                   {name: 'Departs Ontime', color: backgroundColor}, 
+                   {name: 'Departs Late', color: backgroundColor}, 
+                   {name: 'Arrives Ontime', color: backgroundColor}, 
+                   {name: 'Arrives Late', color: backgroundColor} ]
+    const ontimeDep = sortedPredictions[index].airline.airline_percent_ontime_arrival
+    
+    const links = [
+      {source: 0, target: 2, value: 100 - ontimeDep, color: badColor, opacity: 1},
+      {source: 0, target: 1, value: ontimeDep, color: goodColor, opacity: 1},
+      {source: 1, target: 3, value: ontimeDep * sortedPredictions[index].ontime[0], color: goodColor, opacity: 1},
+      {source: 1, target: 4, value: ontimeDep * sortedPredictions[index].ontime[1], color: goodColor, opacity: 1},
+      {source: 2, target: 3, value: (100 - ontimeDep) * sortedPredictions[index].delayed[0], color: badColor, opacity: 1},
+      {source: 2, target: 4, value: (100 - ontimeDep) * sortedPredictions[index].delayed[1], color: badColor, opacity: 1},
+    ]
 
     content.title = ( 
     <div>
@@ -200,12 +221,22 @@ export const constructMain = (predictions) => {
     content.prompt = (
         <h6>{sortedPredictions[index].airline.airline_id + '\'s flight statistics →'}</h6>
     )
-    content.content = (<div></div>)
+    content.content = (<div>
+      <Sankey
+        nodes={nodes}
+        links={links}
+        width={320}
+        height={200}
+        nodeWidth={6}
+        align='center'
+        style={{
+          labels: {},
+          links: {},
+          rects: {stroke: 'none'}
+        }}/>
+    </div>) 
 
-    if (parseInt(index) % 2 === 1){ color = styles.veryLightBlue }
-    if (parseInt(index) === 0){ color = styles.orange }    
-
-    mainData.push({content: content, key: uuidv1(), open: (parseInt(index) === 0), color: color })
+    mainData.push({content: content, key: uuidv1(), open: (parseInt(index) === 0), color: backgroundColor })
   } 
   return mainData
 }

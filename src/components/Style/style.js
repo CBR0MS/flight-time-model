@@ -5,6 +5,8 @@ const veryLightBlue = 'hsl(204, 65%, 32%)'
 const orange = 'hsl(29, 88%, 63%)'
 const mediumOrange = 'hsl(29, 88%, 71%)'
 const lightOrange = 'hsl(29, 88%, 83%)'
+const red = 'hsl(6, 57%, 49%)'
+const green = 'hsl(137, 18%, 43%)'
 const white = 'rgba(255, 255, 255, 0.95)'
 const adaptiveWhite = 'rgba(255, 255, 255, 0.7)'
 const shadow = '5px 7px 30px hsla(204, 65%, 15%, 0.6)'
@@ -509,6 +511,8 @@ const styles = {
       veryLightBlue: veryLightBlue,
       veryDarkBlue: veryDarkBlue,
       white: white,
+      red: red,
+      green: green,
 
       // time of day things
       adaptiveToTimeOfDay: adaptiveToTimeOfDay,
