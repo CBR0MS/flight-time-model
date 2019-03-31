@@ -2,8 +2,17 @@ import * as tf from '@tensorflow/tfjs'
 import React from 'react'
 
 import { Sankey } from 'react-vis'
+// import {
+//   XYPlot,
+//   XAxis,
+//   YAxis,
+//   VerticalGridLines,
+//   HorizontalGridLines,
+//   HorizontalBarSeries,
+//   LabelSeries
+// } from 'react-vis'
 
-import {DataCollection, NumberGroup } from '../UIComponents/Wrappers/DataCollection'
+import {DataCollection, NumberGroup, FlexTable } from '../UIComponents/Wrappers/DataCollection'
 import styles from '../Style/style'
 
 import { formatTime, ordinalSuffixOf } from './Assorted'
@@ -186,23 +195,34 @@ export const constructMain = (predictions) => {
 
     const goodColor = displayIndex === 1 ? styles.darkBlue : styles.orange
     const badColor = displayIndex === 1 ? styles.lightBlue : styles.lightOrange
+    const labelColor = displayIndex === 1 ? styles.adaptiveWhite : styles.darkBlue
     const backgroundColor =  displayIndex === 1 ? styles.orange : (displayIndex % 2 === 1 ? styles.veryLightBlue : styles.lightBlue)
-
-    const nodes = [{name: 'Total', color:backgroundColor},
-                   {name: 'Departs Ontime', color: backgroundColor}, 
-                   {name: 'Departs Late', color: backgroundColor}, 
-                   {name: 'Arrives Ontime', color: backgroundColor}, 
-                   {name: 'Arrives Late', color: backgroundColor} ]
+    //const tempWidth = window.innerWidth / 12 * 6
+    //const width = tempWidth > 650 ? 660 : (tempWidth < 320 ? 320 : tempWidth) 
     const ontimeDep = sortedPredictions[index].airline.airline_percent_ontime_arrival
-    
+    const overallOntimePred = Math.round(sortedPredictions[index].overall * 100)
+
+    const nodes = [{name: `Ontime (${ontimeDep}%)`, color: goodColor}, 
+                   {name: `Late (${100 - ontimeDep}%)`, color: badColor}, 
+                   {name: `Ontime (${overallOntimePred}%)`, color: goodColor}, 
+                   {name: `Late (${100 - overallOntimePred}%)`, color: badColor} ]
+      
     const links = [
-      {source: 0, target: 2, value: 100 - ontimeDep, color: badColor, opacity: 1},
-      {source: 0, target: 1, value: ontimeDep, color: goodColor, opacity: 1},
-      {source: 1, target: 3, value: ontimeDep * sortedPredictions[index].ontime[0], color: goodColor, opacity: 1},
-      {source: 1, target: 4, value: ontimeDep * sortedPredictions[index].ontime[1], color: goodColor, opacity: 1},
-      {source: 2, target: 3, value: (100 - ontimeDep) * sortedPredictions[index].delayed[0], color: badColor, opacity: 1},
-      {source: 2, target: 4, value: (100 - ontimeDep) * sortedPredictions[index].delayed[1], color: badColor, opacity: 1},
+      {source: 0, target: 2, value: ontimeDep * sortedPredictions[index].ontime[0], color: goodColor, opacity: 1}, // ontime -> late
+      {source: 0, target: 3, value: ontimeDep * sortedPredictions[index].ontime[1], color: goodColor, opacity: 1}, // ontime -> ontime  
+      {source: 1, target: 2, value: (100 - ontimeDep) * sortedPredictions[index].delayed[0], color: badColor, opacity: 1}, // late -> ontime
+      {source: 1, target: 3, value: (100 - ontimeDep) * sortedPredictions[index].delayed[1], color: badColor, opacity: 1}, // late -> late 
     ]
+
+    // const greenData = [{y: 'A', x: ontimeDep * sortedPredictions[index].ontime[1]}, {y: 'A', x: (100 - ontimeDep) * sortedPredictions[index].delayed[0]}];
+
+    // const blueData = [{y: 'B', x: ontimeDep * sortedPredictions[index].ontime[0]}, {y: 'B', x: (100 - ontimeDep) * sortedPredictions[index].delayed[1]}]
+
+    // const labelData = greenData.map((d, idx) => ({
+    //   y: d.y,
+    //   x: Math.max(greenData[idx].x, blueData[idx].x)
+    // }));
+
 
     content.title = ( 
     <div>
@@ -211,7 +231,7 @@ export const constructMain = (predictions) => {
             <h4>{sortedPredictions[index].airline.airline_name.split(' Air')[0]}</h4>
         </div>
         <NumberGroup
-            title={Math.round(sortedPredictions[index].overall * 100)}
+            title={overallOntimePred}
             suffix='%'
             caption=''
             style={{float: 'right', width: 120}}
@@ -221,23 +241,31 @@ export const constructMain = (predictions) => {
     content.prompt = (
         <h6>{sortedPredictions[index].airline.airline_id + '\'s flight statistics →'}</h6>
     )
-    content.content = (<div>
-      <Sankey
-        nodes={nodes}
-        links={links}
-        width={320}
-        height={200}
-        nodeWidth={6}
-        align='center'
-        style={{
-          labels: {},
-          links: {},
-          rects: {stroke: 'none'}
-        }}/>
+    content.content = (<div style={styles.predictionInterior}>
+
+          <FlexTable>
+       
+          </FlexTable>
+          <FlexTable>
+          <span>Departs</span><span style={{marginLeft: 70}}>Arrives</span>
+          <Sankey
+            nodes={nodes}
+            links={links}
+            width={300}
+            height={300}
+            nodeWidth={6}
+            align={'justify'}
+            style={{
+              labels: {fill: labelColor},
+           
+            }}/>
+        </FlexTable>
+       
     </div>) 
 
-    mainData.push({content: content, key: uuidv1(), open: (parseInt(index) === 0), color: backgroundColor })
+    mainData.push({content: content, key: uuidv1(), open: displayIndex === 1, color: backgroundColor })
   } 
   return mainData
 }
+
 

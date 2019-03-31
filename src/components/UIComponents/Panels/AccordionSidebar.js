@@ -6,10 +6,10 @@ import styles from '../../Style/style'
 
 const AccordionPanel = props => {
 
-  const { x } = useSpring({ from: { x: 85 }, x: props.show ? 250 : 85, config: config.default })
+  const { x } = useSpring({ from: { x: 85 }, x: props.show ? props.height : 85, config: config.default })
   const interiorOpacity = useSpring({ from: {height: 'none', opacity: 0, overflow: 'hidden'}, 
                                     opacity: props.show ? 1 : 0,
-                                    height: props.show ? 220 : 0,
+                                    height: props.show ? props.height : 0,
                                      config: config.default })
   const topOpacity = useSpring({ from: {opacity: 1}, 
                                 opacity: props.show ? 0 : 1, 
@@ -98,6 +98,7 @@ class AccordionSidebar extends React.Component {
                       {item => props => 
                           <animated.div style={props}>
                             <AccordionPanel
+                                height={this.props.height}
                                 color={item.color}
                                 class={item.color === styles.lightBlue ? 'panelBlue' : (item.color === styles.veryLightBlue ? 'panelLightBlue' : 'panelOrange')}
                                 show={item.open}

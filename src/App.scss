@@ -26,13 +26,15 @@ body {
   font-family: $font, sans-serif;
   font-weight: 400;
   font-style: normal;
-    
 }
 
 #root {
   position: absolute;
+  top: 0;
+  left: 0;
   height: 100vh;
   width: 100vw;
+  z-index: 0;
 }
 
 li {
@@ -41,7 +43,6 @@ li {
   margin: 0;
   display: inline-block;
   text-decoration: none;
-
 }
 
 a {
@@ -157,10 +158,6 @@ input {
     border-right-color: $adaptiveWhite !important;
 }
 
-// .react-datepicker__input-container {
-//   margin: 40px 10px;
-// }
-
 .lds-ellipsis {
   display: inline-block;
   position: relative;
@@ -220,9 +217,3 @@ input {
 ::placeholder {
   color: $lightWhite;
 }
- h4 {
-  // font-family: interstate-mono;
-  // font-weight: 700;
-  // margin: 15px 0;
-  // color: $white;
- }

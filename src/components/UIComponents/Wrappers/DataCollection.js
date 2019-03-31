@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from '../../Style/style'
 
-const FlexTable = props => {
+export const FlexTable = props => {
   return (
     <div style={styles.flexTable}>
     {props.children}

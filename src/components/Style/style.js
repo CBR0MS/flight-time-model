@@ -349,14 +349,23 @@ const contentWrapper = {
 }
 
 const predictionWrapper = {
-      maxWidth: 1900,
+      maxWidth: '90vw',
       //width: '90%',
       margin: '20px auto',
       display: 'flex',
       flexFlow: 'row wrap',
       justifyContent: 'center',
       minHeight: '82vh'
+}
 
+const predictionInterior = {
+      maxWidth: 'calc(90vw - 70px)',
+      //width: '90%',
+      margin: '20px auto',
+      display: 'flex',
+      flexFlow: 'row wrap',
+      justifyContent: 'center',
+      // width: '90%',
 }
 
 const accordionPanel = {
@@ -500,6 +509,7 @@ const styles = {
       loadingBar: loadingBar,
       defaultLanding: defaultLanding,
       loadingLogo: loadingLogo,
+      predictionInterior: predictionInterior,
 
 
       // global colors 

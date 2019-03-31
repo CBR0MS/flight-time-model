@@ -33,6 +33,7 @@ class Predict extends React.Component {
     this.removeAlert = this.removeAlert.bind(this)
     this.setPageError = this.setPageError.bind(this)
     this.setRedirectError = this.setRedirectError.bind(this)
+    this.updateDimensions = this.updateDimensions.bind(this)
   }
 
   removeAlert(valueToRemove) {
@@ -62,8 +63,16 @@ class Predict extends React.Component {
     this.setState({ redirectLoc: `/check${this.props.location.search}&error=${error}`})
   }
 
+  updateDimensions() {
+    this.setState({width: window.innerWidth})
+  }
+
   // should be safe to make this async based on https://stackoverflow.com/a/47970822
   async componentDidMount(): Promise<void> {
+
+    // add a listener for window resize to update panel heights
+    window.addEventListener('resize', this.updateDimensions)
+    this.updateDimensions()
 
     let params = queryString.parse(this.props.location.search)
     // query string can't parse booleans to the correct type, so let's convert
@@ -263,10 +272,12 @@ componentWillUnmount() {
           <div style= {styles.predictionWrapper}>
             <div style={styles.sidebarWrapper}>
               <AccordionSidebar
+                height={250}
                 content={this.state.sidebarContent}/>
             </div> 
-            <div style={styles.contentWrapper}>
+            <div style={styles.contentWrapper} id='mainPredContent'>
               <AccordionSidebar
+                height={this.state.width < 760 ? 800 : 400}
                 content={this.state.mainContent}/>
             </div> 
           </div>
