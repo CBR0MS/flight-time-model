@@ -1,19 +1,13 @@
+import React from "react";
 
-import React from 'react'
-
-import styles from '../../Style/style'
+import styles from "../../Style/style";
 
 const ContentWrapper = props => {
-    return (
-        
-        <div style={styles.navDummyStyle}>
-            <div style={styles.interiorGradient}>
-                {props.children}
-            </div>
+  return (
+    <div style={styles.navDummyStyle}>
+      <div style={styles.interiorGradient}>{props.children}</div>
+    </div>
+  );
+};
 
-        </div>
-
-    )
-}
-
-export default ContentWrapper
+export default ContentWrapper;
