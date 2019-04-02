@@ -1,4 +1,5 @@
 import React from 'react'
+import DocumentMeta from 'react-document-meta'
 import queryString from 'query-string'
 import { Spring } from 'react-spring/renderprops'
 
@@ -59,10 +60,18 @@ class Check extends React.Component {
 
  
   render() {
+
+    const meta = {
+      title: 'Check a flight - FlyGenius',
+      description: 'Enter details to check a flight\'s duration, compare airlines, and get statistics.',
+      canonical: 'https://flygeni.us/check/',
+    }
+
     if (this.state.autocompleteLocations.length <= 0) {
       return (<LoadingScreen text={this.state.loadingText}/>)
     }
     return (
+      <DocumentMeta {...meta}>
       <Spring
         from={{ opacity: 0 }}
          to={{ opacity: 1 }}>
@@ -76,6 +85,7 @@ class Check extends React.Component {
           />
         </div>}
       </Spring>
+      </DocumentMeta>
     )
   }
 

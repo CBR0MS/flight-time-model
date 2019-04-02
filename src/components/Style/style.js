@@ -27,11 +27,11 @@ let timeOfDay2 = bottomColorMap(shiftedTime)
 let timeOfDay1 = topColorMap(shiftedTime)
 
 let adaptiveToTimeOfDay = darkBlue
-let imageUrl = '/images/clouds.jpeg'
+let imageUrl = '/images/clouds'
 
 if (hour < 6 || hour >= 19) {
       adaptiveToTimeOfDay = adaptiveWhite
-      imageUrl = '/images/mountain.jpg'
+      imageUrl = '/images/mountain'
 }
 
 
@@ -174,14 +174,14 @@ const goButton = {
 }
 
 const landingPageBackground = {
-      position: 'absolute',
+      position: 'fixed',
       top: 0,
       left: 0,
       background: 'linear-gradient(170deg, rgb(25,84,123) 0%, rgb(255,232,195) 100%)',
       height: '100vh',
       width: '100vw',
       zIndex: -1,
-      opacity: 0.75,
+      opacity: 0.7,
 }
 
 const landingContainerStyle = {
@@ -241,7 +241,7 @@ const checkStyleOuter = {
 const panelWrapper = {
       margin: '0 auto',
       width: '95%',
-      maxWidth: '680px',
+      maxWidth: '650px',
       transition: 'all 0.3s linear'
 }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import DocumentMeta from 'react-document-meta'
 import { Spring } from 'react-spring/renderprops'
 
 import ContentWrapper from './UIComponents/Wrappers/ContentWrapper'
@@ -9,8 +10,14 @@ class About extends React.Component {
 
     render() {
 
-        return (
+        const meta = {
+              title: 'About - FlyGenius',
+              description: 'About FlyGenius. What it does and how it works.',
+              canonical: 'https://flygeni.us/about/',
+            }
 
+        return (
+            <DocumentMeta {...meta}>
             <Spring
                 from={{ opacity: 0 }}
                  to={{ opacity: 1 }}>
@@ -54,7 +61,7 @@ class About extends React.Component {
                   
                 </div>}
               </Spring>
-
+              </DocumentMeta>
 
             
         )

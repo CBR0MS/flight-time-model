@@ -30,11 +30,14 @@ class App extends React.Component {
   render() {
 
     let image = (
+      <picture>
+      <source type='image/webp' srcSet={styles.backgroundImageUrl + '.webp'}/>
       <img 
-        src={styles.backgroundImageUrl} 
+        src={styles.backgroundImageUrl + '.jpg'} 
         style={styles.landingImageStyle} 
         onLoad={this.showPage}
-        alt=''/>
+        alt='background'/>
+        </picture>
     )
     
     if (!this.state.loaded) {

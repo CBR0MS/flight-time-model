@@ -1,6 +1,7 @@
 import React from 'react'
 import queryString from 'query-string'
 import { Redirect } from 'react-router-dom'
+import DocumentMeta from 'react-document-meta'
 
 import * as tf from '@tensorflow/tfjs'
 
@@ -78,8 +79,6 @@ class Predict extends React.Component {
     // query string can't parse booleans to the correct type, so let's convert
     params.connections = !(params.connections === 'false')
     params.allAirlines = !(params.allAirlines === 'false')
-
-    document.title =  params.origin + ' to ' + params.dest + ' - FlyGenius'
 
     // check if basic info is missing and redirect
     if (params.dest === '' || params.orgin === '') {
@@ -177,6 +176,8 @@ class Predict extends React.Component {
           loadedSucessfully: true,
           sidebarContent: sidebarData,
           mainContent: mainData,
+          origin: params.origin,
+          dest: params.dest,
         })
 
       } catch(err) {
@@ -219,6 +220,12 @@ componentWillUnmount() {
 }
 
   render() {
+
+    const meta = {
+      title: this.state.origin + ' to ' + this.state.dest + ' - FlyGenius',
+      description: 'See the results of a flight analysis.',
+      canonical: 'https://flygeni.us/predict/',
+    }
     
     // if there are any alerts, populate their container 
     let alerts = (<div></div>)
@@ -266,7 +273,7 @@ componentWillUnmount() {
     }
 
     return (
-      <div>
+      <DocumentMeta {...meta}>
         {alerts}
         <ContentWrapper>
           <div style= {styles.predictionWrapper}>
@@ -283,7 +290,7 @@ componentWillUnmount() {
           </div>
           <Footer/>
         </ContentWrapper>
-      </div>
+      </DocumentMeta>
     )
   }
 

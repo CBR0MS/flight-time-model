@@ -1,4 +1,5 @@
 import React from 'react'
+import DocumentMeta from 'react-document-meta'
 import { Spring } from 'react-spring/renderprops'
 import { config } from 'react-spring'
 
@@ -78,7 +79,6 @@ class Landing extends React.Component {
     }
 
     componentDidMount() {
-        document.title = 'Flight Stats Prediction - FlyGenius'
         fetch('./data/cities.json')
             .then(res => res.json())
             .then(data => {
@@ -121,7 +121,14 @@ class Landing extends React.Component {
 
     render() {
 
+        const meta = {
+          title: 'Flight Stats Prediction - FlyGenius',
+          description: 'Determine the best airline for a flight. See how likely it is for your flight to depart and arrive on time.',
+          canonical: 'https://flygeni.us/',
+        }
+
         return (
+            <DocumentMeta {...meta}>
             <Spring
               from={{ opacity: 0 }}
                to={{ opacity: 1 }}
@@ -142,6 +149,7 @@ class Landing extends React.Component {
                     </ContentWrapper>   
                 </div>}
             </Spring>
+            </DocumentMeta>
         )
     }
 }
