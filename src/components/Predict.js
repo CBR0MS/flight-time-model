@@ -300,6 +300,7 @@ class Predict extends React.Component {
           <div style={styles.predictionWrapper}>
             <div style={styles.sidebarWrapper}>
               <AccordionSidebar
+                sticky={true}
                 height={250}
                 content={this.state.sidebarContent}
               />

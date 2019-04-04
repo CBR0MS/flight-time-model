@@ -349,7 +349,8 @@ const alertBox = {
 const sidebarWrapper = {
   margin: "0 20px",
   flex: "1 0 auto",
-  minWidth: 200
+  minWidth: 200,
+  maxWidth: 400,
   //width: '95%',
   //maxWidth: 400,
 };
@@ -357,7 +358,8 @@ const sidebarWrapper = {
 const contentWrapper = {
   margin: "0 20px",
   flex: "9 0 auto",
-  minWidth: 200
+  minWidth: 200,
+  maxWidth: 1000,
 };
 
 const predictionWrapper = {
@@ -371,7 +373,7 @@ const predictionWrapper = {
 };
 
 const predictionInterior = {
-  maxWidth: "calc(90vw - 70px)",
+  maxWidth: "calc(90vw - 50px)",
   //width: '90%',
   margin: "20px auto",
   display: "flex",

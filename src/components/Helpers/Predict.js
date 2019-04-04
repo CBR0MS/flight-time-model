@@ -81,17 +81,15 @@ export const makePredictions = async (newData, completeAirlinesList, meta) => {
       meta.arrivalModel.predict(inputDelayed).dataSync()
     );
 
-    const overallOntime =
-      (airportData[i].airline_percent_ontime_arrival / 100) *
-        predGivenOtime[0] +
-      (airportData[i].airline_percent_ontime_arrival / 100) *
-        predGivenDelayed[0];
+    const ontimeDep = airportData[i].airline_percent_ontime_arrival
+    const overallOntime = ontimeDep * predGivenOtime[0] + (100 - ontimeDep) * predGivenDelayed[0]
 
     const data = {
       airline: airportData[i],
       ontime: predGivenOtime,
       delayed: predGivenDelayed,
-      overall: overallOntime
+      overall: overallOntime,
+      route: newData[1]
     };
     predictions.push(data);
   }
@@ -218,6 +216,40 @@ export const constructSidebar = newData => {
   return sidebarData;
 };
 
+// simplify the name of an airline for display and put contract carriers in contractor's names
+const simplifyAirlineName = predictions => {
+  const id = predictions.airline.airline_id 
+  if (id === 'MQ') {
+    return 'American Eagle'
+  } else if (id === 'OH') {
+    return 'American Eagle'
+  } else if (id === 'EV') {
+    return 'United Express'
+  } else if (id === 'OO') {
+    for (const i in predictions.route.route_flight_numbers) {
+      const carrier = predictions.route.route_flight_numbers[i].split('_')[0]
+      if (carrier === 'OO') {
+        const num = parseInt(predictions.route.route_flight_numbers[i].split('_')[1])
+        if (num >= 2575 && num <= 2649) {
+          return 'American Eagle'
+        } else if (num >= 2901 && num <= 2974) {
+          return 'American Eagle'
+        } else if (num >= 3448 && num <= 3499) {
+          return 'Alaska SkyWest'
+        } else if (num >= 4438 && num <= 4859) {
+          return 'Delta Connection'
+        } else if (num >= 4965 && num <= 6539) {
+          return 'United Express'
+        } else if (num >= 6550 && num <= 6629) {
+          return 'American Eagle'
+        } else if (num >= 7362 && num <= 7439) {
+          return 'Delta Connection'
+        }
+      }
+    }
+  }
+  return predictions.airline.airline_name.split(' Air')[0]
+}
 // construct the jsx for the main section with prediction info
 export const constructMain = predictions => {
   // compare the overall attribute of two predictions object
@@ -255,12 +287,10 @@ export const constructMain = predictions => {
         : displayIndex % 2 === 1
         ? styles.veryLightBlue
         : styles.lightBlue;
-    //const tempWidth = window.innerWidth / 12 * 6
-    //const width = tempWidth > 650 ? 660 : (tempWidth < 320 ? 320 : tempWidth)
     const ontimeDep =
       sortedPredictions[index].airline.airline_percent_ontime_arrival;
     const overallOntimePred = Math.round(
-      sortedPredictions[index].overall * 100
+      sortedPredictions[index].overall
     );
 
     const nodes = [
@@ -277,14 +307,14 @@ export const constructMain = predictions => {
         value: ontimeDep * sortedPredictions[index].ontime[0],
         color: goodColor,
         opacity: 1
-      }, // ontime -> late
+      }, // ontime -> ontime
       {
         source: 0,
         target: 3,
         value: ontimeDep * sortedPredictions[index].ontime[1],
         color: goodColor,
         opacity: 1
-      }, // ontime -> ontime
+      }, // ontime -> late
       {
         source: 1,
         target: 2,
@@ -301,15 +331,6 @@ export const constructMain = predictions => {
       } // late -> late
     ];
 
-    // const greenData = [{y: 'A', x: ontimeDep * sortedPredictions[index].ontime[1]}, {y: 'A', x: (100 - ontimeDep) * sortedPredictions[index].delayed[0]}];
-
-    // const blueData = [{y: 'B', x: ontimeDep * sortedPredictions[index].ontime[0]}, {y: 'B', x: (100 - ontimeDep) * sortedPredictions[index].delayed[1]}]
-
-    // const labelData = greenData.map((d, idx) => ({
-    //   y: d.y,
-    //   x: Math.max(greenData[idx].x, blueData[idx].x)
-    // }));
-
     content.title = (
       <div>
         <div style={{ display: "inline-block" }}>
@@ -319,7 +340,7 @@ export const constructMain = predictions => {
               " Best Airline"}
           </h6>
           <h4>
-            {sortedPredictions[index].airline.airline_name.split(" Air")[0]}
+            {simplifyAirlineName(sortedPredictions[index])}
           </h4>
         </div>
         <NumberGroup
@@ -338,7 +359,20 @@ export const constructMain = predictions => {
     );
     content.content = (
       <div style={styles.predictionInterior}>
-        <FlexTable />
+        <DataCollection
+          topRight={sortedPredictions[index].airline.airline_arrival_delay}
+          topRightSuffix='min'
+          topRightCaption='average arrival delay'
+          topLeft={sortedPredictions[index].airline.airline_departure_delay}
+          topLeftSuffix='min'
+          topLeftCaption='average departure delay'
+          bottomLeft={sortedPredictions[index].airline.airline_ontime_departure_rank}
+          bottomLeftSuffix={ordinalSuffixOf(sortedPredictions[index].airline.airline_ontime_departure_rank)}
+          bottomLeftCaption='most punctual for departures in U.S.'
+          bottomRight={sortedPredictions[index].airline.airline_ontime_arrival_rank}
+          bottomRightSuffix={ordinalSuffixOf(sortedPredictions[index].airline.airline_ontime_arrival_rank)}
+          bottomRightCaption='most punctual for arrivals in U.S.'
+        />
         <FlexTable>
           <span>Departs</span>
           <span style={{ marginLeft: 70 }}>Arrives</span>

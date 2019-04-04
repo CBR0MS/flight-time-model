@@ -89,7 +89,7 @@ class AccordionSidebar extends React.Component {
   render() {
     if (this.state.modules.length > 0) {
       return (
-        <div>
+        <div style={this.props.sticky !== undefined ? {position: 'sticky', top: 35} : {}}>
           <Transition
             items={this.state.modules}
             keys={item => item.key}
