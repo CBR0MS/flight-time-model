@@ -223,6 +223,8 @@ const simplifyAirlineName = predictions => {
     return 'American Eagle'
   } else if (id === 'OH') {
     return 'American Eagle'
+  } else if (id === '9E') {
+    return 'Delta Connection'
   } else if (id === 'EV') {
     return 'United Express'
   } else if (id === 'OO') {
