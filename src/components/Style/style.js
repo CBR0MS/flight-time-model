@@ -95,6 +95,7 @@ const landingInputStyle = {
   height: "50px",
   fontWeight: "700",
   fontStyle: "italic",
+  lineHeight: "20px",
   display: "inline-block",
   marginRight: "10px"
 };
