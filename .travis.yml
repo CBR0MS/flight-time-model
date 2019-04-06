@@ -9,7 +9,7 @@ script:
 deploy:
   provider: surge
   skip_cleanup: true
-  domain: flygenius.surge.sh
+  domain: flygeni.us
   project: ./build/
 on:
   branch: master
